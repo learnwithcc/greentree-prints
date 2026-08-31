@@ -19,3 +19,6 @@ Thumbs.db
 *.log
 npm-debug.log*
 .env*
+
+# Verification artifacts
+.claude/screenshots/
