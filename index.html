@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Greentree Prints — Custom 3D printing in Greentree Village, Burnaby</title>
+<meta name="description" content="Custom 3D printing a 5-minute walk away. IKEA accessories, replacement parts, kids' gear, and anything you've found online — printed by your neighbour in Greentree Village, Burnaby.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Karla:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F0F1E3;
+    --paper-deep:#E6E9D4;
+    --ink:#22392E;
+    --spruce:#2E5138;
+    --fil-green:#4CAF6D;
+    --cedar:#A9683B;
+    --gold:#E9A13B;
+    --gold-deep:#C9821E;
+    --line:rgba(34,57,46,.16);
+    --radius:14px;
+    --shadow:0 2px 6px rgba(34,57,46,.08), 0 12px 32px rgba(34,57,46,.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Karla',sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;line-height:1.12;letter-spacing:-.01em}
+  .mono{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--spruce)}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+  a{color:var(--spruce)}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(240,241,227,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px}
+  .wordmark{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+  .wordmark svg{display:block}
+  .wordmark b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.05rem}
+  .wm-text{display:flex;flex-direction:column;line-height:1.15}
+  .wm-sub{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cedar)}
+  .nav .mono{display:none}
+  @media(min-width:640px){.nav .mono{display:block}}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;overflow:hidden;
+    background:
+      repeating-linear-gradient(180deg, transparent 0 7px, rgba(34,57,46,.035) 7px 8px),
+      linear-gradient(180deg, var(--paper) 0%, var(--paper-deep) 100%);
+    border-bottom:1px solid var(--line);
+  }
+  .hero-grid{display:grid;gap:28px;padding-top:34px;padding-bottom:44px}
+  @media(min-width:820px){
+    .hero-grid{grid-template-columns:1.15fr .85fr;align-items:center;padding-top:72px;padding-bottom:68px;gap:40px}
+  }
+  .hero h1{font-size:clamp(2.1rem,6.4vw,3.6rem);font-weight:800;margin:14px 0 16px}
+  .hero h1 em{font-style:normal;color:var(--spruce);position:relative;z-index:0}
+  .hero h1 em::after{
+    content:"";position:absolute;left:0;right:0;bottom:.06em;height:.28em;
+    background:var(--gold);opacity:.4;z-index:-1;border-radius:3px;
+  }
+  .hero p.lede{font-size:1.08rem;max-width:34rem;color:#3A5245}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-family:'Karla',sans-serif;font-weight:700;font-size:1rem;
+    padding:14px 22px;border-radius:999px;border:2px solid transparent;
+    cursor:pointer;text-decoration:none;transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+    min-height:48px;
+  }
+  .btn:hover{transform:translateY(-1px)}
+  .btn:active{transform:scale(.98)}
+  .btn-gold{background:var(--gold);color:#2B1E07;box-shadow:0 2px 0 var(--gold-deep)}
+  .btn-gold:hover{background:#F0AC48}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+  .btn-ghost:hover{background:rgba(34,57,46,.06)}
+  .hero-note{margin-top:18px;display:flex;align-items:center;gap:8px;color:#4A6355;font-size:.92rem}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--fil-green);flex:none;animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+  /* the printing tree */
+  .tree-stage{display:flex;justify-content:center}
+  .tree{
+    display:flex;flex-direction:column-reverse;align-items:center;
+    gap:3px;padding:26px 30px 20px;
+    background:rgba(255,255,255,.45);
+    border:1px solid var(--line);border-radius:20px;
+    box-shadow:var(--shadow);
+    position:relative;
+  }
+  .tree .layer{
+    height:11px;border-radius:5px;
+    background:linear-gradient(180deg,#57B577 0%, #3E9159 68%, #2F7547 100%);
+    opacity:0;transform:translateY(8px);
+    animation:layer .38s ease forwards;
+    box-shadow:inset 0 -2px 0 rgba(0,0,0,.14);
+  }
+  .tree .layer.trunk{background:linear-gradient(180deg,#C07E48 0%, var(--cedar) 70%, #8E5027 100%)}
+  @keyframes layer{to{opacity:1;transform:translateY(0)}}
+  .tree-caption{
+    position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);
+    background:var(--ink);color:var(--paper);
+    font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.12em;
+    padding:5px 12px;border-radius:999px;white-space:nowrap;
+  }
+  .tree-caption::after{content:"";display:inline-block;width:1.2em;text-align:left;animation:dots 1.6s steps(1) infinite}
+  @keyframes dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+
+  /* ---------- sections ---------- */
+  section{padding:56px 0}
+  @media(min-width:820px){section{padding:72px 0}}
+  .sec-head{max-width:38rem;margin-bottom:30px}
+  .sec-head h2{font-size:clamp(1.5rem,4vw,2.1rem);font-weight:800;margin:10px 0 10px}
+  .sec-head p{color:#3A5245}
+
+  /* two paths */
+  .paths{display:grid;gap:18px}
+  @media(min-width:760px){.paths{grid-template-columns:1fr 1fr}}
+  .path-card{
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px 24px;box-shadow:var(--shadow);
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .path-card h3{font-size:1.25rem;font-weight:800}
+  .path-card p{color:#3A5245;font-size:.98rem;flex:1}
+  .path-card .btn{align-self:flex-start;margin-top:8px}
+
+  /* examples */
+  .chips{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{
+    background:#fff;border:1px solid var(--line);border-radius:999px;
+    padding:9px 16px;font-size:.92rem;font-weight:500;color:var(--spruce);
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .chip::before{content:"";width:9px;height:9px;border-radius:3px;background:var(--fil-green);display:inline-block}
+  .chip:nth-child(3n)::before{background:var(--gold)}
+  .chip:nth-child(3n+2)::before{background:var(--cedar)}
+
+  /* ---------- forms ---------- */
+  .panel{
+    background:#fff;border:1px solid var(--line);border-radius:18px;
+    padding:26px 20px;box-shadow:var(--shadow);
+  }
+  @media(min-width:640px){.panel{padding:34px 32px}}
+  label{display:block;font-weight:700;font-size:.95rem;margin:18px 0 6px}
+  label .opt{font-weight:400;color:#6B7F72;font-size:.85rem}
+  input[type=text],input[type=url],input[type=email],input[type=tel],textarea,select{
+    width:100%;font-family:'Karla',sans-serif;font-size:1rem;color:var(--ink);
+    background:var(--paper);border:1.5px solid var(--line);border-radius:10px;
+    padding:13px 14px;min-height:48px;
+  }
+  textarea{min-height:96px;resize:vertical}
+  input:focus,textarea:focus,select:focus,.btn:focus-visible,.seg:focus-visible,.chip:focus-visible{
+    outline:3px solid rgba(76,175,109,.55);outline-offset:2px;border-color:var(--fil-green);
+  }
+  .row{display:grid;gap:0 16px}
+  @media(min-width:640px){.row{grid-template-columns:1fr 1fr}}
+  .seg-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .seg{
+    font-family:'Karla',sans-serif;font-weight:700;font-size:.92rem;
+    padding:10px 16px;border-radius:999px;cursor:pointer;
+    background:var(--paper);border:1.5px solid var(--line);color:var(--ink);
+    min-height:44px;transition:background .12s ease;
+  }
+  .seg:hover{background:var(--paper-deep)}
+  .seg[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .track-fields{display:none;border-top:1px dashed var(--line);margin-top:22px;padding-top:4px}
+  .track-fields.active{display:block}
+  .form-foot{border-top:1px dashed var(--line);margin-top:26px;padding-top:6px}
+  .submit-row{margin-top:26px;display:flex;flex-direction:column;gap:12px}
+  @media(min-width:640px){.submit-row{flex-direction:row;align-items:center}}
+  .submit-row .fine{font-size:.85rem;color:#6B7F72}
+  .success{
+    display:none;margin-top:20px;background:#EAF5EE;border:1.5px solid var(--fil-green);
+    border-radius:12px;padding:18px;
+  }
+  .success.show{display:block}
+  .success h4{font-family:'Bricolage Grotesque',sans-serif;margin-bottom:6px}
+  .success pre{
+    white-space:pre-wrap;font-family:'IBM Plex Mono',monospace;font-size:.78rem;
+    background:#fff;border-radius:8px;padding:12px;margin:10px 0;max-height:220px;overflow:auto;
+  }
+  .err{display:none;color:#A33B2A;font-size:.88rem;margin-top:10px;font-weight:700}
+  .err.show{display:block}
+
+  /* referral */
+  .referral{
+    background:#fff;border:1px solid var(--line);border-top:5px solid var(--gold);
+    border-radius:18px;padding:30px 24px;box-shadow:var(--shadow);
+    display:grid;gap:22px;
+  }
+  @media(min-width:820px){.referral{grid-template-columns:1.4fr .6fr;align-items:center;padding:38px 36px}}
+  .referral h2{font-size:clamp(1.4rem,3.6vw,1.9rem);margin:10px 0 12px}
+  .referral p{color:#3A5245;max-width:36rem}
+  .ref-fine{font-size:.92rem;margin-top:10px;color:#6B7F72 !important}
+  .ref-actions{display:flex;flex-direction:column;gap:10px}
+  @media(min-width:820px){.ref-actions{align-items:flex-end;text-align:right}}
+  .ref-actions .fine{font-size:.85rem;color:#6B7F72}
+
+  /* how it works */
+  .steps{display:grid;gap:16px}
+  @media(min-width:760px){.steps{grid-template-columns:repeat(3,1fr)}}
+  .step{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+  .step .mono{color:var(--cedar)}
+  .step h3{font-size:1.1rem;margin:8px 0 6px}
+  .step p{font-size:.95rem;color:#3A5245}
+
+  /* honest notes */
+  .notes{background:var(--ink);color:var(--paper);border-radius:18px;padding:30px 24px}
+  @media(min-width:640px){.notes{padding:38px 36px}}
+  .notes h2{color:#fff;font-size:1.5rem;margin-bottom:14px}
+  .notes ul{list-style:none;display:grid;gap:12px}
+  @media(min-width:760px){.notes ul{grid-template-columns:1fr 1fr;gap:14px 28px}}
+  .notes li{padding-left:24px;position:relative;font-size:.97rem;color:#D9E2D2}
+  .notes li::before{content:"";position:absolute;left:0;top:.5em;width:12px;height:5px;border-radius:3px;background:var(--fil-green)}
+  .notes li b{color:#fff}
+
+  footer{border-top:1px solid var(--line);padding:34px 0 44px;color:#5A6F62;font-size:.9rem}
+  .foot-grid{display:flex;flex-wrap:wrap;gap:14px 30px;justify-content:space-between;align-items:center}
+
+  /* scroll reveals */
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease, transform .55s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important}
+    .tree .layer{opacity:1;transform:none}
+    .reveal{opacity:1;transform:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="wordmark" href="#top" aria-label="Greentree Prints home">
+      <svg width="26" height="30" viewBox="0 0 26 30" fill="none" aria-hidden="true">
+        <rect x="10" y="24" width="6" height="5" rx="1.5" fill="#A9683B"/>
+        <rect x="4" y="19" width="18" height="4" rx="2" fill="#2E5138"/>
+        <rect x="6" y="14" width="14" height="4" rx="2" fill="#3E9159"/>
+        <rect x="8" y="9" width="10" height="4" rx="2" fill="#4CAF6D"/>
+        <rect x="10" y="4" width="6" height="4" rx="2" fill="#57B577"/>
+      </svg>
+      <span class="wm-text"><b>Greentree Prints</b><span class="wm-sub">3D print studio</span></span>
+    </a>
+    <span class="mono">Greentree Village · Burnaby BC</span>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="mono">Custom 3D printing · 0.2&nbsp;mm layers · zero shipping</span>
+        <h1>The thing you wish you could 3D print? <em>Your neighbour prints it.</em></h1>
+        <p class="lede">No printer to buy. No settings to learn. No two-week Etsy wait. I run a 3D print shop out of my home in Greentree Village — send me the request tonight, walk over and pick it up.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-gold" href="#quick">I have a link already</a>
+          <a class="btn btn-ghost" href="#request">I have an idea or a broken part</a>
+        </div>
+        <div class="hero-note"><span class="dot" aria-hidden="true"></span> Printer's warmed up — most quotes come back the same day.</div>
+      </div>
+      <div class="tree-stage" aria-hidden="true">
+        <div class="tree" id="tree">
+          <span class="tree-caption">PRINTING GREENTREE.STL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TWO PATHS -->
+  <section id="paths">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono">Two ways in</span>
+        <h2>Know exactly what you want, or just know the problem — both work.</h2>
+      </div>
+      <div class="paths">
+        <div class="path-card">
+          <h3>Found it online already?</h3>
+          <p>If you've spotted a model on Printables, MakerWorld, Thingiverse, or anywhere else, paste the link. Pick a colour, tell me how many, done. This is the quickest lane — often printed within a day or two.</p>
+          <a class="btn btn-gold" href="#quick">Paste a model link</a>
+        </div>
+        <div class="path-card">
+          <h3>Have a problem, not a file?</h3>
+          <p>A broken drawer knob. A stroller that needs a cup holder. An IKEA shelf that almost works. Describe it, snap a photo when I follow up, and I'll find or design the part.</p>
+          <a class="btn btn-ghost" href="#request">Describe what you need</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXAMPLES -->
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono">What neighbours ask for</span>
+        <h2>If it's smaller than a bread box, it's probably printable.</h2>
+      </div>
+      <div class="chips" role="list">
+        <span class="chip" role="listitem">SKÅDIS pegboard hooks</span>
+        <span class="chip" role="listitem">Stroller cup holder</span>
+        <span class="chip" role="listitem">Replacement drawer knob</span>
+        <span class="chip" role="listitem">KALLAX drawer inserts</span>
+        <span class="chip" role="listitem">Toy repairs</span>
+        <span class="chip" role="listitem">Leash &amp; collar hooks</span>
+        <span class="chip" role="listitem">Poop bag dispensers</span>
+        <span class="chip" role="listitem">Raised bowl stands</span>
+        <span class="chip" role="listitem">Cable clips &amp; cord tidies</span>
+        <span class="chip" role="listitem">Blind wand adapter</span>
+        <span class="chip" role="listitem">Planters &amp; drip trays</span>
+        <span class="chip" role="listitem">Key hooks &amp; entry organizers</span>
+        <span class="chip" role="listitem">Board game part replacements</span>
+        <span class="chip" role="listitem">Garage &amp; tool organizers</span>
+        <span class="chip" role="listitem">Name tags for kids' gear</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK LINK LANE -->
+  <section id="quick" style="padding-top:8px">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono">Quick lane</span>
+        <h2>Paste a link, pick a colour, you're done.</h2>
+        <p>Works with Printables, MakerWorld, Thingiverse, Thangs, Cults3D — or any page showing the thing you want.</p>
+      </div>
+      <form class="panel" id="quickForm" novalidate>
+        <label for="qUrl">Model link</label>
+        <input type="url" id="qUrl" inputmode="url" placeholder="https://www.printables.com/model/…" required>
+        <div class="row">
+          <div>
+            <label for="qColor">Colour <span class="opt">— "surprise me" is a valid answer</span></label>
+            <input type="text" id="qColor" placeholder="Black, white, forest green…">
+          </div>
+          <div>
+            <label for="qQty">How many?</label>
+            <input type="text" id="qQty" inputmode="numeric" placeholder="1">
+          </div>
+        </div>
+        <label for="qNotes">Anything else? <span class="opt">— optional</span></label>
+        <textarea id="qNotes" placeholder="Size tweaks, deadline, which version of the model…"></textarea>
+        <div class="row">
+          <div>
+            <label for="qName">Your name</label>
+            <input type="text" id="qName" autocomplete="name" required>
+          </div>
+          <div>
+            <label for="qContact">Text or email</label>
+            <input type="text" id="qContact" autocomplete="email" placeholder="Best way to reach you" required>
+          </div>
+        </div>
+        <label for="qRef">Referred by a neighbour? <span class="opt">— their name gets you both $5 off</span></label>
+        <input type="text" id="qRef" placeholder="Who sent you?">
+        <div class="submit-row">
+          <button class="btn btn-gold" type="submit">Send the link</button>
+          <span class="fine">You'll get a price before anything prints. No surprises.</span>
+        </div>
+        <p class="err" id="quickErr">Please add the model link, your name, and a way to reach you.</p>
+        <div class="success" id="quickSuccess">
+          <h4>Request ready ✓</h4>
+          <p>Here's what's being sent — a copy is below in case your mail app didn't open.</p>
+          <pre id="quickSummary"></pre>
+          <button class="btn btn-ghost" type="button" data-copy="quickSummary">Copy request text</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- GUIDED REQUEST -->
+  <section id="request" style="padding-top:8px">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono">Guided request</span>
+        <h2>Tell me what kind of thing it is — I'll ask the right questions.</h2>
+      </div>
+      <form class="panel" id="reqForm" novalidate>
+        <label id="trackLabel">What are you looking for?</label>
+        <div class="seg-group" role="group" aria-labelledby="trackLabel">
+          <button type="button" class="seg" data-track="repair" aria-pressed="false">Fix / replace a part</button>
+          <button type="button" class="seg" data-track="ikea" aria-pressed="false">IKEA &amp; furniture</button>
+          <button type="button" class="seg" data-track="kids" aria-pressed="false">Kids &amp; parenting</button>
+          <button type="button" class="seg" data-track="pets" aria-pressed="false">Pets &amp; dogs</button>
+          <button type="button" class="seg" data-track="home" aria-pressed="false">Home / garage / car</button>
+          <button type="button" class="seg" data-track="custom" aria-pressed="false">Something custom</button>
+        </div>
+
+        <!-- REPAIR -->
+        <div class="track-fields" data-fields="repair">
+          <label for="rItem">What's the item, and what broke?</label>
+          <textarea id="rItem" placeholder="e.g. The wand snapped off our living room blinds"></textarea>
+          <div class="row">
+            <div>
+              <label id="rPieceLabel">Do you still have the broken piece?</label>
+              <div class="seg-group" role="group" aria-labelledby="rPieceLabel" data-pick="rPiece">
+                <button type="button" class="seg" data-val="Yes" aria-pressed="false">Yes</button>
+                <button type="button" class="seg" data-val="No" aria-pressed="false">No</button>
+                <button type="button" class="seg" data-val="Partly" aria-pressed="false">Part of it</button>
+              </div>
+            </div>
+            <div>
+              <label id="rLoadLabel">Does it need to hold weight, handle heat, or live outside?</label>
+              <div class="seg-group" role="group" aria-labelledby="rLoadLabel" data-pick="rLoad">
+                <button type="button" class="seg" data-val="Weight" aria-pressed="false">Weight</button>
+                <button type="button" class="seg" data-val="Heat" aria-pressed="false">Heat</button>
+                <button type="button" class="seg" data-val="Outdoors" aria-pressed="false">Outdoors</button>
+                <button type="button" class="seg" data-val="None of these" aria-pressed="false">None</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- IKEA -->
+        <div class="track-fields" data-fields="ikea">
+          <div class="row">
+            <div>
+              <label for="iProduct">Which IKEA product? <span class="opt">— name's on the label</span></label>
+              <input type="text" id="iProduct" placeholder="KALLAX, SKÅDIS, MALM…">
+            </div>
+            <div>
+              <label for="iColor">Colour preference</label>
+              <input type="text" id="iColor" placeholder="Match the furniture, or…">
+            </div>
+          </div>
+          <label for="iProblem">What's the annoyance you're solving?</label>
+          <textarea id="iProblem" placeholder="Cables everywhere, kids reaching things, drawers sliding around…"></textarea>
+        </div>
+
+        <!-- KIDS -->
+        <div class="track-fields" data-fields="kids">
+          <label for="kAttach">What does it attach to or work with?</label>
+          <input type="text" id="kAttach" placeholder="Stroller brand + model, high chair, a specific toy…">
+          <div class="row">
+            <div>
+              <label id="kWhereLabel">Indoor or outdoor use?</label>
+              <div class="seg-group" role="group" aria-labelledby="kWhereLabel" data-pick="kWhere">
+                <button type="button" class="seg" data-val="Indoor" aria-pressed="false">Indoor</button>
+                <button type="button" class="seg" data-val="Outdoor" aria-pressed="false">Outdoor</button>
+                <button type="button" class="seg" data-val="Both" aria-pressed="false">Both</button>
+              </div>
+            </div>
+            <div>
+              <label for="kDesc">Describe it</label>
+              <input type="text" id="kDesc" placeholder="Cup holder, hook, missing wheel…">
+            </div>
+          </div>
+          <p style="font-size:.86rem;color:#6B7F72;margin-top:14px">Heads up: I don't print car seat parts, crib hardware, or anything load-bearing that a child's safety depends on. Everything else kid-adjacent is fair game.</p>
+        </div>
+
+        <!-- PETS -->
+        <div class="track-fields" data-fields="pets">
+          <div class="row">
+            <div>
+              <label for="pPet">Who's it for?</label>
+              <input type="text" id="pPet" placeholder="Breed + rough size — e.g. 60 lb lab, small terrier, cat">
+            </div>
+            <div>
+              <label id="pUseLabel">Where does it get used?</label>
+              <div class="seg-group" role="group" aria-labelledby="pUseLabel" data-pick="pUse">
+                <button type="button" class="seg" data-val="On walks" aria-pressed="false">On walks</button>
+                <button type="button" class="seg" data-val="At home" aria-pressed="false">At home</button>
+                <button type="button" class="seg" data-val="In the car" aria-pressed="false">In the car</button>
+              </div>
+            </div>
+          </div>
+          <label for="pDesc">What do you need?</label>
+          <textarea id="pDesc" placeholder="Bag dispenser that clips to a specific leash, bowl stand, treat scoop, custom tag…"></textarea>
+          <p style="font-size:.86rem;color:#6B7F72;margin-top:14px">One honest note: printed plastic isn't a chew toy. Gear your dog wears or carries is fair game — anything they'd gnaw on isn't.</p>
+        </div>
+
+        <!-- HOME -->
+        <div class="track-fields" data-fields="home">
+          <label for="hDesc">What do you need?</label>
+          <textarea id="hDesc" placeholder="Phone mount for the dash, hose hanger for the garage, hidden key holder…"></textarea>
+          <div class="row">
+            <div>
+              <label id="hWhereLabel">Where will it live?</label>
+              <div class="seg-group" role="group" aria-labelledby="hWhereLabel" data-pick="hWhere">
+                <button type="button" class="seg" data-val="Indoors" aria-pressed="false">Indoors</button>
+                <button type="button" class="seg" data-val="Garage" aria-pressed="false">Garage</button>
+                <button type="button" class="seg" data-val="Car" aria-pressed="false">In the car</button>
+                <button type="button" class="seg" data-val="Outside" aria-pressed="false">Outside</button>
+              </div>
+            </div>
+            <div>
+              <label id="hMountLabel">Does it mount to something?</label>
+              <div class="seg-group" role="group" aria-labelledby="hMountLabel" data-pick="hMount">
+                <button type="button" class="seg" data-val="Screws" aria-pressed="false">Screws</button>
+                <button type="button" class="seg" data-val="Adhesive" aria-pressed="false">Adhesive</button>
+                <button type="button" class="seg" data-val="Clips on" aria-pressed="false">Clips on</button>
+                <button type="button" class="seg" data-val="Sits freely" aria-pressed="false">Sits freely</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CUSTOM -->
+        <div class="track-fields" data-fields="custom">
+          <label for="cDesc">Describe the idea</label>
+          <textarea id="cDesc" placeholder="As much or as little detail as you have — rough ideas welcome"></textarea>
+          <label for="cLink">Seen something similar online? <span class="opt">— optional link</span></label>
+          <input type="url" id="cLink" inputmode="url" placeholder="https://…">
+        </div>
+
+        <!-- SHARED -->
+        <div class="form-foot" id="sharedFields" style="display:none">
+          <div class="row">
+            <div>
+              <label id="whenLabel">When do you need it?</label>
+              <div class="seg-group" role="group" aria-labelledby="whenLabel" data-pick="gWhen">
+                <button type="button" class="seg" data-val="No rush" aria-pressed="false">No rush</button>
+                <button type="button" class="seg" data-val="This week" aria-pressed="false">This week</button>
+                <button type="button" class="seg" data-val="ASAP" aria-pressed="false">ASAP</button>
+              </div>
+            </div>
+            <div>
+              <label id="budgetLabel">Rough budget</label>
+              <div class="seg-group" role="group" aria-labelledby="budgetLabel" data-pick="gBudget">
+                <button type="button" class="seg" data-val="Under $10" aria-pressed="false">Under $10</button>
+                <button type="button" class="seg" data-val="$10–20" aria-pressed="false">$10–20</button>
+                <button type="button" class="seg" data-val="$20–40" aria-pressed="false">$20–40</button>
+                <button type="button" class="seg" data-val="$40+" aria-pressed="false">$40+</button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label for="gName">Your name</label>
+              <input type="text" id="gName" autocomplete="name">
+            </div>
+            <div>
+              <label for="gContact">Text or email</label>
+              <input type="text" id="gContact" placeholder="Best way to reach you">
+            </div>
+          </div>
+          <label for="gRef">Referred by a neighbour? <span class="opt">— their name gets you both $5 off</span></label>
+          <input type="text" id="gRef" placeholder="Who sent you?">
+          <label id="heardLabel">How did you hear about this? <span class="opt">— helps me know where to post</span></label>
+          <div class="seg-group" role="group" aria-labelledby="heardLabel" data-pick="gHeard">
+            <button type="button" class="seg" data-val="Community board" aria-pressed="false">Community board</button>
+            <button type="button" class="seg" data-val="Facebook" aria-pressed="false">Facebook</button>
+            <button type="button" class="seg" data-val="A neighbour" aria-pressed="false">A neighbour</button>
+            <button type="button" class="seg" data-val="Other" aria-pressed="false">Other</button>
+          </div>
+          <div class="submit-row">
+            <button class="btn btn-gold" type="submit">Send my request</button>
+            <span class="fine">I'll follow up with one or two questions, then a firm price.</span>
+          </div>
+          <p class="err" id="reqErr">Please add your name and a way to reach you.</p>
+          <div class="success" id="reqSuccess">
+            <h4>Request ready ✓</h4>
+            <p>Here's what's being sent — a copy is below in case your mail app didn't open.</p>
+            <pre id="reqSummary"></pre>
+            <button class="btn btn-ghost" type="button" data-copy="reqSummary">Copy request text</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section style="padding-top:8px">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono">How it works</span>
+        <h2>Three steps, none of them involve a courier.</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="mono">Step 1</span>
+          <h3>Send the request</h3>
+          <p>A link, a photo, or a description — whatever you've got. Two minutes, tops.</p>
+        </div>
+        <div class="step">
+          <span class="mono">Step 2</span>
+          <h3>Get a firm price</h3>
+          <p>Usually the same day. You approve it before the printer moves an inch.</p>
+        </div>
+        <div class="step">
+          <span class="mono">Step 3</span>
+          <h3>Walk over, pick it up</h3>
+          <p>I'll text when it's ready. Porch pickup in Greentree Village — most jobs done in a couple of days.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFERRALS -->
+  <section style="padding-top:8px">
+    <div class="wrap">
+      <div class="referral">
+        <div class="ref-copy">
+          <span class="mono">Refer a neighbour</span>
+          <h2>Give $5, get $5 — with an actual printed tag.</h2>
+          <p>Every order comes with two small printed referral tags. Hand one to a neighbour; when they place their first order, you both get <b>$5 off</b>. No codes to remember — the tag has your name on it, and I keep the ledger.</p>
+          <p class="ref-fine">Stacks up, too — refer three neighbours and your next small print is on the house. Every order comes with fresh tags, and extras are free for the asking.</p>
+        </div>
+        <div class="ref-actions">
+          <button class="btn btn-gold" type="button" id="shareBtn">Tell a neighbour now</button>
+          <span class="fine" id="shareHint">Sends a short message with this page's link.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HONEST NOTES -->
+  <section style="padding-top:8px">
+    <div class="wrap">
+      <div class="notes">
+        <h2>The honest fine print</h2>
+        <ul>
+          <li><b>Jobs start at $10.</b> Small parts are cheap; you're mostly paying for setup and care, not plastic.</li>
+          <li><b>Materials matter.</b> Everyday items get PLA. Anything for the car, garage, or outdoors gets PETG so it doesn't warp in the heat.</li>
+          <li><b>Safety parts are a no.</b> No car seat components, crib hardware, or anything a person's safety hangs on. I'd rather lose the job.</li>
+          <li><b>Some things need a real designer.</b> If your idea needs custom modelling beyond my depth, I'll say so and point you somewhere good.</li>
+          <li><b>Colour library is growing.</b> Common colours are in stock; special requests may add a few days.</li>
+          <li><b>This is a home shop.</b> One printer, real quality checks, honest timelines. If something's going to take longer, you'll hear it from me first.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <span><b style="font-family:'Bricolage Grotesque',sans-serif;color:var(--ink)">Greentree Prints</b> — a neighbour with a very busy 3D printer.</span>
+    <span class="mono">Greentree Village · Burnaby BC</span>
+  </div>
+</footer>
+
+<script>
+  // TODO before deploy: set your real contact email (or swap mailto for a form endpoint)
+  var CONTACT_EMAIL = "hirechriscameron@gmail.com";
+
+  // ---- printing tree (built bottom-up: trunk first, then tiers) ----
+  (function(){
+    var tree = document.getElementById('tree');
+    var widths = [
+      {w:26, trunk:true},{w:26, trunk:true},                 // trunk
+      {w:150},{w:132},{w:112},{w:94},                        // bottom tier
+      {w:124},{w:106},{w:88},{w:70},                         // middle tier
+      {w:96},{w:78},{w:60},{w:42},{w:26},{w:14}              // top tier
+    ];
+    widths.forEach(function(l, i){
+      var d = document.createElement('div');
+      d.className = 'layer' + (l.trunk ? ' trunk' : '');
+      d.style.width = l.w + 'px';
+      d.style.animationDelay = (0.25 + i * 0.14) + 's';
+      tree.appendChild(d);
+    });
+  })();
+
+  // ---- segmented pickers (single-select button groups) ----
+  var picks = {};
+  document.querySelectorAll('[data-pick]').forEach(function(group){
+    var key = group.getAttribute('data-pick');
+    group.querySelectorAll('.seg').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        group.querySelectorAll('.seg').forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+        btn.setAttribute('aria-pressed','true');
+        picks[key] = btn.getAttribute('data-val');
+      });
+    });
+  });
+
+  // ---- track router ----
+  var currentTrack = null;
+  var trackNames = {repair:'Fix / replace a part', ikea:'IKEA & furniture', kids:'Kids & parenting', pets:'Pets & dogs', home:'Home / garage / car', custom:'Something custom'};
+  document.querySelectorAll('.seg[data-track]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.seg[data-track]').forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+      btn.setAttribute('aria-pressed','true');
+      currentTrack = btn.getAttribute('data-track');
+      document.querySelectorAll('.track-fields').forEach(function(f){
+        f.classList.toggle('active', f.getAttribute('data-fields') === currentTrack);
+      });
+      document.getElementById('sharedFields').style.display = 'block';
+    });
+  });
+
+  function val(id){ var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+  function line(label, v){ return v ? (label + ': ' + v + '\n') : ''; }
+
+  function sendRequest(subject, body, summaryEl, successEl){
+    summaryEl.textContent = body;
+    successEl.classList.add('show');
+    successEl.scrollIntoView({behavior:'smooth', block:'nearest'});
+    if (CONTACT_EMAIL && CONTACT_EMAIL.indexOf('example.com') === -1){
+      window.location.href = 'mailto:' + CONTACT_EMAIL +
+        '?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(body);
+    }
+  }
+
+  // ---- quick lane submit ----
+  document.getElementById('quickForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var err = document.getElementById('quickErr');
+    if (!val('qUrl') || !val('qName') || !val('qContact')){ err.classList.add('show'); return; }
+    err.classList.remove('show');
+    var body =
+      'GREENTREE PRINTS — QUICK LANE REQUEST\n' +
+      '--------------------------------------\n' +
+      line('Model link', val('qUrl')) +
+      line('Colour', val('qColor') || 'No preference') +
+      line('Quantity', val('qQty') || '1') +
+      line('Notes', val('qNotes')) +
+      line('Name', val('qName')) +
+      line('Contact', val('qContact')) +
+      line('Referred by', val('qRef'));
+    sendRequest('Print request (quick lane)', body, document.getElementById('quickSummary'), document.getElementById('quickSuccess'));
+  });
+
+  // ---- guided form submit ----
+  document.getElementById('reqForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var err = document.getElementById('reqErr');
+    if (!val('gName') || !val('gContact')){ err.classList.add('show'); return; }
+    err.classList.remove('show');
+    var body =
+      'GREENTREE PRINTS — REQUEST\n' +
+      '--------------------------------------\n' +
+      line('Track', trackNames[currentTrack] || 'Not selected');
+    if (currentTrack === 'repair'){
+      body += line('Item / what broke', val('rItem')) +
+              line('Has broken piece', picks.rPiece) +
+              line('Conditions', picks.rLoad);
+    } else if (currentTrack === 'ikea'){
+      body += line('IKEA product', val('iProduct')) +
+              line('Colour', val('iColor')) +
+              line('Problem to solve', val('iProblem'));
+    } else if (currentTrack === 'kids'){
+      body += line('Attaches to / works with', val('kAttach')) +
+              line('Use', picks.kWhere) +
+              line('Description', val('kDesc'));
+    } else if (currentTrack === 'pets'){
+      body += line('Pet (breed/size)', val('pPet')) +
+              line('Used', picks.pUse) +
+              line('Description', val('pDesc'));
+    } else if (currentTrack === 'home'){
+      body += line('Description', val('hDesc')) +
+              line('Location', picks.hWhere) +
+              line('Mounting', picks.hMount);
+    } else if (currentTrack === 'custom'){
+      body += line('Idea', val('cDesc')) +
+              line('Similar link', val('cLink'));
+    }
+    body += line('Timeline', picks.gWhen) +
+            line('Budget', picks.gBudget) +
+            line('Name', val('gName')) +
+            line('Contact', val('gContact')) +
+            line('Referred by', val('gRef')) +
+            line('Heard via', picks.gHeard);
+    sendRequest('Print request', body, document.getElementById('reqSummary'), document.getElementById('reqSuccess'));
+  });
+
+  // ---- scroll reveals (subtle, once, reduced-motion aware) ----
+  (function(){
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    var targets = document.querySelectorAll('.sec-head, .path-card, .step, .panel, .notes, .chip, .referral');
+    targets.forEach(function(el){ el.classList.add('reveal'); });
+    // stagger chips a touch
+    document.querySelectorAll('.chip').forEach(function(chip, i){
+      chip.style.transitionDelay = (i % 12) * 0.045 + 's';
+    });
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.12, rootMargin:'0px 0px -6% 0px'});
+    targets.forEach(function(el){ io.observe(el); });
+  })();
+
+  // ---- referral share button ----
+  (function(){
+    var btn = document.getElementById('shareBtn');
+    var hint = document.getElementById('shareHint');
+    var msg = "A neighbour in Greentree Village runs a 3D print shop — IKEA accessories, replacement parts, dog gear, custom stuff. Mention my name and we both get $5 off.";
+    btn.addEventListener('click', function(){
+      var url = window.location.href.split('#')[0];
+      if (navigator.share){
+        navigator.share({title:'Greentree Prints', text:msg, url:url}).catch(function(){});
+      } else {
+        navigator.clipboard.writeText(msg + ' ' + url).then(function(){
+          hint.textContent = 'Message copied — paste it into a text or group chat.';
+        });
+      }
+    });
+  })();
+
+  // ---- copy buttons ----
+  document.querySelectorAll('[data-copy]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var text = document.getElementById(btn.getAttribute('data-copy')).textContent;
+      navigator.clipboard.writeText(text).then(function(){
+        btn.textContent = 'Copied ✓';
+        setTimeout(function(){ btn.textContent = 'Copy request text'; }, 1800);
+      });
+    });
+  });
+</script>
+</body>
+</html>
