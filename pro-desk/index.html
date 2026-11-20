@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Greentree Prints Pro Desk — trade and commercial 3D printing, Burnaby BC</title>
+<meta name="description" content="Concrete name and logo stamps, spinning-wheel bobbins and custom branded pieces, 3D printed in small batches in Burnaby BC. Send your logo, get a price and a proof before anything prints.">
+<link rel="canonical" href="https://greentreeprints.pro/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 30'%3E%3Crect x='10' y='24' width='6' height='5' rx='1.5' fill='%23A9683B'/%3E%3Crect x='4' y='19' width='18' height='4' rx='2' fill='%232E5138'/%3E%3Crect x='6' y='14' width='14' height='4' rx='2' fill='%233E9159'/%3E%3Crect x='8' y='9' width='10' height='4' rx='2' fill='%234CAF6D'/%3E%3Crect x='10' y='4' width='6' height='4' rx='2' fill='%2357B577'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Karla:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ---------- tokens (design-system tokens.css, verbatim) ---------- */
+  :root{
+  --paper:#F0F1E3;--paper-deep:#E6E9D4;--card:#FFFFFF;--ink:#22392E;--spruce:#2E5138;--fil-green:#4CAF6D;--cedar:#A9683B;--cedar-text:#965C34;
+  --gold:#E9A13B;--gold-hover:#F0AC48;--gold-deep:#C9821E;--on-gold:#2B1E07;--line:rgba(34,57,46,.16);
+  --text-muted:#3A5245;--text-soft:#4A6355;--text-footer:#5A6F62;--text-faint:#5E7064;
+  --on-ink:#D9E2D2;--on-ink-strong:#FFFFFF;--on-ink-faint:#A9BCA9;--success-bg:#EAF5EE;--danger:#A33B2A;--focus-ring:#3E9159;
+  --header-glass:rgba(240,241,227,.92);--ghost-hover:rgba(34,57,46,.06);--stage:rgba(255,255,255,.45);--rule:rgba(34,57,46,.035);--rule-on-ink:rgba(240,241,227,.05);
+  --leaf-1:#57B577;--leaf-2:#3E9159;--leaf-3:#2F7547;--trunk-light:#C07E48;--trunk-dark:#8E5027;
+  --font-display:"Bricolage Grotesque",sans-serif;--font-body:"Karla",sans-serif;--font-mono:"IBM Plex Mono",monospace;
+  --space-8:8px;--space-10:10px;--space-12:12px;--space-16:16px;--space-18:18px;--space-20:20px;--space-24:24px;--space-26:26px;--space-32:32px;--space-36:36px;--space-56:56px;--space-72:72px;
+  --radius-dot:3px;--radius-layer:5px;--radius-code:8px;--radius-input:10px;--radius-notice:12px;--radius:14px;--radius-panel:18px;--radius-stage:20px;--radius-pill:999px;
+  --shadow:0 2px 6px rgba(34,57,46,.08),0 12px 32px rgba(34,57,46,.10);--shadow-gold-edge:0 2px 0 #c9821e;--shadow-layer:inset 0 -2px 0 rgba(0,0,0,.14);
+  --wrap-max:1060px;--measure:38rem;--measure-lede:34rem;--touch-min:48px;--seg-min:44px}
+
+  /* ---------- components (design-system bundle.css, verbatim) ---------- */
+  .mono{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--spruce)}
+  .wordmark{display:inline-flex;align-items:center;gap:var(--space-10);text-decoration:none;color:var(--ink)}
+  .wordmark img,.wordmark svg{display:block}
+  .wordmark b{font-family:var(--font-display);font-weight:800;font-size:1.05rem}
+  .wm-text{display:flex;flex-direction:column;line-height:1.15}
+  .wm-sub{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cedar-text)}
+  .headline{font-family:var(--font-display);font-size:clamp(2.1rem,6.4vw,3.6rem);font-weight:800;line-height:1.12;letter-spacing:-.01em;color:var(--ink);margin:0}
+  .headline em{font-style:normal;color:var(--spruce);position:relative;z-index:0}
+  .headline em::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.28em;background:var(--gold);opacity:.4;z-index:-1;border-radius:var(--radius-dot)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-8);font-family:var(--font-body);font-weight:700;font-size:1rem;padding:14px 22px;border-radius:var(--radius-pill);border:2px solid transparent;cursor:pointer;text-decoration:none;transition:transform .12s ease, box-shadow .12s ease, background .12s ease;min-height:var(--touch-min)}
+  .btn:active{transform:scale(.98)}
+  .btn-gold{background:var(--gold);color:var(--on-gold);box-shadow:var(--shadow-gold-edge)}
+  .btn-gold:hover{background:var(--gold-hover)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+  .btn-ghost:hover{background:var(--ghost-hover)}
+  .hero-note{display:flex;align-items:center;gap:var(--space-8);color:var(--text-soft);font-size:.92rem}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--fil-green);flex:none;animation:gp-pulse 2.4s ease-in-out infinite}
+  @keyframes gp-pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .tree{display:inline-flex;flex-direction:column-reverse;align-items:center;gap:3px;padding:26px 30px 20px;background:var(--stage);border:1px solid var(--line);border-radius:var(--radius-stage);box-shadow:var(--shadow);position:relative}
+  .tree .layer{height:11px;border-radius:var(--radius-layer);background:linear-gradient(180deg,var(--leaf-1) 0%,var(--leaf-2) 68%,var(--leaf-3) 100%);opacity:0;transform:translateY(8px);animation:gp-layer .38s ease forwards;box-shadow:var(--shadow-layer)}
+  .tree .layer.trunk{background:linear-gradient(180deg,var(--trunk-light) 0%,var(--cedar) 70%,var(--trunk-dark) 100%)}
+  @keyframes gp-layer{to{opacity:1;transform:translateY(0)}}
+  .tree-caption{position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);font-family:var(--font-mono);font-size:.66rem;letter-spacing:.12em;padding:5px 12px;border-radius:var(--radius-pill);white-space:nowrap}
+  .path-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:var(--space-26) var(--space-24);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:var(--space-10)}
+  .path-card h3{font-family:var(--font-display);font-size:1.25rem;font-weight:800;line-height:1.12;letter-spacing:-.01em;margin:0;color:var(--ink)}
+  .path-card p{color:var(--text-muted);font-size:.98rem;flex:1;margin:0}
+  .path-card .btn{align-self:flex-start;margin-top:var(--space-8)}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+  .step .mono{color:var(--cedar-text)}
+  .step h3{font-family:var(--font-display);font-size:1.1rem;line-height:1.12;letter-spacing:-.01em;margin:8px 0 6px;color:var(--ink)}
+  .step p{font-size:.95rem;color:var(--text-muted);margin:0}
+  .chips{display:flex;flex-wrap:wrap;gap:var(--space-10)}
+  .chip{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-pill);padding:9px 16px;font-size:.92rem;font-weight:500;color:var(--spruce);display:inline-flex;align-items:center;gap:var(--space-8)}
+  .chip::before{content:"";width:9px;height:9px;border-radius:var(--radius-dot);background:var(--fil-green);display:inline-block}
+  .chip:nth-child(3n)::before{background:var(--gold)}
+  .chip:nth-child(3n+2)::before{background:var(--cedar)}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-panel);padding:var(--space-26) var(--space-20);box-shadow:var(--shadow)}
+  @media(min-width:640px){.panel{padding:34px var(--space-32)}}
+  .panel label{display:block;font-weight:700;font-size:.95rem;margin:var(--space-18) 0 6px;color:var(--ink)}
+  .panel label .opt{font-weight:400;color:var(--text-faint);font-size:.85rem}
+  .panel input[type=text],.panel input[type=url],.panel input[type=email],.panel input[type=tel],.panel textarea,.panel select{width:100%;box-sizing:border-box;font-family:var(--font-body);font-size:1rem;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:var(--radius-input);padding:13px 14px;min-height:var(--touch-min)}
+  .panel textarea{min-height:96px;resize:vertical}
+  .panel input:focus,.panel textarea:focus,.panel select:focus,.btn:focus-visible,.seg:focus-visible,.chip:focus-visible{outline:3px solid var(--focus-ring);outline-offset:2px;border-color:var(--fil-green)}
+  .row{display:grid;gap:0 var(--space-16)}
+  @media(min-width:640px){.row{grid-template-columns:1fr 1fr}}
+  .seg-group{display:flex;flex-wrap:wrap;gap:var(--space-8);margin-top:4px}
+  .seg{font-family:var(--font-body);font-weight:700;font-size:.92rem;padding:10px 16px;border-radius:var(--radius-pill);cursor:pointer;background:var(--paper);border:1.5px solid var(--line);color:var(--ink);min-height:var(--seg-min);transition:background .12s ease}
+  .seg:hover{background:var(--paper-deep)}
+  .seg[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .submit-row{margin-top:var(--space-26);display:flex;flex-direction:column;gap:var(--space-12)}
+  @media(min-width:640px){.submit-row{flex-direction:row;align-items:center}}
+  .submit-row .fine{font-size:.85rem;color:var(--text-faint)}
+  .success{background:var(--success-bg);border:1.5px solid var(--fil-green);border-radius:var(--radius-notice);padding:18px;color:var(--ink)}
+  .success h4{font-family:var(--font-display);margin:0 0 6px}
+  .success p{margin:0}
+  .success pre{white-space:pre-wrap;font-family:var(--font-mono);font-size:.78rem;background:var(--card);border-radius:var(--radius-code);padding:12px;margin:10px 0;max-height:220px;overflow:auto}
+  .err{color:var(--danger);font-size:.88rem;font-weight:700;margin:10px 0 0}
+  .notes{background:var(--ink);color:var(--paper);border-radius:var(--radius-panel);padding:30px var(--space-24)}
+  @media(min-width:640px){.notes{padding:38px var(--space-36)}}
+  .notes h2{font-family:var(--font-display);color:var(--on-ink-strong);font-size:1.5rem;line-height:1.12;letter-spacing:-.01em;margin:0 0 14px}
+  .notes ul{list-style:none;display:grid;gap:var(--space-12);margin:0;padding:0}
+  @media(min-width:760px){.notes ul{grid-template-columns:1fr 1fr;gap:14px 28px}}
+  .notes li{padding-left:24px;position:relative;font-size:.97rem;color:var(--on-ink)}
+  .notes li::before{content:"";position:absolute;left:0;top:.5em;width:12px;height:5px;border-radius:var(--radius-dot);background:var(--fil-green)}
+  .notes li b{color:var(--on-ink-strong)}
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease, transform .55s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none}
+    .btn,.seg,.dot,.tree .layer{animation:none !important;transition:none !important}
+    .tree .layer{opacity:1;transform:none}
+  }
+
+  /* ---------- page layout (tokens only) ---------- */
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--font-body);font-size:17px;line-height:1.6;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4,p,ul{margin:0}
+  a{color:var(--spruce)}
+  .wrap{max-width:var(--wrap-max);margin:0 auto;padding:0 var(--space-20)}
+  header{position:sticky;top:0;z-index:50;background:var(--header-glass);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:var(--space-16);padding-top:14px;padding-bottom:14px}
+  .nav-link{font-weight:700;font-size:.92rem;text-decoration:underline;text-underline-offset:3px;min-height:var(--seg-min);display:inline-flex;align-items:center;text-align:right}
+  .hero{position:relative;overflow:hidden;background:repeating-linear-gradient(180deg,transparent 0 7px,var(--rule) 7px 8px),linear-gradient(180deg,var(--paper) 0%,var(--paper-deep) 100%);border-bottom:1px solid var(--line)}
+  .hero-grid{display:grid;gap:28px;padding-top:34px;padding-bottom:44px}
+  @media(min-width:820px){.hero-grid{grid-template-columns:1.15fr .85fr;align-items:center;padding-top:var(--space-72);padding-bottom:68px;gap:40px}}
+  .hero .headline{margin:14px 0 16px;max-width:var(--measure)}
+  /* highlight bar per line: the bundle ::after loses its width when the phrase wraps */
+  .headline em::after{content:none}
+  .headline em{background-image:linear-gradient(color-mix(in srgb,var(--gold) 40%,transparent),color-mix(in srgb,var(--gold) 40%,transparent));background-repeat:no-repeat;background-size:100% .28em;background-position:0 calc(100% - .2em);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  .lede{font-size:1.08rem;max-width:var(--measure-lede);color:var(--text-muted)}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:var(--space-12);margin-top:var(--space-26)}
+  .hero .hero-note{margin-top:var(--space-18)}
+  .tree-stage{display:flex;justify-content:center}
+  section{padding:var(--space-56) 0}
+  @media(min-width:820px){section{padding:var(--space-72) 0}}
+  .sec-head{max-width:var(--measure);margin-bottom:30px}
+  .sec-head h2{font-family:var(--font-display);font-size:clamp(1.5rem,4vw,2.1rem);font-weight:800;line-height:1.12;letter-spacing:-.01em;margin:10px 0}
+  .sec-head p{color:var(--text-muted)}
+  .sec-head p + p{margin-top:var(--space-12)}
+  .cards{display:grid;gap:var(--space-18)}
+  @media(min-width:760px){.cards{grid-template-columns:repeat(3,1fr)}}
+  .steps{display:grid;gap:var(--space-16)}
+  @media(min-width:760px){.steps{grid-template-columns:repeat(3,1fr)}}
+  .track-fields{display:none;border-top:1px dashed var(--line);margin-top:22px;padding-top:4px}
+  .track-fields.active{display:block}
+  .form-foot{border-top:1px dashed var(--line);margin-top:var(--space-26);padding-top:6px}
+  .success{display:none;margin-top:var(--space-20)}
+  .success.show{display:block}
+  .success .btn{margin-top:4px}
+  .err{display:none}
+  .err.show{display:block}
+  .panel .q-label{display:block;font-weight:700;font-size:.95rem;margin:var(--space-18) 0 6px;color:var(--ink)}
+  .file-pick{display:block;width:100%;font-family:var(--font-body);font-size:.95rem;color:var(--ink);background:var(--paper);border:1.5px dashed var(--line);border-radius:var(--radius-input);padding:12px 14px;min-height:var(--touch-min);cursor:pointer}
+  .file-pick:focus{outline:3px solid var(--focus-ring);outline-offset:2px;border-color:var(--fil-green)}
+  .file-pick::file-selector-button{font-family:var(--font-body);font-weight:700;font-size:.92rem;padding:8px 14px;margin-right:var(--space-12);border-radius:var(--radius-pill);border:1.5px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+  .file-note{font-size:.85rem;color:var(--text-faint);margin-top:6px}
+  .file-chosen{display:none;align-items:center;gap:var(--space-12);margin-top:var(--space-10);padding:var(--space-10) var(--space-12);background:var(--card);border:1px solid var(--line);border-radius:var(--radius-input);font-size:.92rem}
+  .file-chosen.show{display:flex}
+  .file-chosen img{width:48px;height:48px;object-fit:contain;background:var(--paper);border-radius:var(--radius-code);flex:none}
+  .attach-reminder{margin-top:var(--space-12);padding:var(--space-12);background:var(--card);border:1px solid var(--line);border-radius:var(--radius-code)}
+  .about{max-width:var(--measure)}
+  footer{border-top:1px solid var(--line);padding:34px 0 44px;color:var(--text-footer);font-size:.9rem}
+  .foot-grid{display:flex;flex-wrap:wrap;gap:14px 30px;justify-content:space-between;align-items:center}
+  footer b{font-family:var(--font-display);color:var(--ink)}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="wordmark" href="/" aria-label="Greentree Prints Pro Desk home">
+      <svg width="26" height="30" viewBox="0 0 26 30" fill="none" aria-hidden="true">
+        <rect x="10" y="24" width="6" height="5" rx="1.5" fill="#A9683B"/>
+        <rect x="4" y="19" width="18" height="4" rx="2" fill="#2E5138"/>
+        <rect x="6" y="14" width="14" height="4" rx="2" fill="#3E9159"/>
+        <rect x="8" y="9" width="10" height="4" rx="2" fill="#4CAF6D"/>
+        <rect x="10" y="4" width="6" height="4" rx="2" fill="#57B577"/>
+      </svg>
+      <span class="wm-text"><b>Greentree Prints</b><span class="wm-sub">3D print studio</span></span>
+    </a>
+    <a class="nav-link" href="https://greentreeprints.ca/">Main shop: greentreeprints.ca</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="mono">Pro Desk · Trade &amp; commercial · Burnaby BC</span>
+        <h1 class="headline">Name stamps, bobbins and branded parts, <em>3D printed in small batches.</em></h1>
+        <p class="lede">I'm one maker with a 3D print shop in Greentree Village, Burnaby. I take the small runs bigger shops won't quote: one contractor stamp, three bobbins for one wheel, forty tags with your logo. You get a firm price and a proof before anything prints.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-gold" href="#quote">Send me your logo</a>
+          <a class="btn btn-ghost" href="#make">See what I make</a>
+        </div>
+        <div class="hero-note"><span class="dot" aria-hidden="true"></span> Taking trade enquiries now. Trade production starts in January.</div>
+      </div>
+      <div class="tree-stage" aria-hidden="true">
+        <div class="tree" id="tree">
+          <span class="tree-caption">PRINTING YOUR-LOGO.STL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT I MAKE -->
+  <section id="make">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono">What I make for the trade</span>
+        <h2>Three kinds of work, all small-batch, all quoted first.</h2>
+      </div>
+      <div class="cards">
+        <div class="path-card">
+          <h3>Pouring sidewalks or slabs?</h3>
+          <p>Concrete name stamps with your company name, your logo, or both. Bronze makers mostly can't do a logo; a printed stamp can. Add a year insert you swap out each January instead of buying a new stamp.</p>
+          <a class="btn btn-ghost" href="#quote" data-goto="stamp">Quote a stamp</a>
+        </div>
+        <div class="path-card">
+          <h3>Spin on a wheel?</h3>
+          <p>Spinning-wheel bobbins in sets of three, made for your wheel's make and model. Tell me the wheel and I'll tell you honestly whether I've fit-checked it yet, before you pay for anything.</p>
+          <a class="btn btn-ghost" href="#quote" data-goto="bobbin">Ask about bobbins</a>
+        </div>
+        <div class="path-card">
+          <h3>Need your logo on something?</h3>
+          <p>Custom branded pieces in short runs: equipment ID tags, keychains, desk signs, cable clips, a jig your crew keeps losing. Send the logo and a rough count and I'll price it.</p>
+          <a class="btn btn-ghost" href="#quote" data-goto="branded">Price a branded run</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXAMPLES -->
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono">What trade customers ask for</span>
+        <h2>If your logo fits on it, I can probably print it.</h2>
+      </div>
+      <div class="chips" role="list">
+        <span class="chip" role="listitem">Contractor name stamp</span>
+        <span class="chip" role="listitem">Logo stamp for a crew</span>
+        <span class="chip" role="listitem">2027 year insert</span>
+        <span class="chip" role="listitem">Bobbin set of three</span>
+        <span class="chip" role="listitem">Equipment ID tags</span>
+        <span class="chip" role="listitem">Branded keychains</span>
+        <span class="chip" role="listitem">Desk name signs</span>
+        <span class="chip" role="listitem">Cable clips with a logo</span>
+        <span class="chip" role="listitem">Drill or saw jig</span>
+        <span class="chip" role="listitem">Replacement knobs, 20 off</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section style="padding-top:8px">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono">How a trade order works</span>
+        <h2>Logo in, proof out, then the printer moves.</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="mono">Step 1</span>
+          <h3>Send the job and your logo</h3>
+          <p>Use the form below. A vector file is ideal; a clear photo of your truck door is a fine start.</p>
+        </div>
+        <div class="step">
+          <span class="mono">Step 2</span>
+          <h3>Approve a price and a proof</h3>
+          <p>A firm price in Canadian dollars and a digital proof of your logo on the part. Nothing prints until you say yes.</p>
+        </div>
+        <div class="step">
+          <span class="mono">Step 3</span>
+          <h3>Pick up in Burnaby, or I ship it</h3>
+          <p>Pickup in Greentree Village, or shipping within Canada. Standard items and reorders go through greentreeprints.ca.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE FORM -->
+  <section id="quote" style="padding-top:8px">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono">Quote request</span>
+        <h2>Tell me the job. Attach the logo. Get a number.</h2>
+        <p>Pick what you need and only those questions appear. It takes about three minutes.</p>
+      </div>
+      <form class="panel" id="proForm" novalidate>
+        <span class="q-label" id="trackLabel" style="margin-top:0">What's the job?</span>
+        <div class="seg-group" role="group" aria-labelledby="trackLabel">
+          <button type="button" class="seg" data-track="stamp" aria-pressed="false">Concrete stamp</button>
+          <button type="button" class="seg" data-track="bobbin" aria-pressed="false">Spinning-wheel bobbins</button>
+          <button type="button" class="seg" data-track="branded" aria-pressed="false">Branded pieces</button>
+          <button type="button" class="seg" data-track="other" aria-pressed="false">Something else</button>
+        </div>
+
+        <!-- stamp -->
+        <div class="track-fields" data-fields="stamp">
+          <label for="sText">What should the stamp say?</label>
+          <input type="text" id="sText" placeholder="Company name, city, phone number…">
+          <span class="q-label" id="sSizeLabel">Rough size</span>
+          <div class="seg-group" role="group" aria-labelledby="sSizeLabel" data-pick="sSize">
+            <button type="button" class="seg" data-val="Under 10 cm" aria-pressed="false">Under 10 cm</button>
+            <button type="button" class="seg" data-val="10 to 20 cm" aria-pressed="false">10 to 20 cm</button>
+            <button type="button" class="seg" data-val="Over 20 cm" aria-pressed="false">Over 20 cm</button>
+            <button type="button" class="seg" data-val="Not sure" aria-pressed="false">Not sure</button>
+          </div>
+          <span class="q-label" id="sYearLabel">Swappable year insert?</span>
+          <div class="seg-group" role="group" aria-labelledby="sYearLabel" data-pick="sYear">
+            <button type="button" class="seg" data-val="Yes" aria-pressed="false">Yes</button>
+            <button type="button" class="seg" data-val="No" aria-pressed="false">No</button>
+            <button type="button" class="seg" data-val="Tell me more" aria-pressed="false">Tell me more</button>
+          </div>
+          <label for="sQty">How many stamps? <span class="opt">— one per crew is common</span></label>
+          <input type="text" id="sQty" inputmode="numeric" placeholder="1">
+        </div>
+
+        <!-- bobbins -->
+        <div class="track-fields" data-fields="bobbin">
+          <label for="bWheel">Wheel make and model</label>
+          <input type="text" id="bWheel" placeholder="Schacht Matchless, Ashford Traditional…">
+          <div class="row">
+            <div>
+              <label for="bSets">How many sets of three?</label>
+              <input type="text" id="bSets" inputmode="numeric" placeholder="1">
+            </div>
+            <div>
+              <label for="bColour">Colour <span class="opt">— optional</span></label>
+              <input type="text" id="bColour" placeholder="Natural, forest green, one of each…">
+            </div>
+          </div>
+        </div>
+
+        <!-- branded -->
+        <div class="track-fields" data-fields="branded">
+          <label for="pItem">What's the piece?</label>
+          <input type="text" id="pItem" placeholder="Equipment ID tags, keychains, a desk sign…">
+          <div class="row">
+            <div>
+              <label for="pQty">Roughly how many?</label>
+              <input type="text" id="pQty" inputmode="numeric" placeholder="25">
+            </div>
+            <div>
+              <span class="q-label" id="pWhereLabel">Where will it live?</span>
+              <div class="seg-group" role="group" aria-labelledby="pWhereLabel" data-pick="pWhere">
+                <button type="button" class="seg" data-val="Indoors" aria-pressed="false">Indoors</button>
+                <button type="button" class="seg" data-val="Outdoors or in a truck" aria-pressed="false">Outdoors or in a truck</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- other -->
+        <div class="track-fields" data-fields="other">
+          <label for="oDesc">Describe the job</label>
+          <textarea id="oDesc" placeholder="A replacement part you need in quantity, a fixture, a prototype…"></textarea>
+        </div>
+
+        <!-- shared -->
+        <div class="form-foot" id="sharedFields">
+          <label for="logoFile">Your logo <span class="opt">— optional; SVG, PDF, AI, EPS, PNG or JPG</span></label>
+          <input class="file-pick" type="file" id="logoFile" accept=".svg,.pdf,.ai,.eps,.png,.jpg,.jpeg,image/svg+xml,application/pdf,image/png,image/jpeg">
+          <p class="file-note">A web page can't put a file into an email for you. Pick it here and I'll remind you to attach it when your mail app opens.</p>
+          <div class="file-chosen" id="fileChosen" aria-live="polite"><img id="filePreview" alt="" hidden><span id="fileLabel"></span></div>
+          <label for="logoLink">Or a link to it <span class="opt">— optional; Dropbox, Google Drive, your website</span></label>
+          <input type="url" id="logoLink" inputmode="url" placeholder="https://…">
+
+          <span class="q-label" id="whenLabel">When do you need it?</span>
+          <div class="seg-group" role="group" aria-labelledby="whenLabel" data-pick="when">
+            <button type="button" class="seg" data-val="No rush" aria-pressed="false">No rush</button>
+            <button type="button" class="seg" data-val="January" aria-pressed="false">January</button>
+            <button type="button" class="seg" data-val="A specific date (in notes)" aria-pressed="false">A specific date</button>
+          </div>
+
+          <label for="notes">Anything else? <span class="opt">— optional</span></label>
+          <textarea id="notes" placeholder="Deadline, colours, the wheel you'd like fit-checked, a reorder of last year's stamp…"></textarea>
+
+          <div class="row">
+            <div>
+              <label for="biz">Business name <span class="opt">— optional</span></label>
+              <input type="text" id="biz" autocomplete="organization" placeholder="As it appears on your invoices">
+            </div>
+            <div>
+              <label for="name">Your name</label>
+              <input type="text" id="name" autocomplete="name" required>
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label for="contact">Email or phone</label>
+              <input type="text" id="contact" autocomplete="email" placeholder="Best way to reach you" required>
+            </div>
+            <div>
+              <label for="city">Where are you? <span class="opt">— for pickup or shipping</span></label>
+              <input type="text" id="city" autocomplete="address-level2" placeholder="Burnaby, Surrey, Kamloops…">
+            </div>
+          </div>
+        </div>
+
+        <div class="submit-row">
+          <button class="btn btn-gold" type="submit">Send my quote request</button>
+          <span class="fine">You'll get a price and a proof before anything prints.</span>
+        </div>
+        <p class="err" id="proErr" role="alert"></p>
+        <div class="success" id="proSuccess">
+          <h4>Request ready ✓</h4>
+          <p>Your mail app should be opening with this request filled in. If it didn't, copy the text below and email it to <a id="mailAddr" href="#"></a>.</p>
+          <div class="attach-reminder" id="attachReminder" hidden><b>Attach your logo before you send:</b> <span id="attachName"></span></div>
+          <pre id="proSummary"></pre>
+          <button class="btn btn-ghost" type="button" id="copyBtn">Copy request text</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section style="padding-top:8px">
+    <div class="wrap">
+      <div class="sec-head about">
+        <span class="mono">Built in Greentree Village, Burnaby</span>
+        <h2>One shop, two doors.</h2>
+        <p>Greentree Prints started as a 3D print shop for my neighbours: drawer knobs, IKEA fixes, stocking stuffers. The Pro Desk is the trade door to the same shop. Same printer, same person, and you deal with me directly from quote to pickup.</p>
+        <p>Neighbourhood printing lives at <a href="https://greentreeprints.ca/">greentreeprints.ca</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINE PRINT -->
+  <section style="padding-top:8px">
+    <div class="wrap">
+      <div class="notes">
+        <h2>The honest fine print</h2>
+        <ul>
+          <li><b>Nothing prints without a yes.</b> You approve the price and the proof first. If the proof isn't right, we fix the proof, not the stamp.</li>
+          <li><b>Printed isn't bronze.</b> I can't yet show you a printed stamp outlasting bronze over a season of pours. If that matters, order one and try it on a test slab first.</li>
+          <li><b>Small batches only.</b> This is one shop with one queue. If your run is bigger than I can do well, I'll say so in the quote, not after.</li>
+          <li><b>Canada only, for now.</b> I ship within Canada and offer pickup in Burnaby. No US orders until I've sorted out the customs side.</li>
+          <li><b>Rush costs more.</b> Rush jobs jump the queue and cost a little more; that priority is what you're paying for.</li>
+          <li><b>Prices are in Canadian dollars.</b> Every quote is a firm number in CAD, so there's no exchange-rate guessing.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <span><b>Greentree Prints Pro Desk</b> — the trade door of <a href="https://greentreeprints.ca/">greentreeprints.ca</a>.</span>
+    <span class="mono">Greentree Village · Burnaby BC</span>
+  </div>
+</footer>
+
+<script>
+  var CONTACT_EMAIL = "hirechriscameron@gmail.com";
+
+  // ---- printing tree (trunk first, then tiers) ----
+  (function(){
+    var tree = document.getElementById('tree');
+    var widths = [
+      {w:26, trunk:true},{w:26, trunk:true},
+      {w:150},{w:132},{w:112},{w:94},
+      {w:124},{w:106},{w:88},{w:70},
+      {w:96},{w:78},{w:60},{w:42},{w:26},{w:14}
+    ];
+    widths.forEach(function(l, i){
+      var d = document.createElement('div');
+      d.className = 'layer' + (l.trunk ? ' trunk' : '');
+      d.style.width = l.w + 'px';
+      d.style.animationDelay = (0.25 + i * 0.14) + 's';
+      tree.appendChild(d);
+    });
+  })();
+
+  // ---- segmented pickers ----
+  var picks = {};
+  document.querySelectorAll('[data-pick]').forEach(function(group){
+    var key = group.getAttribute('data-pick');
+    group.querySelectorAll('.seg').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        group.querySelectorAll('.seg').forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+        btn.setAttribute('aria-pressed','true');
+        picks[key] = btn.getAttribute('data-val');
+      });
+    });
+  });
+
+  // ---- track router ----
+  var currentTrack = null;
+  var trackNames = {stamp:'Concrete stamp', bobbin:'Spinning-wheel bobbins', branded:'Branded pieces', other:'Something else'};
+  function setTrack(track){
+    currentTrack = track;
+    document.querySelectorAll('.seg[data-track]').forEach(function(b){
+      b.setAttribute('aria-pressed', b.getAttribute('data-track') === track ? 'true' : 'false');
+    });
+    document.querySelectorAll('.track-fields').forEach(function(f){
+      f.classList.toggle('active', f.getAttribute('data-fields') === track);
+    });
+  }
+  document.querySelectorAll('.seg[data-track]').forEach(function(btn){
+    btn.addEventListener('click', function(){ setTrack(btn.getAttribute('data-track')); });
+  });
+  document.querySelectorAll('[data-goto]').forEach(function(a){
+    a.addEventListener('click', function(){ setTrack(a.getAttribute('data-goto')); });
+  });
+
+  // ---- logo file (kept in the browser; the visitor attaches it to the email) ----
+  var logo = null;
+  document.getElementById('logoFile').addEventListener('change', function(){
+    var f = this.files && this.files[0];
+    var box = document.getElementById('fileChosen');
+    var img = document.getElementById('filePreview');
+    logo = f || null;
+    if (!f){ box.classList.remove('show'); return; }
+    var kb = Math.max(1, Math.round(f.size / 1024));
+    var size = kb >= 1024 ? (Math.round(kb / 102.4) / 10) + ' MB' : kb + ' KB';
+    document.getElementById('fileLabel').textContent = f.name + ' (' + size + ') — attach this to the email that opens.';
+    if (/^image\/(png|jpeg|svg\+xml)$/.test(f.type) && window.URL && URL.createObjectURL){
+      img.src = URL.createObjectURL(f); img.hidden = false;
+    } else { img.hidden = true; img.removeAttribute('src'); }
+    box.classList.add('show');
+  });
+
+  function val(id){ var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+  function line(label, v){ return v ? (label + ': ' + v + '\n') : ''; }
+
+  // ---- submit ----
+  document.getElementById('proForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var err = document.getElementById('proErr');
+    var missing = [];
+    if (!currentTrack) missing.push('what the job is');
+    if (!val('name')) missing.push('your name');
+    if (!val('contact')) missing.push('an email or phone number');
+    if (missing.length){
+      err.textContent = 'Please add ' + missing.join(', ').replace(/, ([^,]*)$/, ' and $1') + '.';
+      err.classList.add('show');
+      return;
+    }
+    err.classList.remove('show');
+
+    var body =
+      'GREENTREE PRINTS PRO DESK — QUOTE REQUEST\n' +
+      '--------------------------------------\n' +
+      line('Job', trackNames[currentTrack]);
+    if (currentTrack === 'stamp'){
+      body += line('Stamp text', val('sText')) +
+              line('Size', picks.sSize) +
+              line('Year insert', picks.sYear) +
+              line('Stamps', val('sQty') || '1');
+    } else if (currentTrack === 'bobbin'){
+      body += line('Wheel', val('bWheel')) +
+              line('Sets of three', val('bSets') || '1') +
+              line('Colour', val('bColour'));
+    } else if (currentTrack === 'branded'){
+      body += line('Piece', val('pItem')) +
+              line('Quantity', val('pQty')) +
+              line('Lives', picks.pWhere);
+    } else if (currentTrack === 'other'){
+      body += line('Description', val('oDesc'));
+    }
+    body += line('Logo file', logo ? logo.name + ' (attach it to this email)' : '') +
+            line('Logo link', val('logoLink')) +
+            line('Needed', picks.when) +
+            line('Notes', val('notes')) +
+            line('Business', val('biz')) +
+            line('Name', val('name')) +
+            line('Contact', val('contact')) +
+            line('Location', val('city'));
+    if (logo){ body += '\n[Reminder: attach ' + logo.name + ' before sending.]\n'; }
+
+    var subject = 'Pro Desk quote: ' + trackNames[currentTrack] + (val('biz') ? ' — ' + val('biz') : '');
+    var mail = document.getElementById('mailAddr');
+    mail.textContent = CONTACT_EMAIL;
+    mail.href = 'mailto:' + CONTACT_EMAIL;
+    var rem = document.getElementById('attachReminder');
+    if (logo){ document.getElementById('attachName').textContent = logo.name; rem.hidden = false; } else { rem.hidden = true; }
+    document.getElementById('proSummary').textContent = body;
+    var ok = document.getElementById('proSuccess');
+    ok.classList.add('show');
+    ok.scrollIntoView({behavior:'smooth', block:'nearest'});
+    if (CONTACT_EMAIL && CONTACT_EMAIL.indexOf('example.com') === -1){
+      window.location.href = 'mailto:' + CONTACT_EMAIL +
+        '?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(body);
+    }
+  });
+
+  // ---- copy button ----
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    var btn = this;
+    var text = document.getElementById('proSummary').textContent;
+    if (!navigator.clipboard) return;
+    navigator.clipboard.writeText(text).then(function(){
+      btn.textContent = 'Copied ✓';
+      setTimeout(function(){ btn.textContent = 'Copy request text'; }, 1800);
+    });
+  });
+
+  // ---- scroll reveals ----
+  (function(){
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    var targets = document.querySelectorAll('.sec-head, .path-card, .step, .panel, .notes, .chip');
+    targets.forEach(function(el){ el.classList.add('reveal'); });
+    document.querySelectorAll('.chip').forEach(function(chip, i){ chip.style.transitionDelay = (i % 12) * 0.045 + 's'; });
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target); }
+      });
+    }, {threshold:.12, rootMargin:'0px 0px -6% 0px'});
+    targets.forEach(function(el){ io.observe(el); });
+  })();
+</script>
+</body>
+</html>

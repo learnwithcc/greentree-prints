@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "has": [{ "type": "host", "value": "www.greentreeprints.pro" }],
+      "status": 308,
+      "headers": { "Location": "https://greentreeprints.pro/$1" }
+    },
+    {
+      "src": "/",
+      "has": [{ "type": "host", "value": "greentreeprints.pro" }],
+      "dest": "/pro-desk/index.html"
+    }
+  ]
+}

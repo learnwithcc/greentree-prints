@@ -51,6 +51,10 @@
   .wm-sub{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cedar)}
   .nav .mono{display:none}
   @media(min-width:640px){.nav .mono{display:block}}
+  .nav-right{display:flex;align-items:center;gap:18px}
+  .nav-pro{font-weight:700;font-size:.92rem;line-height:1.4;text-underline-offset:3px;display:inline-block;padding:12px 0}
+  .nav-long{display:none}
+  @media(min-width:900px){.nav-long{display:inline}}
 
   /* ---------- hero ---------- */
   .hero{
@@ -255,7 +259,7 @@
       </svg>
       <span class="wm-text"><b>Greentree Prints</b><span class="wm-sub">3D print studio</span></span>
     </a>
-    <span class="mono">Greentree Village · Burnaby BC</span>
+    <span class="nav-right"><span class="mono">Greentree Village · Burnaby BC</span><a class="nav-pro" href="/pro">For <span class="nav-long">contractors &amp; </span>business<span class="nav-long">es</span></a></span>
   </div>
 </header>
 
