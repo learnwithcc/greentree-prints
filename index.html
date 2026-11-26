@@ -197,6 +197,8 @@
   }
   .err{display:none;color:#A33B2A;font-size:.88rem;margin-top:10px;font-weight:700}
   .err.show{display:block}
+  .offer{margin-bottom:6px;background:#FDF3E1;border:1.5px solid var(--gold);border-radius:12px;padding:12px 14px;font-weight:700;font-size:.95rem}
+  .hint{font-size:.86rem;color:#6B7F72;margin-bottom:8px}
 
   /* referral */
   .referral{
@@ -344,6 +346,7 @@
         <p>Works with Printables, MakerWorld, Thingiverse, Thangs, Cults3D — or any page showing the thing you want.</p>
       </div>
       <form class="panel" id="quickForm" novalidate>
+        <p class="offer" data-offer hidden>Free personalised gingerbread ornament with every order before December 9th, a $18 value.</p>
         <label for="qUrl">Model link</label>
         <input type="url" id="qUrl" inputmode="url" placeholder="https://www.printables.com/model/…" required>
         <div class="row">
@@ -370,11 +373,17 @@
         </div>
         <label for="qRef">Referred by a neighbour? <span class="opt">— their name gets you both $5 off</span></label>
         <input type="text" id="qRef" placeholder="Who sent you?">
+        <div data-offer hidden>
+          <label for="qOrn">Name for your free gingerbread ornament <span class="opt">— optional</span></label>
+          <p class="hint" id="qOrnHint">Your choice of name, and a child's name is perfect. I'll print it on the Santa hat exactly as you type it. Names up to 9 letters (like Valentina) fit at full size; longer names print a little smaller. The year on the ornament will be 2026.</p>
+          <input type="text" id="qOrn" maxlength="12" autocomplete="off" aria-describedby="qOrnHint">
+        </div>
         <div class="submit-row">
           <button class="btn btn-gold" type="submit">Send the link</button>
           <span class="fine">You'll get a price before anything prints. No surprises.</span>
         </div>
         <p class="err" id="quickErr">Please add the model link, your name, and a way to reach you.</p>
+        <p class="err" id="quickOrnErr">Ornament names can use letters and spaces only, up to 12 characters.</p>
         <div class="success" id="quickSuccess">
           <h4>Request ready ✓</h4>
           <p>Here's what's being sent — a copy is below in case your mail app didn't open.</p>
@@ -393,6 +402,7 @@
         <h2>Tell me what kind of thing it is — I'll ask the right questions.</h2>
       </div>
       <form class="panel" id="reqForm" novalidate>
+        <p class="offer" data-offer hidden>Free personalised gingerbread ornament with every order before December 9th, a $18 value.</p>
         <label id="trackLabel">What are you looking for?</label>
         <div class="seg-group" role="group" aria-labelledby="trackLabel">
           <button type="button" class="seg" data-track="repair" aria-pressed="false">Fix / replace a part</button>
@@ -553,6 +563,11 @@
           </div>
           <label for="gRef">Referred by a neighbour? <span class="opt">— their name gets you both $5 off</span></label>
           <input type="text" id="gRef" placeholder="Who sent you?">
+          <div data-offer hidden>
+            <label for="gOrn">Name for your free gingerbread ornament <span class="opt">— optional</span></label>
+            <p class="hint" id="gOrnHint">Your choice of name, and a child's name is perfect. I'll print it on the Santa hat exactly as you type it. Names up to 9 letters (like Valentina) fit at full size; longer names print a little smaller. The year on the ornament will be 2026.</p>
+            <input type="text" id="gOrn" maxlength="12" autocomplete="off" aria-describedby="gOrnHint">
+          </div>
           <label id="heardLabel">How did you hear about this? <span class="opt">— helps me know where to post</span></label>
           <div class="seg-group" role="group" aria-labelledby="heardLabel" data-pick="gHeard">
             <button type="button" class="seg" data-val="Community board" aria-pressed="false">Community board</button>
@@ -565,6 +580,7 @@
             <span class="fine">I'll follow up with one or two questions, then a firm price.</span>
           </div>
           <p class="err" id="reqErr">Please add your name and a way to reach you.</p>
+          <p class="err" id="reqOrnErr">Ornament names can use letters and spaces only, up to 12 characters.</p>
           <div class="success" id="reqSuccess">
             <h4>Request ready ✓</h4>
             <p>Here's what's being sent — a copy is below in case your mail app didn't open.</p>
@@ -700,6 +716,24 @@
   function val(id){ var el = document.getElementById(id); return el ? el.value.trim() : ''; }
   function line(label, v){ return v ? (label + ': ' + v + '\n') : ''; }
 
+  // ---- holiday ornament offer: shown until the end of Dec 9, 2026 in Vancouver ----
+  // BC is on permanent UTC-7 since March 2026 (tzdata 2026e/f), so Dec 10, 2026 00:00 Vancouver is 07:00 UTC.
+  // A fixed instant, so the visitor's timezone (or stale tz data) doesn't matter.
+  var OFFER_END = Date.UTC(2026, 11, 10, 7, 0, 0);
+  var OFFER_ON = Date.now() < OFFER_END;
+  if (OFFER_ON){
+    document.querySelectorAll('[data-offer]').forEach(function(el){ el.hidden = false; });
+  }
+  var ORN_OK = /^[A-Za-zÀ-ÖØ-öø-ɏ ]+$/;
+  function ornament(id){ return OFFER_ON ? val(id) : ''; }
+  function ornamentOk(id, errId){
+    var v = ornament(id), err = document.getElementById(errId);
+    if (v && (v.length > 12 || !ORN_OK.test(v))){ err.classList.add('show'); document.getElementById(id).focus(); return false; }
+    err.classList.remove('show');
+    return true;
+  }
+  function ornamentLine(id){ var v = ornament(id); return line('Free ornament name', v ? '"' + v + '"' : ''); }
+
   function sendRequest(subject, body, summaryEl, successEl){
     summaryEl.textContent = body;
     successEl.classList.add('show');
@@ -717,6 +751,7 @@
     var err = document.getElementById('quickErr');
     if (!val('qUrl') || !val('qName') || !val('qContact')){ err.classList.add('show'); return; }
     err.classList.remove('show');
+    if (!ornamentOk('qOrn', 'quickOrnErr')) return;
     var body =
       'GREENTREE PRINTS — QUICK LANE REQUEST\n' +
       '--------------------------------------\n' +
@@ -726,7 +761,8 @@
       line('Notes', val('qNotes')) +
       line('Name', val('qName')) +
       line('Contact', val('qContact')) +
-      line('Referred by', val('qRef'));
+      line('Referred by', val('qRef')) +
+      ornamentLine('qOrn');
     sendRequest('Print request (quick lane)', body, document.getElementById('quickSummary'), document.getElementById('quickSuccess'));
   });
 
@@ -736,6 +772,7 @@
     var err = document.getElementById('reqErr');
     if (!val('gName') || !val('gContact')){ err.classList.add('show'); return; }
     err.classList.remove('show');
+    if (!ornamentOk('gOrn', 'reqOrnErr')) return;
     var body =
       'GREENTREE PRINTS — REQUEST\n' +
       '--------------------------------------\n' +
@@ -769,6 +806,7 @@
             line('Name', val('gName')) +
             line('Contact', val('gContact')) +
             line('Referred by', val('gRef')) +
+            ornamentLine('gOrn') +
             line('Heard via', picks.gHeard);
     sendRequest('Print request', body, document.getElementById('reqSummary'), document.getElementById('reqSuccess'));
   });
