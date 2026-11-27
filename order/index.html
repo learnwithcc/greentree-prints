@@ -209,6 +209,7 @@
   .btn-back[hidden]{display:none}
   .enter-hint{display:none;font-size:.78rem;color:var(--muted);text-align:right;margin-top:8px}
   @media (pointer:fine){.enter-hint{display:block}}
+  .enter-hint[hidden]{display:none}
 
   footer{border-top:1px solid var(--line);padding:30px 0 40px;color:#5A6F62;font-size:.9rem;margin-top:40px}
   .foot-grid{display:flex;flex-wrap:wrap;gap:14px 30px;justify-content:space-between;align-items:center}
@@ -651,6 +652,7 @@
     $('bar').setAttribute('aria-valuenow', idx + 1);
     $('bar').setAttribute('aria-valuetext', 'Step ' + (idx + 1) + ' of ' + steps.length + ': ' + step.name);
     $('backBtn').hidden = idx === 0;
+    $('enterHint').hidden = step.id === 'review';  // Enter deliberately doesn't pay
     clearError();
     refresh();
     saveDraft();
@@ -947,11 +949,18 @@
     var target = location.hash.slice(1) || saved || 'item';
     var steps = activeSteps(), idx = stepIndex(steps, target);
     if (idx < 0) idx = 0;
-    // Seed one history entry per earlier step, so Back walks through them in order.
-    history.replaceState(null, '', '#' + steps[0].id);
-    for (var i = 1; i <= idx; i++) history.pushState(null, '', '#' + steps[i].id);
-    var got = show(steps[idx].id, false);
-    if (got !== steps[idx].id) history.replaceState(null, '', '#' + got);
+    // Don't land past an earlier step that still needs an answer.
+    for (var j = 0; j < idx; j++){ if (steps[j].check && steps[j].check()){ idx = j; break; } }
+    // On a fresh visit (e.g. back from Stripe's cancel page), add one history entry per
+    // earlier step so Back walks through them. A reload or Back/Forward already has them.
+    var nav = (window.performance && performance.getEntriesByType && performance.getEntriesByType('navigation')[0]) || {};
+    if (nav.type !== 'reload' && nav.type !== 'back_forward'){
+      history.replaceState(null, '', '#' + steps[0].id);
+      for (var i = 1; i <= idx; i++) history.pushState(null, '', '#' + steps[i].id);
+    } else {
+      history.replaceState(null, '', '#' + steps[idx].id);
+    }
+    show(steps[idx].id, false);
   })();
 </script>
 </body>

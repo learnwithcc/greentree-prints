@@ -14,7 +14,8 @@
 
 const PRICING = require('../order/pricing.js');
 
-const LIMITS = { name: 80, email: 120, phone: 30, colour: 40, link: 500, notes: 1000, referral: 60 };
+// colour can be two colours ("Glow in the dark (special) + Forest green"), so it gets more room.
+const LIMITS = { name: 80, email: 120, phone: 30, colour: 100, link: 500, notes: 1000, referral: 60 };
 const META_MAX = 500; // Stripe metadata values are capped at 500 characters.
 const ORN_OK = /^[A-Za-zÀ-ÖØ-öø-ɏ ]+$/;
 const EMAIL_OK = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
