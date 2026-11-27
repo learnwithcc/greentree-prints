@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order a print — Greentree Prints, Burnaby BC</title>
+<meta name="description" content="Configure a custom 3D print, see the price, and pay online. Porch pickup in Greentree Village, Burnaby.">
+<link rel="canonical" href="https://greentreeprints.ca/order">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 30'%3E%3Crect x='10' y='24' width='6' height='5' rx='1.5' fill='%23A9683B'/%3E%3Crect x='4' y='19' width='18' height='4' rx='2' fill='%232E5138'/%3E%3Crect x='6' y='14' width='14' height='4' rx='2' fill='%233E9159'/%3E%3Crect x='8' y='9' width='10' height='4' rx='2' fill='%234CAF6D'/%3E%3Crect x='10' y='4' width='6' height='4' rx='2' fill='%2357B577'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Karla:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F0F1E3;
+    --paper-deep:#E6E9D4;
+    --ink:#22392E;
+    --spruce:#2E5138;
+    --fil-green:#4CAF6D;
+    --cedar:#A9683B;
+    --gold:#E9A13B;
+    --gold-deep:#C9821E;
+    --line:rgba(34,57,46,.16);
+    --radius:14px;
+    --shadow:0 2px 6px rgba(34,57,46,.08), 0 12px 32px rgba(34,57,46,.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Karla',sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;line-height:1.12;letter-spacing:-.01em}
+  .mono{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--spruce)}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+  a{color:var(--spruce)}
+
+  /* header */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(240,241,227,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px}
+  .wordmark{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+  .wordmark svg{display:block}
+  .wordmark b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.05rem}
+  .wm-text{display:flex;flex-direction:column;line-height:1.15}
+  .wm-sub{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#965C34}
+  .nav-link{font-weight:700;font-size:.92rem;line-height:1.4;text-underline-offset:3px;display:inline-block;padding:12px 0}
+
+  /* page */
+  .page-head{
+    background:
+      repeating-linear-gradient(180deg, transparent 0 7px, rgba(34,57,46,.035) 7px 8px),
+      linear-gradient(180deg, var(--paper) 0%, var(--paper-deep) 100%);
+    border-bottom:1px solid var(--line);
+    padding:34px 0 30px;
+  }
+  @media(min-width:820px){.page-head{padding:56px 0 44px}}
+  .page-head h1{font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;margin:12px 0 12px;max-width:40rem}
+  .page-head p{color:#3A5245;max-width:36rem}
+  main section{padding:36px 0 64px}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-family:'Karla',sans-serif;font-weight:700;font-size:1rem;
+    padding:14px 22px;border-radius:999px;border:2px solid transparent;
+    cursor:pointer;text-decoration:none;transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+    min-height:48px;
+  }
+  .btn:hover{transform:translateY(-1px)}
+  .btn:active{transform:scale(.98)}
+  .btn[disabled]{opacity:.6;cursor:wait;transform:none}
+  .btn-gold{background:var(--gold);color:#2B1E07;box-shadow:0 2px 0 var(--gold-deep)}
+  .btn-gold:hover{background:#F0AC48}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+  .btn-ghost:hover{background:rgba(34,57,46,.06)}
+
+  /* form */
+  .order-grid{display:grid;gap:22px;align-items:start}
+  @media(min-width:900px){.order-grid{grid-template-columns:1.55fr 1fr;gap:28px}}
+  .panel{
+    background:#fff;border:1px solid var(--line);border-radius:18px;
+    padding:26px 20px;box-shadow:var(--shadow);
+  }
+  @media(min-width:640px){.panel{padding:34px 32px}}
+  .step-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.15rem;margin-top:30px;padding-top:22px;border-top:1px dashed var(--line)}
+  .step-title:first-of-type{margin-top:0;padding-top:0;border-top:0}
+  .step-title .mono{display:block;color:#965C34;margin-bottom:2px}
+  label,.label{display:block;font-weight:700;font-size:.95rem;margin:18px 0 6px}
+  label .opt,.label .opt{font-weight:400;color:#5E7064;font-size:.85rem}
+  input[type=text],input[type=url],input[type=email],input[type=tel],input[type=number],textarea,select{
+    width:100%;font-family:'Karla',sans-serif;font-size:1rem;color:var(--ink);
+    background:var(--paper);border:1.5px solid var(--line);border-radius:10px;
+    padding:13px 14px;min-height:48px;
+  }
+  textarea{min-height:96px;resize:vertical}
+  input:focus,textarea:focus,select:focus,.btn:focus-visible,.seg:focus-visible{
+    outline:3px solid rgba(76,175,109,.55);outline-offset:2px;border-color:var(--fil-green);
+  }
+  .row{display:grid;gap:0 16px}
+  @media(min-width:640px){.row{grid-template-columns:1fr 1fr}}
+  .seg-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .seg{
+    font-family:'Karla',sans-serif;font-weight:700;font-size:.92rem;text-align:left;
+    padding:10px 16px;border-radius:999px;cursor:pointer;
+    background:var(--paper);border:1.5px solid var(--line);color:var(--ink);
+    min-height:44px;transition:background .12s ease;
+  }
+  .seg:hover{background:var(--paper-deep)}
+  .seg[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .seg small{font-weight:400;opacity:.8;margin-left:6px}
+  .seg-group.cards{display:grid;gap:8px}
+  @media(min-width:640px){.seg-group.cards{grid-template-columns:1fr 1fr}}
+  .seg-group.cards .seg{border-radius:12px;padding:12px 14px}
+  .seg-group.cards .seg small{display:block;margin:2px 0 0}
+  .hint{font-size:.86rem;color:#5E7064;margin-top:6px}
+  .offer{margin-bottom:18px;background:#FDF3E1;border:1.5px solid var(--gold);border-radius:12px;padding:12px 14px;font-weight:700;font-size:.95rem}
+  .err{display:none;color:#A33B2A;font-size:.88rem;margin-top:10px;font-weight:700}
+  .err.show{display:block}
+
+  /* price card */
+  .price-card{
+    background:#fff;border:1px solid var(--line);border-top:5px solid var(--gold);
+    border-radius:18px;padding:24px 22px;box-shadow:var(--shadow);
+  }
+  @media(min-width:900px){.price-card{position:sticky;top:86px}}
+  .price-card h2{font-size:1.2rem;margin:8px 0 4px}
+  .total{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:2.4rem;line-height:1.1;margin:6px 0 2px}
+  .total small{font-family:'Karla',sans-serif;font-size:.9rem;font-weight:500;color:#5E7064;margin-left:4px}
+  .breakdown{list-style:none;margin:10px 0 0;font-size:.92rem;color:#3A5245;display:grid;gap:4px}
+  .breakdown li{display:flex;justify-content:space-between;gap:12px}
+  .breakdown li.sum{border-top:1px dashed var(--line);padding-top:6px;margin-top:2px;font-weight:700;color:var(--ink)}
+  .quote-note{background:var(--paper);border-radius:12px;padding:12px 14px;margin-top:12px;font-size:.92rem}
+  .quote-note ul{margin:6px 0 0 18px}
+  .price-card .btn{width:100%;margin-top:18px}
+  .price-card .fine{display:block;font-size:.85rem;color:#5E7064;margin-top:10px}
+  .success{
+    display:none;margin-top:18px;background:#EAF5EE;border:1.5px solid var(--fil-green);
+    border-radius:12px;padding:16px;
+  }
+  .success.show{display:block}
+  .success h3{font-size:1.05rem;margin-bottom:6px}
+  .success pre{
+    white-space:pre-wrap;font-family:'IBM Plex Mono',monospace;font-size:.74rem;
+    background:#fff;border-radius:8px;padding:12px;margin:10px 0;max-height:220px;overflow:auto;
+  }
+  .success .btn{margin-top:6px}
+
+  footer{border-top:1px solid var(--line);padding:34px 0 44px;color:#5A6F62;font-size:.9rem}
+  .foot-grid{display:flex;flex-wrap:wrap;gap:14px 30px;justify-content:space-between;align-items:center}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="wordmark" href="/" aria-label="Greentree Prints home">
+      <svg width="26" height="30" viewBox="0 0 26 30" fill="none" aria-hidden="true">
+        <rect x="10" y="24" width="6" height="5" rx="1.5" fill="#A9683B"/>
+        <rect x="4" y="19" width="18" height="4" rx="2" fill="#2E5138"/>
+        <rect x="6" y="14" width="14" height="4" rx="2" fill="#3E9159"/>
+        <rect x="8" y="9" width="10" height="4" rx="2" fill="#4CAF6D"/>
+        <rect x="10" y="4" width="6" height="4" rx="2" fill="#57B577"/>
+      </svg>
+      <span class="wm-text"><b>Greentree Prints</b><span class="wm-sub">3D print studio</span></span>
+    </a>
+    <a class="nav-link" href="/">Not sure yet? Ask first</a>
+  </div>
+</header>
+
+<main>
+  <div class="page-head">
+    <div class="wrap">
+      <span class="mono">Order online</span>
+      <h1>Set up your print, see the price, and pay.</h1>
+      <p>For when you know what you want. Pick the options below and the price updates as you go. If something needs a closer look, the button turns into a quote request and nothing is charged.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <noscript><p class="panel">This page needs JavaScript to work out prices. You can still <a href="/#request">send a request from the homepage</a>.</p></noscript>
+      <form id="orderForm" class="order-grid" novalidate>
+        <div class="panel">
+          <p class="offer" data-offer hidden>Free personalised gingerbread ornament with every order before December 9th, a $18 value.</p>
+
+          <h2 class="step-title"><span class="mono">Step 1</span>What are you ordering?</h2>
+          <div class="seg-group cards" role="group" aria-label="What are you ordering?" id="itemGroup"></div>
+
+          <div id="sizeBlock" hidden>
+            <span class="label" id="sizeLabel">How big is it?</span>
+            <div class="seg-group cards" role="group" aria-labelledby="sizeLabel" id="sizeGroup"></div>
+          </div>
+
+          <label for="oLink">Model link <span class="opt" id="linkOpt">— optional</span></label>
+          <input type="url" id="oLink" inputmode="url" maxlength="500" placeholder="https://www.printables.com/model/…">
+          <p class="hint">Printables, MakerWorld, Thingiverse, Thangs, Cults3D — or any page showing the thing.</p>
+
+          <h2 class="step-title"><span class="mono">Step 2</span>How should it look?</h2>
+          <div class="row">
+            <div>
+              <label for="oQty">How many?</label>
+              <input type="number" id="oQty" inputmode="numeric" min="1" max="999" step="1" value="1">
+            </div>
+            <div>
+              <label for="oColour">Colour</label>
+              <select id="oColour"></select>
+            </div>
+          </div>
+          <div id="colourOtherBlock" hidden>
+            <label for="oColourOther">Which colour? <span class="opt">— special colours can add a few days</span></label>
+            <input type="text" id="oColourOther" maxlength="40" placeholder="Glow in the dark, transparent blue, match a sample…">
+          </div>
+
+          <span class="label" id="materialLabel">Material</span>
+          <div class="seg-group" role="group" aria-labelledby="materialLabel" id="materialGroup"></div>
+          <p class="hint" id="materialHint"></p>
+
+          <span class="label" id="finishLabel">Finish</span>
+          <div class="seg-group" role="group" aria-labelledby="finishLabel" id="finishGroup"></div>
+
+          <div id="textBlock" hidden>
+            <label for="oText"><span id="textLabel">Custom text</span> <span class="opt" id="textOpt"></span></label>
+            <input type="text" id="oText" autocomplete="off" aria-describedby="textHint">
+            <p class="hint" id="textHint">Printed exactly as you type it — check the spelling.</p>
+          </div>
+
+          <label for="oNotes">Design notes <span class="opt">— optional</span></label>
+          <textarea id="oNotes" maxlength="1000" placeholder="Which version of the model, size tweaks, where it'll be used, a deadline…"></textarea>
+
+          <h2 class="step-title"><span class="mono">Step 3</span>Who's it for?</h2>
+          <div class="row">
+            <div>
+              <label for="oName">Your name</label>
+              <input type="text" id="oName" autocomplete="name" maxlength="80">
+            </div>
+            <div>
+              <label for="oEmail">Email <span class="opt">— for your receipt</span></label>
+              <input type="email" id="oEmail" autocomplete="email" maxlength="120">
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label for="oPhone">Phone <span class="opt">— optional, for a text when it's ready</span></label>
+              <input type="tel" id="oPhone" autocomplete="tel" maxlength="30">
+            </div>
+            <div>
+              <label for="oRef">Referred by a neighbour? <span class="opt">— optional</span></label>
+              <input type="text" id="oRef" maxlength="60" placeholder="Who sent you?">
+            </div>
+          </div>
+          <p class="hint">A referral gets you both $5 off. Online orders are charged in full, and I'll refund your $5 once I've checked the referral.</p>
+          <div data-offer hidden>
+            <label for="oOrn">Name for your free gingerbread ornament <span class="opt">— optional</span></label>
+            <p class="hint" id="oOrnHint" style="margin:0 0 8px">Your choice of name, and a child's name is perfect. I'll print it on the Santa hat exactly as you type it. Names up to 9 letters (like Valentina) fit at full size; longer names print a little smaller. The year on the ornament will be 2026.</p>
+            <input type="text" id="oOrn" maxlength="12" autocomplete="off" aria-describedby="oOrnHint">
+          </div>
+        </div>
+
+        <aside class="price-card" aria-live="polite">
+          <span class="mono">Your price</span>
+          <div id="priceView">
+            <h2>Pick what you're ordering</h2>
+            <p class="hint">The price shows up here as you choose.</p>
+          </div>
+          <button class="btn btn-gold" type="submit" id="submitBtn">Choose your options</button>
+          <span class="fine" id="submitFine">Prices in Canadian dollars. Porch pickup in Greentree Village, Burnaby.</span>
+          <p class="err" id="formErr" role="alert"></p>
+          <div class="success" id="payFallback">
+            <h3>Online payment is switched off right now</h3>
+            <p>Nothing was charged. You can send the same order by email instead, and I'll reply with a payment link.</p>
+            <button class="btn btn-ghost" type="button" id="emailInstead">Email this order instead</button>
+          </div>
+          <div class="success" id="quoteSuccess">
+            <h3>Request ready ✓</h3>
+            <p>Here's what's being sent — a copy is below in case your mail app didn't open. I'll reply with a firm price, usually the same day.</p>
+            <pre id="quoteSummary"></pre>
+            <button class="btn btn-ghost" type="button" id="copyQuote">Copy request text</button>
+          </div>
+        </aside>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <span><b style="font-family:'Bricolage Grotesque',sans-serif;color:var(--ink)">Greentree Prints</b> — a neighbour with a very busy 3D printer.</span>
+    <span class="mono">Greentree Village · Burnaby BC</span>
+  </div>
+</footer>
+
+<script src="/order/pricing.js"></script>
+<script>
+  // Same inbox as the homepage forms. Quote requests open the visitor's mail app addressed here.
+  var CONTACT_EMAIL = "hirechriscameron@gmail.com";
+
+  var P = window.GT_PRICING;
+  var DRAFT_KEY = 'gt-order-draft';
+  var SUMMARY_KEY = 'gt-order-summary';
+  var state = { item: '', size: '', material: 'pla', finish: 'standard' };
+
+  function $(id){ return document.getElementById(id); }
+  function val(id){ var el = $(id); return el ? el.value.trim() : ''; }
+  function line(label, v){ return v ? (label + ': ' + v + '\n') : ''; }
+  function money(n){ return '$' + (n % 1 ? n.toFixed(2) : String(n)); }
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+  // ---- holiday ornament offer (window is set in pricing.js) ----
+  var OFFER_ON = Date.now() < P.ornamentOfferEnds;
+  if (OFFER_ON){
+    document.querySelectorAll('[data-offer]').forEach(function(el){ el.hidden = false; });
+  }
+  var ORN_OK = /^[A-Za-zÀ-ÖØ-öø-ɏ ]+$/;
+  function ornament(){ return OFFER_ON ? val('oOrn') : ''; }
+
+  // ---- build the option buttons from the price table ----
+  function priceTag(n){ return n ? '+' + money(n) : ''; }
+  function makeGroup(groupId, table, key, describe){
+    var group = $(groupId);
+    Object.keys(table).forEach(function(k){
+      var opt = table[k];
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'seg';
+      btn.setAttribute('aria-pressed', 'false');
+      btn.setAttribute('data-val', k);
+      btn.innerHTML = esc(opt.label) + (describe(opt) ? '<small>' + esc(describe(opt)) + '</small>' : '');
+      btn.addEventListener('click', function(){
+        state[key] = k;
+        sync();
+        update();
+      });
+      group.appendChild(btn);
+    });
+  }
+  makeGroup('itemGroup', P.items, 'item', function(o){
+    if (o.quote) return 'priced by quote';
+    if (typeof o.price === 'number') return money(o.price) + ' each';
+    return 'priced by size';
+  });
+  makeGroup('sizeGroup', P.sizes, 'size', function(o){
+    return o.hint + (o.quote ? '' : ' · ' + money(o.price) + ' each');
+  });
+  makeGroup('materialGroup', P.materials, 'material', function(o){ return o.quote ? 'quote' : priceTag(o.price); });
+  makeGroup('finishGroup', P.finishes, 'finish', function(o){ return priceTag(o.price); });
+
+  (function(){
+    var sel = $('oColour');
+    P.colours.concat([P.otherColourLabel]).forEach(function(c){
+      var o = document.createElement('option');
+      o.value = c; o.textContent = c;
+      sel.appendChild(o);
+    });
+    sel.addEventListener('change', function(){ $('colourOtherBlock').hidden = sel.value !== P.otherColourLabel; });
+  })();
+  $('oText').maxLength = P.customText.maxLength;
+
+  // Reflect state in the buttons and show/hide the blocks that depend on the item.
+  function sync(){
+    ['item','size','material','finish'].forEach(function(key){
+      var group = $(key + 'Group');
+      group.querySelectorAll('.seg').forEach(function(b){
+        b.setAttribute('aria-pressed', b.getAttribute('data-val') === state[key] ? 'true' : 'false');
+      });
+    });
+    var item = P.items[state.item];
+    $('sizeBlock').hidden = !(item && item.usesSize);
+    $('linkOpt').textContent = item && item.needsLink ? '— so I print the right thing' : '— optional';
+    var showText = item && item.text !== 'none';
+    $('textBlock').hidden = !showText;
+    if (showText){
+      $('textLabel').textContent = item.text === 'required' ? 'Text to print' : 'Add a name or short text';
+      $('textOpt').textContent = item.text === 'required'
+        ? '— up to ' + P.customText.maxLength + ' characters'
+        : (item.quote ? '— optional' : '— optional, +' + money(P.customText.price) + ' each');
+    }
+    var mat = P.materials[state.material];
+    $('materialHint').textContent = mat ? mat.label + ': ' + mat.hint + '.' : '';
+  }
+
+  function colour(){
+    var c = $('oColour').value;
+    return c === P.otherColourLabel ? (val('oColourOther') ? val('oColourOther') + ' (special)' : '') : c;
+  }
+
+  function order(){
+    var item = P.items[state.item];
+    return {
+      item: state.item,
+      size: item && item.usesSize ? state.size : '',
+      material: state.material,
+      finish: state.finish,
+      colour: colour(),
+      quantity: parseInt($('oQty').value, 10) || 1,
+      text: item && item.text !== 'none' ? val('oText') : '',
+      link: val('oLink'),
+      notes: val('oNotes'),
+      name: val('oName'),
+      email: val('oEmail'),
+      phone: val('oPhone'),
+      referral: val('oRef'),
+      ornament: ornament()
+    };
+  }
+
+  var current = null;
+  function update(){
+    var o = order(), view = $('priceView'), btn = $('submitBtn');
+    $('formErr').classList.remove('show');
+    if (!o.item){
+      current = null;
+      btn.textContent = 'Choose your options';
+      return;
+    }
+    current = P.calculate(o);
+    if (current.quote){
+      view.innerHTML = '<h2>This one needs a quote</h2>' +
+        '<div class="quote-note">Nothing is charged. I\'ll look at the details and reply with a firm price, usually the same day.' +
+        '<ul>' + current.reasons.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join('') + '</ul></div>';
+      btn.textContent = 'Request a quote';
+      $('submitFine').textContent = 'Opens your email app with everything filled in.';
+    } else {
+      var rows = '<li><span>' + money(current.unit) + ' each × ' + current.quantity + '</span><span>' + money(current.subtotal) + '</span></li>';
+      if (current.topUp) rows += '<li><span>Small-job minimum (jobs start at ' + money(P.minimumJob) + ')</span><span>+' + money(current.topUp) + '</span></li>';
+      rows += '<li class="sum"><span>Total</span><span>' + money(current.total) + '</span></li>';
+      view.innerHTML = '<div class="total">' + money(current.total) + '<small>CAD</small></div>' +
+        '<p class="hint" style="margin:0">' + esc(current.parts.join(' · ')) + '</p>' +
+        '<ul class="breakdown">' + rows + '</ul>';
+      btn.textContent = 'Pay ' + money(current.total) + ' securely';
+      $('submitFine').textContent = 'Secure card payment through Stripe. Porch pickup in Greentree Village, Burnaby.';
+    }
+  }
+
+  ['oQty','oText','oLink','oColour','oColourOther'].forEach(function(id){
+    $(id).addEventListener('input', update);
+    $(id).addEventListener('change', update);
+  });
+
+  // ---- plain-text summary (used for quote emails and the thanks page) ----
+  function summary(o, heading){
+    var item = P.items[o.item];
+    var body = heading + '\n--------------------------------------\n' +
+      line('Item', item ? item.label : '') +
+      line('Size', o.size && P.sizes[o.size] ? P.sizes[o.size].label : '') +
+      line('Material', P.materials[o.material] ? P.materials[o.material].label : '') +
+      line('Colour', o.colour) +
+      line('Finish', P.finishes[o.finish] ? P.finishes[o.finish].label : '') +
+      line('Quantity', String(o.quantity)) +
+      line('Custom text', o.text ? '"' + o.text + '"' : '') +
+      line('Model link', o.link) +
+      line('Design notes', o.notes) +
+      line('Name', o.name) +
+      line('Email', o.email) +
+      line('Phone', o.phone) +
+      line('Referred by', o.referral) +
+      line('Free ornament name', o.ornament ? '"' + o.ornament + '"' : '');
+    if (current && !current.quote) body += line('Price', money(current.total) + ' CAD (' + money(current.unit) + ' each × ' + current.quantity + (current.topUp ? ' + small-job minimum' : '') + ')');
+    return body;
+  }
+
+  function sendByEmail(subject, body){
+    $('quoteSummary').textContent = body;
+    $('quoteSuccess').classList.add('show');
+    $('quoteSuccess').scrollIntoView({behavior:'smooth', block:'nearest'});
+    if (CONTACT_EMAIL && CONTACT_EMAIL.indexOf('example.com') === -1){
+      window.location.href = 'mailto:' + CONTACT_EMAIL +
+        '?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(body);
+    }
+  }
+
+  function fail(msg){
+    var err = $('formErr');
+    err.textContent = msg;
+    err.classList.add('show');
+  }
+
+  // ---- draft: kept for this tab so "back to your order" after cancelling restores it ----
+  var FIELDS = ['oLink','oQty','oColour','oColourOther','oText','oNotes','oName','oEmail','oPhone','oRef','oOrn'];
+  function saveDraft(){
+    var d = { state: state, fields: {} };
+    FIELDS.forEach(function(id){ d.fields[id] = $(id).value; });
+    try { sessionStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch (e) {}
+  }
+  (function restore(){
+    var d = null;
+    try { d = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || 'null'); } catch (e) {}
+    if (!d) return;
+    ['item','size','material','finish'].forEach(function(k){ if (d.state && d.state[k] !== undefined) state[k] = d.state[k]; });
+    FIELDS.forEach(function(id){ if (d.fields && typeof d.fields[id] === 'string') $(id).value = d.fields[id]; });
+    $('colourOtherBlock').hidden = $('oColour').value !== P.otherColourLabel;
+  })();
+
+  sync();
+  update();
+
+  // ---- submit: pay online, or send a quote request ----
+  $('orderForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var o = order(), item = P.items[o.item];
+    $('payFallback').classList.remove('show');
+    if (!item) return fail('Start by picking what you are ordering.');
+    if (item.usesSize && !o.size) return fail('Pick a size, or "Not sure" for a quote.');
+    if (!o.colour) return fail('Tell me which colour you would like.');
+    if (item.needsLink && !o.link) { $('oLink').focus(); return fail('Add the model link so I print the right thing.'); }
+    if (o.link && !/^https?:\/\//i.test(o.link)) { $('oLink').focus(); return fail('The model link should start with https://'); }
+    if (item.text === 'required' && !o.text) { $('oText').focus(); return fail('Add the text to print.'); }
+    if (!o.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(o.email)) return fail('Add your name and an email address.');
+    if (o.ornament && (o.ornament.length > P.ornamentMaxLength || !ORN_OK.test(o.ornament))){
+      $('oOrn').focus();
+      return fail('Ornament names can use letters and spaces only, up to ' + P.ornamentMaxLength + ' characters.');
+    }
+
+    if (current.quote){
+      sendByEmail('Quote request (order page)', summary(o, 'GREENTREE PRINTS — QUOTE REQUEST'));
+      return;
+    }
+
+    var btn = $('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Opening secure checkout…';
+    saveDraft();
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/checkout');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function(){
+      var data = {};
+      try { data = JSON.parse(xhr.responseText); } catch (err) {}
+      if (xhr.status === 200 && data.url){
+        try { sessionStorage.setItem(SUMMARY_KEY, JSON.stringify({ ref: data.ref, email: o.email, text: summary(o, 'GREENTREE PRINTS — ORDER ' + data.ref) })); } catch (err) {}
+        window.location.href = data.url;
+        return;
+      }
+      btn.disabled = false;
+      update();
+      if (data.error === 'not_configured' || xhr.status === 404){
+        $('payFallback').classList.add('show');
+      } else if (data.error === 'needs_quote'){
+        fail('This order needs a quote — please refresh the page and try again.');
+      } else if (data.error === 'invalid'){
+        fail('Something in the form needs another look: ' + (data.fields || []).join(', ') + '.');
+      } else {
+        fail('Checkout could not start. Nothing was charged — please try again, or email the order instead.');
+        $('payFallback').classList.add('show');
+      }
+    };
+    xhr.onerror = function(){
+      btn.disabled = false;
+      update();
+      fail('Could not reach checkout. Nothing was charged — check your connection and try again.');
+    };
+    xhr.send(JSON.stringify(o));
+  });
+
+  $('emailInstead').addEventListener('click', function(){
+    sendByEmail('Print order (pay by link)', summary(order(), 'GREENTREE PRINTS — ORDER (PLEASE SEND A PAYMENT LINK)'));
+  });
+
+  $('copyQuote').addEventListener('click', function(){
+    var btn = this;
+    navigator.clipboard.writeText($('quoteSummary').textContent).then(function(){
+      btn.textContent = 'Copied ✓';
+      setTimeout(function(){ btn.textContent = 'Copy request text'; }, 1800);
+    });
+  });
+</script>
+</body>
+</html>

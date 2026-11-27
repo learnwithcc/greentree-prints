@@ -99,6 +99,40 @@ Pushing to `main` triggers a production deploy on Vercel automatically. To deplo
 vercel --prod
 ```
 
+## Online orders (`/order`)
+
+`/order` lets a visitor configure a print, see a price, and pay through Stripe Checkout.
+Anything the price table can't price becomes a "Request a quote" email instead, using the same
+`mailto:` approach as the homepage forms.
+
+| File | What it is |
+|------|-----------|
+| `order/pricing.js` | **The price table, the one place to edit prices.** The page and the checkout function both read it. |
+| `order/index.html` | The order page (inline CSS/JS, ES5, like `index.html`). |
+| `order/thanks/`, `order/cancelled/` | Where Stripe sends the visitor after paying or backing out. |
+| `api/checkout.js` | The only server code: one Vercel function. It recalculates the price from `pricing.js`, creates a Checkout Session through Stripe's REST API, and stores every order detail in Stripe metadata. No SDK, no `package.json`. |
+
+### Environment variables (Vercel → Project → Settings → Environment Variables)
+
+| Name | Required | Value |
+|------|----------|-------|
+| `STRIPE_SECRET_KEY` | yes | A Stripe **test** secret key (`sk_test_…`) or restricted test key (`rk_test_…`, with write access to Checkout Sessions). |
+| `STRIPE_ALLOW_LIVE` | no | Leave unset. The function refuses live keys unless this is `true`. |
+
+With no key set, the order page still prices things, and "Pay" falls back to "email this
+order instead". Nothing breaks.
+
+Test card: `4242 4242 4242 4242`, any future expiry, any CVC, any postcode.
+
+### Where order details show up
+
+Each order lands in Stripe → Payments with the full order (item, options, text, link,
+notes, contact, referral, ornament name) in the payment's **metadata** and a one-line
+**description**. Stripe emails the customer a receipt. It does this in live mode only, and
+only with Settings → Customer emails → "Successful payments" switched on. To get an email
+yourself for every order, switch on Settings → Personal details → Communication preferences
+→ "Successful payments".
+
 ## Deployment
 
 - **Host:** Vercel, team `lwcc`
