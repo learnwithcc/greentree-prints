@@ -128,10 +128,13 @@ Test card: `4242 4242 4242 4242`, any future expiry, any CVC, any postcode.
 
 Each order lands in Stripe → Payments with the full order (item, options, text, link,
 notes, contact, referral, ornament name) in the payment's **metadata** and a one-line
-**description**. Stripe emails the customer a receipt. It does this in live mode only, and
-only with Settings → Customer emails → "Successful payments" switched on. To get an email
-yourself for every order, switch on Settings → Personal details → Communication preferences
-→ "Successful payments".
+**description**. The function sets `receipt_email`, so in live mode Stripe emails the customer
+a receipt whatever the Dashboard's "Successful payments" customer-email setting says. Test
+mode never sends receipts automatically; you can send one by hand from the payment's page.
+To get an email yourself for every order, turn on successful-payment notifications in your
+Stripe user's email notification preferences. For a fuller order email to yourself, the
+next step would be a `checkout.session.completed` webhook plus an email service (e.g.
+Resend). That's not built.
 
 ## Deployment
 

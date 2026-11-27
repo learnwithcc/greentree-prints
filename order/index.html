@@ -573,6 +573,15 @@
       setTimeout(function(){ btn.textContent = 'Copy request text'; }, 1800);
     });
   });
+
+  // Coming back from Stripe with the browser's Back button can restore this page from cache
+  // with the pay button still disabled ("Opening secure checkout…"). Reset it.
+  window.addEventListener('pageshow', function(e){
+    if (e.persisted){
+      $('submitBtn').disabled = false;
+      update();
+    }
+  });
 </script>
 </body>
 </html>
