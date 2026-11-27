@@ -101,14 +101,24 @@ vercel --prod
 
 ## Online orders (`/order`)
 
-`/order` lets a visitor configure a print, see a price, and pay through Stripe Checkout.
-Anything the price table can't price becomes a "Request a quote" email instead, using the same
-`mailto:` approach as the homepage forms.
+`/order` is a step-by-step form (one or two questions per screen) that ends on a review
+screen with the price, then pays through Stripe Checkout. Anything the price table can't price
+becomes a "Request a quote" email instead, using the same `mailto:` approach as the homepage
+forms.
+
+Screens: what → details (model link + size / tag text / description) → material → finish →
+colour + quantity → optional extras → contact → ornament + referral → review. Each screen has
+its own `#hash`, so the phone's Back gesture goes back one step, and answers are saved to
+`sessionStorage` on every change (Back, refresh, or cancelling at Stripe keeps them).
+
+The option cards' wording (`blurb`, `more`, `why`) lives in `order/pricing.js` next to each
+price. Swatches are CSS drawings until a photo exists: put the image in `order/photos/` and set
+that option's `photo` field, e.g. `photo: '/order/photos/petg.jpg'`.
 
 | File | What it is |
 |------|-----------|
-| `order/pricing.js` | **The price table, the one place to edit prices.** The page and the checkout function both read it. |
-| `order/index.html` | The order page (inline CSS/JS, ES5, like `index.html`). |
+| `order/pricing.js` | **The price table, the one place to edit prices** and the help text on each option. The page and the checkout function both read it. |
+| `order/index.html` | The step-by-step order page (inline CSS/JS, ES5, like `index.html`). |
 | `order/thanks/`, `order/cancelled/` | Where Stripe sends the visitor after paying or backing out. |
 | `api/checkout.js` | The only server code: one Vercel function. It recalculates the price from `pricing.js`, creates a Checkout Session through Stripe's REST API, and stores every order detail in Stripe metadata. No SDK, no `package.json`. |
 

@@ -2,9 +2,9 @@
 <html lang="en-CA">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Order a print — Greentree Prints, Burnaby BC</title>
-<meta name="description" content="Configure a custom 3D print, see the price, and pay online. Porch pickup in Greentree Village, Burnaby.">
+<meta name="description" content="Order a custom 3D print a step at a time, see the price, and pay online. Porch pickup in Greentree Village, Burnaby.">
 <link rel="canonical" href="https://greentreeprints.ca/order">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 30'%3E%3Crect x='10' y='24' width='6' height='5' rx='1.5' fill='%23A9683B'/%3E%3Crect x='4' y='19' width='18' height='4' rx='2' fill='%232E5138'/%3E%3Crect x='6' y='14' width='14' height='4' rx='2' fill='%233E9159'/%3E%3Crect x='8' y='9' width='10' height='4' rx='2' fill='%234CAF6D'/%3E%3Crect x='10' y='4' width='6' height='4' rx='2' fill='%2357B577'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,8 +20,8 @@
     --cedar:#A9683B;
     --gold:#E9A13B;
     --gold-deep:#C9821E;
+    --muted:#5E7064;
     --line:rgba(34,57,46,.16);
-    --radius:14px;
     --shadow:0 2px 6px rgba(34,57,46,.08), 0 12px 32px rgba(34,57,46,.10);
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -37,6 +37,7 @@
   .mono{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--spruce)}
   .wrap{max-width:1060px;margin:0 auto;padding:0 20px}
   a{color:var(--spruce)}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
   /* header */
   header{
@@ -44,116 +45,179 @@
     background:rgba(240,241,227,.92);backdrop-filter:blur(8px);
     border-bottom:1px solid var(--line);
   }
-  .nav{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px;padding-bottom:10px}
   .wordmark{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
   .wordmark svg{display:block}
   .wordmark b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.05rem}
   .wm-text{display:flex;flex-direction:column;line-height:1.15}
   .wm-sub{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#965C34}
-  .nav-link{font-weight:700;font-size:.92rem;line-height:1.4;text-underline-offset:3px;display:inline-block;padding:12px 0}
+  .nav-link{font-weight:700;font-size:.92rem;line-height:1.4;text-underline-offset:3px;display:inline-block;padding:12px 0;text-align:right}
 
-  /* page */
-  .page-head{
-    background:
-      repeating-linear-gradient(180deg, transparent 0 7px, rgba(34,57,46,.035) 7px 8px),
-      linear-gradient(180deg, var(--paper) 0%, var(--paper-deep) 100%);
-    border-bottom:1px solid var(--line);
-    padding:34px 0 30px;
+  /* the flow */
+  .flow{max-width:700px;margin:0 auto;padding:22px 20px 0}
+  @media(min-width:820px){.flow{padding-top:40px}}
+  .progress{margin-bottom:22px}
+  .progress-text{display:flex;justify-content:space-between;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--spruce);margin-bottom:8px}
+  .bar{height:8px;border-radius:999px;background:var(--paper-deep);overflow:hidden;border:1px solid var(--line)}
+  .bar-fill{height:100%;width:0;background:repeating-linear-gradient(90deg, var(--fil-green) 0 10px, #43A062 10px 12px);border-radius:999px;transition:width .25s ease}
+
+  .step{animation:stepIn .22s ease}
+  @keyframes stepIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .step h2{font-size:clamp(1.55rem,5vw,2.15rem);font-weight:800;margin:4px 0 8px;outline:none}
+  .step .sub{color:#3A5245;margin-bottom:20px;max-width:36rem}
+  .kicker{display:block;color:#965C34;margin-bottom:6px}
+  .offer{margin:0 0 18px;background:#FDF3E1;border:1.5px solid var(--gold);border-radius:12px;padding:12px 14px;font-weight:700;font-size:.95rem}
+  .illus-note{font-size:.82rem;color:var(--muted);margin-top:12px;display:flex;gap:8px;align-items:center}
+  .illus-note::before{content:'';width:14px;height:14px;border-radius:4px;border:1.5px dashed var(--muted);flex:0 0 auto}
+
+  /* option cards (radio + label, with a separate "What's this?" toggle) */
+  .cards{display:grid;gap:10px}
+  @media(min-width:640px){.cards.two{grid-template-columns:1fr 1fr}}
+  .card{background:#fff;border:1.5px solid var(--line);border-radius:14px;transition:border-color .12s ease, box-shadow .12s ease}
+  .card:hover{border-color:rgba(34,57,46,.35)}
+  .card.is-on{border-color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+  .card:focus-within{outline:3px solid rgba(76,175,109,.55);outline-offset:2px}
+  .card-main{display:flex;gap:14px;align-items:flex-start;padding:14px 14px 14px;cursor:pointer;position:relative;min-height:64px}
+  .card-main input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+  .card-vis{flex:0 0 56px;width:56px;height:56px;display:block}
+  .card-vis img{width:56px;height:56px;object-fit:cover;border-radius:12px;display:block}
+  .card-body{flex:1 1 auto;min-width:0;padding-right:26px}
+  .card-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+  .card-top b{font-weight:700;font-size:1.02rem}
+  .tag{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.04em;background:var(--paper);border:1px solid var(--line);padding:1px 8px;border-radius:999px;white-space:nowrap;color:var(--spruce)}
+  .badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;background:#FDF3E1;color:#7A4A12;border:1px solid var(--gold);padding:1px 7px;border-radius:6px;margin-top:4px}
+  .card-blurb{display:block;color:#3A5245;font-size:.93rem;line-height:1.45;margin-top:4px}
+  .tick{position:absolute;top:14px;right:14px;width:22px;height:22px;border-radius:50%;border:2px solid var(--line);background:#fff}
+  .card.is-on .tick{border-color:var(--ink);background:var(--ink);box-shadow:inset 0 0 0 4px #fff}
+  .more{border-top:1px dashed var(--line);padding:0 14px}
+  .more summary{cursor:pointer;font-weight:700;font-size:.88rem;color:var(--spruce);min-height:44px;display:flex;align-items:center;gap:8px;list-style:none}
+  .more summary::-webkit-details-marker{display:none}
+  .more summary::before{content:'i';font-family:'IBM Plex Mono',monospace;font-size:.7rem;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--spruce);display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .more[open] summary::before{content:'–'}
+  .more summary:hover{text-decoration:underline;text-underline-offset:3px}
+  .more summary:focus-visible{outline:3px solid rgba(76,175,109,.55);outline-offset:2px;border-radius:6px}
+  .more p{font-size:.92rem;color:#3A5245;margin:0 0 10px;line-height:1.5}
+  .more p.why{font-weight:700;color:var(--ink)}
+
+  /* swatches: CSS drawings standing in for photos */
+  .sw{display:block;width:56px;height:56px;border-radius:12px;position:relative;overflow:hidden;--c:#3E8A5A}
+  .sw-matte{background:repeating-linear-gradient(180deg, transparent 0 3px, rgba(0,0,0,.08) 3px 4px), var(--c)}
+  .sw-mat-petg{background:
+      linear-gradient(135deg, rgba(255,255,255,.65) 0%, rgba(255,255,255,0) 38%),
+      linear-gradient(315deg, rgba(255,255,255,.25) 0%, rgba(255,255,255,0) 30%),
+      repeating-linear-gradient(180deg, transparent 0 3px, rgba(0,0,0,.05) 3px 4px), #2F8A6B;
+    box-shadow:inset 0 0 0 3px rgba(190,240,215,.55)}
+  .sw-mat-tpu{background:var(--paper)}
+  .sw-mat-tpu::before{content:'';position:absolute;left:8px;top:14px;width:52px;height:52px;border:11px solid #C8372D;border-radius:50%;border-right-color:transparent;border-bottom-color:transparent;transform:rotate(-20deg)}
+  .sw-auto{background:var(--paper);border:2px dashed rgba(34,57,46,.35)}
+  .sw-auto::before{content:'?';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.6rem;color:var(--spruce)}
+  .sw-fin-silk{background:linear-gradient(115deg, #7A4A20 0%, #E9B877 22%, #FFE7C2 34%, #B87333 52%, #F6CF97 70%, #8A5A2B 100%)}
+  .sw-fin-twotone{background:repeating-linear-gradient(180deg, transparent 0 3px, rgba(255,255,255,.06) 3px 4px), #22392E}
+  .sw-fin-twotone::before{content:'Aa';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.35rem;color:#F4F4EC;text-shadow:0 2px 0 rgba(0,0,0,.35)}
+  .sw-size{background:var(--paper);border:1px solid var(--line)}
+  .sw-size i{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);background:repeating-linear-gradient(180deg, transparent 0 2px, rgba(0,0,0,.1) 2px 3px), var(--fil-green);border-radius:3px}
+  .sz-small i{width:12px;height:12px}
+  .sz-medium i{width:24px;height:24px}
+  .sz-large i{width:40px;height:40px}
+  .sz-unsure i{display:none}
+  .sz-unsure::before{content:'?';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.5rem;color:var(--spruce)}
+  .item-icon{display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:12px;background:var(--paper);border:1px solid var(--line)}
+
+  /* colours */
+  .colours{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  @media(min-width:520px){.colours{grid-template-columns:repeat(3,1fr)}}
+  .chip{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;min-height:52px;font-weight:700;font-size:.95rem;position:relative}
+  .chip input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+  .chip:focus-within{outline:3px solid rgba(76,175,109,.55);outline-offset:2px}
+  .chip.is-on{border-color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+  .dot{width:28px;height:28px;border-radius:50%;flex:0 0 auto;border:1px solid rgba(0,0,0,.18);background:var(--c)}
+  .dot-surprise{background:conic-gradient(#C8372D, #E8772E, #F2C230, #2F6B45, #2F5FB3, #7A4FA0, #C8372D)}
+  .dot-other{background:var(--paper);border:2px dashed rgba(34,57,46,.45);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--spruce)}
+
+  /* fields */
+  .q{margin-top:22px}
+  .q:first-child{margin-top:0}
+  .q-label{display:block;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.12rem;margin-bottom:8px}
+  .q-label .opt{font-family:'Karla',sans-serif;font-weight:400;color:var(--muted);font-size:.9rem}
+  .field + .field{margin-top:18px}
+  label.f,.f{display:block;font-weight:700;font-size:.97rem;margin:0 0 6px}
+  .f .opt{font-weight:400;color:var(--muted);font-size:.88rem}
+  input[type=text],input[type=url],input[type=email],input[type=tel],input[type=number],textarea,select{
+    width:100%;font-family:'Karla',sans-serif;font-size:1rem;color:var(--ink);
+    background:#fff;border:1.5px solid var(--line);border-radius:10px;
+    padding:13px 14px;min-height:50px;
   }
-  @media(min-width:820px){.page-head{padding:56px 0 44px}}
-  .page-head h1{font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;margin:12px 0 12px;max-width:40rem}
-  .page-head p{color:#3A5245;max-width:36rem}
-  main section{padding:36px 0 64px}
+  textarea{min-height:110px;resize:vertical}
+  input:focus,textarea:focus,select:focus{outline:3px solid rgba(76,175,109,.55);outline-offset:2px;border-color:var(--fil-green)}
+  [aria-invalid=true]{border-color:#A33B2A !important}
+  .hint{font-size:.86rem;color:var(--muted);margin-top:6px}
+  .qty{display:flex;align-items:stretch;gap:8px;max-width:220px}
+  .qty input{text-align:center;font-weight:700;font-size:1.1rem}
+  .qty button{flex:0 0 50px;border-radius:10px;border:1.5px solid var(--line);background:#fff;font-size:1.4rem;font-weight:700;color:var(--ink);cursor:pointer}
+  .qty button:focus-visible{outline:3px solid rgba(76,175,109,.55);outline-offset:2px}
 
+  /* review */
+  .review{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+  .review dl{margin:0}
+  .rv-row{display:grid;grid-template-columns:1fr auto;gap:2px 14px;padding:12px 16px;border-top:1px solid var(--line)}
+  .rv-row:first-child{border-top:0}
+  .rv-row dt{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#965C34;grid-column:1}
+  .rv-row dd{grid-column:1;font-weight:700;overflow-wrap:anywhere}
+  .rv-row a{grid-column:2;grid-row:1 / span 2;align-self:center;font-weight:700;font-size:.9rem;padding:10px 4px;text-underline-offset:3px}
+  .price-box{border-top:5px solid var(--gold);padding:18px 16px;background:#FFFDF7}
+  .total{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:2.3rem;line-height:1.1;margin:2px 0}
+  .total small{font-family:'Karla',sans-serif;font-size:.9rem;font-weight:500;color:var(--muted);margin-left:4px}
+  .breakdown{list-style:none;margin:8px 0 0;font-size:.92rem;color:#3A5245;display:grid;gap:4px}
+  .breakdown li{display:flex;justify-content:space-between;gap:12px}
+  .breakdown li.sum{border-top:1px dashed var(--line);padding-top:6px;margin-top:2px;font-weight:700;color:var(--ink)}
+  .quote-note{background:var(--paper);border-radius:12px;padding:12px 14px;margin-top:8px;font-size:.92rem}
+  .quote-note ul{margin:6px 0 0 18px}
+  .fine{display:block;font-size:.85rem;color:var(--muted);margin-top:14px}
+  .success{display:none;margin-top:16px;background:#EAF5EE;border:1.5px solid var(--fil-green);border-radius:12px;padding:16px}
+  .success.show{display:block}
+  .success h3{font-size:1.05rem;margin-bottom:6px}
+  .success pre{white-space:pre-wrap;font-family:'IBM Plex Mono',monospace;font-size:.74rem;background:#fff;border-radius:8px;padding:12px;margin:10px 0;max-height:240px;overflow:auto}
+
+  /* bottom nav: sticky so Next is always under your thumb */
+  .step-err{display:none;color:#A33B2A;font-size:.92rem;font-weight:700;margin-top:16px}
+  .step-err.show{display:block}
+  .navbar{
+    position:sticky;bottom:0;z-index:40;margin:22px -20px 0;
+    padding:12px 20px calc(12px + env(safe-area-inset-bottom));
+    background:rgba(240,241,227,.94);backdrop-filter:blur(8px);
+    border-top:1px solid var(--line);
+    display:flex;align-items:center;gap:10px;
+  }
+  .running{flex:1 1 auto;text-align:center;font-size:.85rem;color:var(--muted);line-height:1.2;min-width:0}
+  .running b{display:block;font-family:'Bricolage Grotesque',sans-serif;font-size:1.15rem;color:var(--ink)}
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:8px;
     font-family:'Karla',sans-serif;font-weight:700;font-size:1rem;
-    padding:14px 22px;border-radius:999px;border:2px solid transparent;
-    cursor:pointer;text-decoration:none;transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
-    min-height:48px;
+    padding:12px 22px;border-radius:999px;border:2px solid transparent;
+    cursor:pointer;text-decoration:none;transition:transform .12s ease, background .12s ease;
+    min-height:50px;white-space:nowrap;
   }
   .btn:hover{transform:translateY(-1px)}
   .btn:active{transform:scale(.98)}
   .btn[disabled]{opacity:.6;cursor:wait;transform:none}
+  .btn:focus-visible{outline:3px solid rgba(76,175,109,.55);outline-offset:2px}
   .btn-gold{background:var(--gold);color:#2B1E07;box-shadow:0 2px 0 var(--gold-deep)}
   .btn-gold:hover{background:#F0AC48}
   .btn-ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
   .btn-ghost:hover{background:rgba(34,57,46,.06)}
+  .btn-back{padding:12px 16px}
+  .btn-back[hidden]{display:none}
+  .enter-hint{display:none;font-size:.78rem;color:var(--muted);text-align:right;margin-top:8px}
+  @media (pointer:fine){.enter-hint{display:block}}
 
-  /* form */
-  .order-grid{display:grid;gap:22px;align-items:start}
-  @media(min-width:900px){.order-grid{grid-template-columns:1.55fr 1fr;gap:28px}}
-  .panel{
-    background:#fff;border:1px solid var(--line);border-radius:18px;
-    padding:26px 20px;box-shadow:var(--shadow);
-  }
-  @media(min-width:640px){.panel{padding:34px 32px}}
-  .step-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.15rem;margin-top:30px;padding-top:22px;border-top:1px dashed var(--line)}
-  .step-title:first-of-type{margin-top:0;padding-top:0;border-top:0}
-  .step-title .mono{display:block;color:#965C34;margin-bottom:2px}
-  label,.label{display:block;font-weight:700;font-size:.95rem;margin:18px 0 6px}
-  label .opt,.label .opt{font-weight:400;color:#5E7064;font-size:.85rem}
-  input[type=text],input[type=url],input[type=email],input[type=tel],input[type=number],textarea,select{
-    width:100%;font-family:'Karla',sans-serif;font-size:1rem;color:var(--ink);
-    background:var(--paper);border:1.5px solid var(--line);border-radius:10px;
-    padding:13px 14px;min-height:48px;
-  }
-  textarea{min-height:96px;resize:vertical}
-  input:focus,textarea:focus,select:focus,.btn:focus-visible,.seg:focus-visible{
-    outline:3px solid rgba(76,175,109,.55);outline-offset:2px;border-color:var(--fil-green);
-  }
-  .row{display:grid;gap:0 16px}
-  @media(min-width:640px){.row{grid-template-columns:1fr 1fr}}
-  .seg-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
-  .seg{
-    font-family:'Karla',sans-serif;font-weight:700;font-size:.92rem;text-align:left;
-    padding:10px 16px;border-radius:999px;cursor:pointer;
-    background:var(--paper);border:1.5px solid var(--line);color:var(--ink);
-    min-height:44px;transition:background .12s ease;
-  }
-  .seg:hover{background:var(--paper-deep)}
-  .seg[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-  .seg small{font-weight:400;opacity:.8;margin-left:6px}
-  .seg-group.cards{display:grid;gap:8px}
-  @media(min-width:640px){.seg-group.cards{grid-template-columns:1fr 1fr}}
-  .seg-group.cards .seg{border-radius:12px;padding:12px 14px}
-  .seg-group.cards .seg small{display:block;margin:2px 0 0}
-  .hint{font-size:.86rem;color:#5E7064;margin-top:6px}
-  .offer{margin-bottom:18px;background:#FDF3E1;border:1.5px solid var(--gold);border-radius:12px;padding:12px 14px;font-weight:700;font-size:.95rem}
-  .err{display:none;color:#A33B2A;font-size:.88rem;margin-top:10px;font-weight:700}
-  .err.show{display:block}
-
-  /* price card */
-  .price-card{
-    background:#fff;border:1px solid var(--line);border-top:5px solid var(--gold);
-    border-radius:18px;padding:24px 22px;box-shadow:var(--shadow);
-  }
-  @media(min-width:900px){.price-card{position:sticky;top:86px}}
-  .price-card h2{font-size:1.2rem;margin:8px 0 4px}
-  .total{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:2.4rem;line-height:1.1;margin:6px 0 2px}
-  .total small{font-family:'Karla',sans-serif;font-size:.9rem;font-weight:500;color:#5E7064;margin-left:4px}
-  .breakdown{list-style:none;margin:10px 0 0;font-size:.92rem;color:#3A5245;display:grid;gap:4px}
-  .breakdown li{display:flex;justify-content:space-between;gap:12px}
-  .breakdown li.sum{border-top:1px dashed var(--line);padding-top:6px;margin-top:2px;font-weight:700;color:var(--ink)}
-  .quote-note{background:var(--paper);border-radius:12px;padding:12px 14px;margin-top:12px;font-size:.92rem}
-  .quote-note ul{margin:6px 0 0 18px}
-  .price-card .btn{width:100%;margin-top:18px}
-  .price-card .fine{display:block;font-size:.85rem;color:#5E7064;margin-top:10px}
-  .success{
-    display:none;margin-top:18px;background:#EAF5EE;border:1.5px solid var(--fil-green);
-    border-radius:12px;padding:16px;
-  }
-  .success.show{display:block}
-  .success h3{font-size:1.05rem;margin-bottom:6px}
-  .success pre{
-    white-space:pre-wrap;font-family:'IBM Plex Mono',monospace;font-size:.74rem;
-    background:#fff;border-radius:8px;padding:12px;margin:10px 0;max-height:220px;overflow:auto;
-  }
-  .success .btn{margin-top:6px}
-
-  footer{border-top:1px solid var(--line);padding:34px 0 44px;color:#5A6F62;font-size:.9rem}
+  footer{border-top:1px solid var(--line);padding:30px 0 40px;color:#5A6F62;font-size:.9rem;margin-top:40px}
   .foot-grid{display:flex;flex-wrap:wrap;gap:14px 30px;justify-content:space-between;align-items:center}
 
+  @media (max-width:420px){
+    .btn{padding:12px 16px}
+    .card-vis,.sw,.item-icon,.card-vis img{width:48px;height:48px;flex-basis:48px}
+    .card-main{gap:12px}
+  }
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important;transition:none !important}
   }
@@ -173,123 +237,173 @@
       </svg>
       <span class="wm-text"><b>Greentree Prints</b><span class="wm-sub">3D print studio</span></span>
     </a>
-    <a class="nav-link" href="/">Not sure yet? Ask first</a>
+    <a class="nav-link" href="/#request">Not sure yet? Ask first</a>
   </div>
 </header>
 
 <main>
-  <div class="page-head">
-    <div class="wrap">
-      <span class="mono">Order online</span>
-      <h1>Set up your print, see the price, and pay.</h1>
-      <p>For when you know what you want. Pick the options below and the price updates as you go. If something needs a closer look, the button turns into a quote request and nothing is charged.</p>
+  <div class="flow">
+    <noscript><p class="offer">This page needs JavaScript to work out prices. You can still <a href="/#request">send a request from the homepage</a>.</p></noscript>
+
+    <div class="progress" id="progress" hidden>
+      <div class="progress-text"><span id="stepCount">Step 1 of 9</span><span id="stepName"></span></div>
+      <div class="bar" role="progressbar" aria-label="Order progress" aria-valuemin="1" id="bar"><div class="bar-fill" id="barFill"></div></div>
     </div>
-  </div>
 
-  <section>
-    <div class="wrap">
-      <noscript><p class="panel">This page needs JavaScript to work out prices. You can still <a href="/#request">send a request from the homepage</a>.</p></noscript>
-      <form id="orderForm" class="order-grid" novalidate>
-        <div class="panel">
-          <p class="offer" data-offer hidden>Free personalised gingerbread ornament with every order before December 9th, a $18 value.</p>
+    <form id="flow" novalidate hidden>
 
-          <h2 class="step-title"><span class="mono">Step 1</span>What are you ordering?</h2>
-          <div class="seg-group cards" role="group" aria-label="What are you ordering?" id="itemGroup"></div>
+      <!-- 1. What -->
+      <section class="step" data-step="item" aria-labelledby="h-item" hidden>
+        <span class="mono kicker">Order online · about 2 minutes</span>
+        <h2 id="h-item" tabindex="-1">What would you like printed?</h2>
+        <p class="sub">One or two questions at a time, and the price updates as you go. Anything that needs a closer look becomes a free quote, and nothing is charged.</p>
+        <p class="offer" data-offer hidden>Free personalised gingerbread ornament with every order before December 9th, a $18 value.</p>
+        <div class="cards" role="radiogroup" aria-labelledby="h-item" id="itemCards"></div>
+      </section>
 
-          <div id="sizeBlock" hidden>
-            <span class="label" id="sizeLabel">How big is it?</span>
-            <div class="seg-group cards" role="group" aria-labelledby="sizeLabel" id="sizeGroup"></div>
+      <!-- 2. Details (contents depend on the item) -->
+      <section class="step" data-step="details" aria-labelledby="h-details" hidden>
+        <h2 id="h-details" tabindex="-1">Tell me about it</h2>
+        <p class="sub" id="detailsSub"></p>
+        <div id="detailsFields"></div>
+      </section>
+
+      <!-- 3. Material -->
+      <section class="step" data-step="material" aria-labelledby="h-material" hidden>
+        <h2 id="h-material" tabindex="-1">What should it be made of?</h2>
+        <p class="sub">Most things are fine in PLA. If you're not sure, leave it with me.</p>
+        <div class="cards" role="radiogroup" aria-labelledby="h-material" id="materialCards"></div>
+        <p class="illus-note" id="materialNote">Swatches are drawings, not photos of real prints.</p>
+      </section>
+
+      <!-- 4. Finish -->
+      <section class="step" data-step="finish" aria-labelledby="h-finish" hidden>
+        <h2 id="h-finish" tabindex="-1">How should it look?</h2>
+        <p class="sub">The finish is the surface: plain, shiny, or two colours.</p>
+        <div class="cards" role="radiogroup" aria-labelledby="h-finish" id="finishCards"></div>
+        <p class="illus-note" id="finishNote">Swatches are drawings, not photos of real prints.</p>
+      </section>
+
+      <!-- 5. Colour + quantity -->
+      <section class="step" data-step="colour" aria-labelledby="h-colour" hidden>
+        <h2 id="h-colour" tabindex="-1">Pick a colour, and how many</h2>
+        <div class="q">
+          <span class="q-label" id="colourLabel">Colour</span>
+          <div class="colours" role="radiogroup" aria-labelledby="colourLabel" id="colourChips"></div>
+          <div class="field" id="colourOtherBlock" hidden style="margin-top:12px">
+            <label class="f" for="oColourOther">Which colour? <span class="opt">— special colours can add a few days</span></label>
+            <input type="text" id="oColourOther" maxlength="40" placeholder="Glow in the dark, clear blue, match a sample…">
           </div>
-
-          <label for="oLink">Model link <span class="opt" id="linkOpt">— optional</span></label>
-          <input type="url" id="oLink" inputmode="url" maxlength="500" placeholder="https://www.printables.com/model/…">
-          <p class="hint">Printables, MakerWorld, Thingiverse, Thangs, Cults3D — or any page showing the thing.</p>
-
-          <h2 class="step-title"><span class="mono">Step 2</span>How should it look?</h2>
-          <div class="row">
-            <div>
-              <label for="oQty">How many?</label>
-              <input type="number" id="oQty" inputmode="numeric" min="1" max="999" step="1" value="1">
-            </div>
-            <div>
-              <label for="oColour">Colour</label>
-              <select id="oColour"></select>
-            </div>
-          </div>
-          <div id="colourOtherBlock" hidden>
-            <label for="oColourOther">Which colour? <span class="opt">— special colours can add a few days</span></label>
-            <input type="text" id="oColourOther" maxlength="40" placeholder="Glow in the dark, transparent blue, match a sample…">
-          </div>
-
-          <span class="label" id="materialLabel">Material</span>
-          <div class="seg-group" role="group" aria-labelledby="materialLabel" id="materialGroup"></div>
-          <p class="hint" id="materialHint"></p>
-
-          <span class="label" id="finishLabel">Finish</span>
-          <div class="seg-group" role="group" aria-labelledby="finishLabel" id="finishGroup"></div>
-
-          <div id="textBlock" hidden>
-            <label for="oText"><span id="textLabel">Custom text</span> <span class="opt" id="textOpt"></span></label>
-            <input type="text" id="oText" autocomplete="off" aria-describedby="textHint">
-            <p class="hint" id="textHint">Printed exactly as you type it — check the spelling.</p>
-          </div>
-
-          <label for="oNotes">Design notes <span class="opt">— optional</span></label>
-          <textarea id="oNotes" maxlength="1000" placeholder="Which version of the model, size tweaks, where it'll be used, a deadline…"></textarea>
-
-          <h2 class="step-title"><span class="mono">Step 3</span>Who's it for?</h2>
-          <div class="row">
-            <div>
-              <label for="oName">Your name</label>
-              <input type="text" id="oName" autocomplete="name" maxlength="80">
-            </div>
-            <div>
-              <label for="oEmail">Email <span class="opt">— for your receipt</span></label>
-              <input type="email" id="oEmail" autocomplete="email" maxlength="120">
-            </div>
-          </div>
-          <div class="row">
-            <div>
-              <label for="oPhone">Phone <span class="opt">— optional, for a text when it's ready</span></label>
-              <input type="tel" id="oPhone" autocomplete="tel" maxlength="30">
-            </div>
-            <div>
-              <label for="oRef">Referred by a neighbour? <span class="opt">— optional</span></label>
-              <input type="text" id="oRef" maxlength="60" placeholder="Who sent you?">
-            </div>
-          </div>
-          <p class="hint">A referral gets you both $5 off. Online orders are charged in full, and I'll refund your $5 once I've checked the referral.</p>
-          <div data-offer hidden>
-            <label for="oOrn">Name for your free gingerbread ornament <span class="opt">— optional</span></label>
-            <p class="hint" id="oOrnHint" style="margin:0 0 8px">Your choice of name, and a child's name is perfect. I'll print it on the Santa hat exactly as you type it. Names up to 9 letters (like Valentina) fit at full size; longer names print a little smaller. The year on the ornament will be 2026.</p>
-            <input type="text" id="oOrn" maxlength="12" autocomplete="off" aria-describedby="oOrnHint">
+          <div class="field" id="colour2Block" hidden style="margin-top:12px">
+            <label class="f" for="oColour2">Second colour <span class="opt">— for the letters or the second part</span></label>
+            <select id="oColour2"></select>
           </div>
         </div>
+        <div class="q">
+          <label class="q-label" for="oQty">How many?</label>
+          <div class="qty">
+            <button type="button" id="qtyMinus" aria-label="One fewer">−</button>
+            <input type="number" id="oQty" inputmode="numeric" min="1" max="999" step="1" value="1">
+            <button type="button" id="qtyPlus" aria-label="One more">+</button>
+          </div>
+          <p class="hint" id="qtyHint">Up to 20 can be paid online. More than that is a bulk quote.</p>
+        </div>
+      </section>
 
-        <aside class="price-card" aria-live="polite">
-          <span class="mono">Your price</span>
-          <div id="priceView">
-            <h2>Pick what you're ordering</h2>
-            <p class="hint">The price shows up here as you choose.</p>
-          </div>
-          <button class="btn btn-gold" type="submit" id="submitBtn">Choose your options</button>
-          <span class="fine" id="submitFine">Prices in Canadian dollars. Porch pickup in Greentree Village, Burnaby.</span>
-          <p class="err" id="formErr" role="alert"></p>
-          <div class="success" id="payFallback">
-            <h3>Online payment is switched off right now</h3>
-            <p>Nothing was charged. You can send the same order by email instead, and I'll reply with a payment link.</p>
-            <button class="btn btn-ghost" type="button" id="emailInstead">Email this order instead</button>
-          </div>
-          <div class="success" id="quoteSuccess">
-            <h3>Request ready ✓</h3>
-            <p>Here's what's being sent — a copy is below in case your mail app didn't open. I'll reply with a firm price, usually the same day.</p>
-            <pre id="quoteSummary"></pre>
-            <button class="btn btn-ghost" type="button" id="copyQuote">Copy request text</button>
-          </div>
-        </aside>
-      </form>
-    </div>
-  </section>
+      <!-- 6. Extras (optional; contents depend on the item) -->
+      <section class="step" data-step="extras" aria-labelledby="h-extras" hidden>
+        <h2 id="h-extras" tabindex="-1">Any extras?</h2>
+        <p class="sub">All optional. Skip this if you don't need it.</p>
+        <div id="extrasFields"></div>
+      </section>
+
+      <!-- 7. Contact -->
+      <section class="step" data-step="contact" aria-labelledby="h-contact" hidden>
+        <h2 id="h-contact" tabindex="-1">Who's it for?</h2>
+        <p class="sub">So I can send your receipt and tell you when it's ready.</p>
+        <div class="field">
+          <label class="f" for="oName">Your name</label>
+          <input type="text" id="oName" autocomplete="name" maxlength="80">
+        </div>
+        <div class="field">
+          <label class="f" for="oEmail">Email <span class="opt">— for your receipt</span></label>
+          <input type="email" id="oEmail" autocomplete="email" inputmode="email" maxlength="120">
+        </div>
+        <div class="field">
+          <label class="f" for="oPhone">Phone <span class="opt">— optional, for a text when it's ready</span></label>
+          <input type="tel" id="oPhone" autocomplete="tel" maxlength="30">
+        </div>
+      </section>
+
+      <!-- 8. Perks: ornament (while the offer runs) + referral -->
+      <section class="step" data-step="perks" aria-labelledby="h-perks" hidden>
+        <h2 id="h-perks" tabindex="-1">Did a neighbour send you?</h2>
+        <p class="sub">Optional. Skip this if it doesn't apply.</p>
+        <div class="field" data-offer hidden>
+          <label class="f" for="oOrn">Name for your free gingerbread ornament <span class="opt">— optional</span></label>
+          <input type="text" id="oOrn" maxlength="12" autocomplete="off" aria-describedby="oOrnHint">
+          <p class="hint" id="oOrnHint">Your choice of name, and a child's name is perfect. I'll print it on the Santa hat exactly as you type it. Names up to 9 letters (like Valentina) fit at full size; longer names print a little smaller. The year on the ornament will be 2026.</p>
+        </div>
+        <div class="field">
+          <label class="f" for="oRef">Who referred you? <span class="opt">— optional</span></label>
+          <input type="text" id="oRef" maxlength="60" placeholder="Your neighbour's name" aria-describedby="oRefHint">
+          <p class="hint" id="oRefHint">A referral gets you both $5 off. Online orders are charged in full, and I'll refund your $5 once I've checked the referral.</p>
+        </div>
+      </section>
+
+      <!-- 9. Review -->
+      <section class="step" data-step="review" aria-labelledby="h-review" hidden>
+        <h2 id="h-review" tabindex="-1">Check your order</h2>
+        <p class="sub" id="reviewSub"></p>
+        <div class="review">
+          <dl id="reviewList"></dl>
+          <div class="price-box" id="priceView" aria-live="polite"></div>
+        </div>
+        <span class="fine" id="submitFine"></span>
+        <div class="success" id="payFallback">
+          <h3>Online payment is switched off right now</h3>
+          <p>Nothing was charged. You can send the same order by email instead, and I'll reply with a payment link.</p>
+          <button class="btn btn-ghost" type="button" id="emailInstead">Email this order instead</button>
+        </div>
+        <div class="success" id="quoteSuccess">
+          <h3>Request ready ✓</h3>
+          <p>Here's what's being sent. A copy is below in case your mail app didn't open. I'll reply with a firm price, usually the same day.</p>
+          <pre id="quoteSummary"></pre>
+          <button class="btn btn-ghost" type="button" id="copyQuote">Copy request text</button>
+        </div>
+      </section>
+
+      <!-- fields that move between "Details" and "Extras" depending on the item -->
+      <div id="parking" hidden>
+        <div class="field" id="fLink">
+          <label class="f" for="oLink"><span id="linkLabel">Link to the model</span> <span class="opt" id="linkOpt"></span></label>
+          <input type="url" id="oLink" inputmode="url" maxlength="500" placeholder="https://www.printables.com/model/…" aria-describedby="linkHint">
+          <p class="hint" id="linkHint"></p>
+        </div>
+        <div class="field" id="fSize">
+          <span class="f" id="sizeLabel">How big should it be?</span>
+          <div class="cards two" role="radiogroup" aria-labelledby="sizeLabel" id="sizeCards"></div>
+        </div>
+        <div class="field" id="fText">
+          <label class="f" for="oText"><span id="textLabel">Text to print</span> <span class="opt" id="textOpt"></span></label>
+          <input type="text" id="oText" autocomplete="off" aria-describedby="textHint">
+          <p class="hint" id="textHint">Printed exactly as you type it, so check the spelling.</p>
+        </div>
+        <div class="field" id="fNotes">
+          <label class="f" for="oNotes"><span id="notesLabel">Design notes</span> <span class="opt" id="notesOpt"></span></label>
+          <textarea id="oNotes" maxlength="1000"></textarea>
+        </div>
+      </div>
+
+      <p class="step-err" id="stepErr" role="alert"></p>
+      <div class="navbar">
+        <button class="btn btn-ghost btn-back" type="button" id="backBtn" hidden>Back</button>
+        <span class="running" id="running"></span>
+        <button class="btn btn-gold" type="submit" id="nextBtn">Next</button>
+      </div>
+      <p class="enter-hint" id="enterHint">Press Enter ↵ to continue</p>
+    </form>
+  </div>
 </main>
 
 <footer>
@@ -307,92 +421,287 @@
   var P = window.GT_PRICING;
   var DRAFT_KEY = 'gt-order-draft';
   var SUMMARY_KEY = 'gt-order-summary';
-  var state = { item: '', size: '', material: 'pla', finish: 'standard' };
+  var state = { item: '', size: '', material: 'pla', finish: 'standard', colour: '' };
+  var current = null;        // latest price result
+  var currentStep = '';
+  var fromReview = false;    // came here from a "Change" link on the review screen
 
   function $(id){ return document.getElementById(id); }
   function val(id){ var el = $(id); return el ? el.value.trim() : ''; }
   function line(label, v){ return v ? (label + ': ' + v + '\n') : ''; }
   function money(n){ return '$' + (n % 1 ? n.toFixed(2) : String(n)); }
   function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function has(o, k){ return Object.prototype.hasOwnProperty.call(o, k); }
 
   // ---- holiday ornament offer (window is set in pricing.js) ----
   var OFFER_ON = Date.now() < P.ornamentOfferEnds;
   if (OFFER_ON){
     document.querySelectorAll('[data-offer]').forEach(function(el){ el.hidden = false; });
+    $('h-perks').textContent = 'A free ornament, and a referral discount';
   }
   var ORN_OK = /^[A-Za-zÀ-ÖØ-öø-ɏ ]+$/;
   function ornament(){ return OFFER_ON ? val('oOrn') : ''; }
 
-  // ---- build the option buttons from the price table ----
-  function priceTag(n){ return n ? '+' + money(n) : ''; }
-  function makeGroup(groupId, table, key, describe){
-    var group = $(groupId);
-    Object.keys(table).forEach(function(k){
-      var opt = table[k];
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'seg';
-      btn.setAttribute('aria-pressed', 'false');
-      btn.setAttribute('data-val', k);
-      btn.innerHTML = esc(opt.label) + (describe(opt) ? '<small>' + esc(describe(opt)) + '</small>' : '');
-      btn.addEventListener('click', function(){
-        state[key] = k;
-        sync();
-        update();
-      });
-      group.appendChild(btn);
-    });
-  }
-  makeGroup('itemGroup', P.items, 'item', function(o){
-    if (o.quote) return 'priced by quote';
-    if (typeof o.price === 'number') return money(o.price) + ' each';
-    return 'priced by size';
-  });
-  makeGroup('sizeGroup', P.sizes, 'size', function(o){
-    return o.hint + (o.quote ? '' : ' · ' + money(o.price) + ' each');
-  });
-  makeGroup('materialGroup', P.materials, 'material', function(o){ return o.quote ? 'quote' : priceTag(o.price); });
-  makeGroup('finishGroup', P.finishes, 'finish', function(o){ return priceTag(o.price); });
+  // ---- what each colour looks like on screen ----
+  var COLOUR_HEX = {
+    'Black':'#1E201F', 'White':'#F7F7F2', 'Grey':'#8D918E', 'Forest green':'#2F6B45', 'Red':'#C8372D',
+    'Blue':'#2F5FB3', 'Yellow':'#F2C230', 'Orange':'#E8772E'
+  };
+  var ICONS = {
+    model: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2E5138" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>',
+    nametag: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2E5138" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V5a2 2 0 0 1 2-2h7l9 9-9 9-9-9z"/><circle cx="8" cy="8" r="1.6"/></svg>',
+    repair: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2E5138" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3 17.8V21h3.2l6.3-6.3a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.5-.6-.6-2.5z"/></svg>',
+    custom: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2E5138" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>'
+  };
 
-  (function(){
-    var sel = $('oColour');
+  // ---- option cards: a radio + label, with a separate tap-to-open "What's this?" ----
+  function tagFor(group, o){
+    if (o.quote) return group === 'items' ? 'Free quote' : 'Quote';
+    if (group === 'items') return typeof o.price === 'number' ? money(o.price) + ' each' : 'From ' + money(P.sizes.small.price);
+    if (group === 'sizes') return money(o.price) + ' each';
+    if (o.price) return '+' + money(o.price) + ' each';
+    return 'No extra charge';
+  }
+  function visualFor(group, k, o){
+    if (o.photo) return '<img src="' + esc(o.photo) + '" alt="">';
+    if (group === 'items') return '<span class="item-icon">' + (ICONS[k] || '') + '</span>';
+    if (group === 'sizes') return '<span class="sw sw-size sz-' + k + '"><i></i></span>';
+    if (k === 'auto') return '<span class="sw sw-auto"></span>';
+    if (group === 'materials') return '<span class="sw sw-matte sw-mat-' + k + '"></span>';
+    return '<span class="sw sw-matte sw-fin-' + k + '"></span>';
+  }
+  function moreLabel(group, k, o){
+    if (k === 'auto') return 'How I choose';
+    if (group === 'materials') return 'What is ' + o.label + '?';
+    return 'What does it look like?';
+  }
+  function buildCards(boxId, group, key){
+    var table = P[group], box = $(boxId);
+    Object.keys(table).forEach(function(k){
+      var o = table[k], wrap = document.createElement('div');
+      wrap.className = 'card';
+      var html = '<label class="card-main"><input type="radio" name="' + key + '" value="' + esc(k) + '">' +
+        '<span class="card-vis" aria-hidden="true">' + visualFor(group, k, o) + '</span>' +
+        '<span class="card-body"><span class="card-top"><b>' + esc(o.label) + '</b><span class="tag">' + esc(tagFor(group, o)) + '</span></span>' +
+        (o.recommended ? '<span class="badge">Recommended</span>' : '') +
+        '<span class="card-blurb">' + esc(o.blurb || o.hint || '') + (group === 'sizes' && o.hint && o.blurb ? ' <span style="color:var(--muted)">(' + esc(o.hint) + ')</span>' : '') + '</span>' +
+        '</span><span class="tick" aria-hidden="true"></span></label>';
+      if (o.more){
+        html += '<details class="more"><summary>' + esc(moreLabel(group, k, o)) + '</summary><p>' + esc(o.more) + '</p>' +
+          (o.why ? '<p class="why">' + esc(o.why) + '</p>' : '') + '</details>';
+      }
+      wrap.innerHTML = html;
+      box.appendChild(wrap);
+    });
+    box.addEventListener('change', function(e){
+      if (e.target.name !== key) return;
+      var changedItem = key === 'item' && state.item !== e.target.value;
+      state[key] = e.target.value;
+      if (changedItem) layout();
+      refresh();
+    });
+    // Only show "drawings, not photos" while some option still has no photo.
+    var note = $(group === 'materials' ? 'materialNote' : group === 'finishes' ? 'finishNote' : '');
+    if (note) note.hidden = Object.keys(table).every(function(k){ return table[k].photo; });
+  }
+  buildCards('itemCards', 'items', 'item');
+  buildCards('sizeCards', 'sizes', 'size');
+  buildCards('materialCards', 'materials', 'material');
+  buildCards('finishCards', 'finishes', 'finish');
+
+  (function buildColours(){
+    var box = $('colourChips');
     P.colours.concat([P.otherColourLabel]).forEach(function(c){
+      var dot = c === 'Surprise me' ? '<span class="dot dot-surprise"></span>'
+        : c === P.otherColourLabel ? '<span class="dot dot-other">+</span>'
+        : '<span class="dot" style="--c:' + (COLOUR_HEX[c] || '#ccc') + '"></span>';
+      var lab = document.createElement('label');
+      lab.className = 'chip';
+      lab.innerHTML = '<input type="radio" name="colour" value="' + esc(c) + '">' + dot + '<span>' + esc(c) + '</span>';
+      box.appendChild(lab);
+    });
+    box.addEventListener('change', function(e){ state.colour = e.target.value; refresh(); });
+    var sel = $('oColour2');
+    sel.innerHTML = '<option value="">Pick the second colour</option>';
+    P.colours.forEach(function(c){
       var o = document.createElement('option');
       o.value = c; o.textContent = c;
       sel.appendChild(o);
     });
-    sel.addEventListener('change', function(){ $('colourOtherBlock').hidden = sel.value !== P.otherColourLabel; });
   })();
   $('oText').maxLength = P.customText.maxLength;
 
-  // Reflect state in the buttons and show/hide the blocks that depend on the item.
-  function sync(){
-    ['item','size','material','finish'].forEach(function(key){
-      var group = $(key + 'Group');
-      group.querySelectorAll('.seg').forEach(function(b){
-        b.setAttribute('aria-pressed', b.getAttribute('data-val') === state[key] ? 'true' : 'false');
-      });
-    });
-    var item = P.items[state.item];
-    $('sizeBlock').hidden = !(item && item.usesSize);
-    $('linkOpt').textContent = item && item.needsLink ? '— so I print the right thing' : '— optional';
-    var showText = item && item.text !== 'none';
-    $('textBlock').hidden = !showText;
-    if (showText){
-      $('textLabel').textContent = item.text === 'required' ? 'Text to print' : 'Add a name or short text';
-      $('textOpt').textContent = item.text === 'required'
-        ? '— up to ' + P.customText.maxLength + ' characters'
-        : (item.quote ? '— optional' : '— optional, +' + money(P.customText.price) + ' each');
+  // ---- which fields go on "Details" (needed) and which on "Extras" (optional), per item ----
+  var PLAN = {
+    model:   { details: ['fLink', 'fSize'],  extras: ['fText', 'fNotes'] },
+    nametag: { details: ['fText'],           extras: ['fLink', 'fNotes'] },
+    repair:  { details: ['fNotes', 'fLink'], extras: [] },
+    custom:  { details: ['fNotes', 'fLink'], extras: ['fText'] }
+  };
+  var DETAILS_COPY = {
+    model:   ['Which model, and how big?', 'Paste the link so I print exactly the right thing.'],
+    nametag: ['What should it say?', 'Names, initials, a phone number for a pet tag: whatever fits.'],
+    repair:  ['Tell me about the broken part', "The more I know, the faster I can price it. Measurements help. You can attach photos when your email opens."],
+    custom:  ['Tell me your idea', "Rough is fine. I'll ask questions before quoting."]
+  };
+  var FIELD_INPUT = { fLink: 'oLink', fText: 'oText', fNotes: 'oNotes' };
+  function plan(){ return PLAN[state.item] || { details: [], extras: [] }; }
+  function stepOf(fieldId){
+    var p = plan();
+    return p.details.indexOf(fieldId) > -1 ? 'details' : p.extras.indexOf(fieldId) > -1 ? 'extras' : '';
+  }
+
+  function layout(){
+    var item = P.items[state.item], p = plan();
+    ['fLink','fSize','fText','fNotes'].forEach(function(id){ $('parking').appendChild($(id)); });
+    p.details.forEach(function(id){ $('detailsFields').appendChild($(id)); });
+    p.extras.forEach(function(id){ $('extrasFields').appendChild($(id)); });
+    if (!item) return;
+    var copy = DETAILS_COPY[state.item];
+    $('h-details').textContent = copy[0];
+    $('detailsSub').textContent = copy[1];
+
+    var LINK = {
+      model:   ['Link to the model', '', 'Printables, MakerWorld, Thingiverse, Thangs, Cults3D, or any page that shows it.'],
+      nametag: ['Link to a design you like', '— optional', 'A tag you have seen online, if you want it in that style.'],
+      repair:  ['A link that shows the part', '— optional', 'The product page, or a link to a photo.'],
+      custom:  ['A picture or link for inspiration', '— optional', 'Anything that shows what you have in mind.']
+    }[state.item];
+    $('linkLabel').textContent = LINK[0]; $('linkOpt').textContent = LINK[1]; $('linkHint').textContent = LINK[2];
+
+    if (item.text === 'required'){
+      $('textLabel').textContent = 'Text to print';
+      $('textOpt').textContent = '— up to ' + P.customText.maxLength + ' characters';
+    } else {
+      $('textLabel').textContent = 'Add a name or short text';
+      $('textOpt').textContent = item.quote ? '— optional' : '— optional, +' + money(P.customText.price) + ' each';
     }
-    var mat = P.materials[state.material];
-    $('materialHint').textContent = mat ? mat.label + ': ' + mat.hint + '.' : '';
+
+    var NOTES = {
+      model:   ['Design notes', '— optional', 'Where it will be used (indoors, car, outside), which version of the model, a deadline…'],
+      nametag: ['Design notes', '— optional', 'Font style, where it will be used, a deadline…'],
+      repair:  ['What broke, and what is it from?', '', 'For example: the clip that holds the wand on an IKEA blind, about 3 cm long.'],
+      custom:  ['Describe your idea', '', 'What it is, roughly how big, what it is for, and a deadline if there is one.']
+    }[state.item];
+    $('notesLabel').textContent = NOTES[0]; $('notesOpt').textContent = NOTES[1]; $('oNotes').placeholder = NOTES[2];
   }
 
+  // ---- steps ----
+  function fieldProblem(fieldId){
+    var item = P.items[state.item];
+    if (!item) return null;
+    if (fieldId === 'fLink'){
+      if (item.needsLink && !val('oLink')) return ['oLink', 'Add the link to the model so I print the right thing.'];
+      if (val('oLink') && !/^https?:\/\//i.test(val('oLink'))) return ['oLink', 'The link should start with https://'];
+    }
+    if (fieldId === 'fSize' && !has(P.sizes, state.size)) return ['sizeCards', 'Pick a size, or "Not sure" and I\'ll check.'];
+    if (fieldId === 'fText' && item.text === 'required' && !val('oText')) return ['oText', 'Add the text to print.'];
+    if (fieldId === 'fNotes' && item.quote && !val('oNotes')) return ['oNotes', 'A sentence or two is enough to get a quote started.'];
+    return null;
+  }
+  function checkFields(list){
+    for (var i = 0; i < list.length; i++){ var p = fieldProblem(list[i]); if (p) return p; }
+    return null;
+  }
+  var STEPS = [
+    { id: 'item', name: 'What', check: function(){ return state.item ? null : ['itemCards', 'Pick one to get started.']; } },
+    { id: 'details', name: 'Details', check: function(){ return checkFields(plan().details); } },
+    { id: 'material', name: 'Material' },
+    { id: 'finish', name: 'Finish' },
+    { id: 'colour', name: 'Colour', check: function(){
+        if (!state.colour) return ['colourChips', 'Pick a colour, or "Surprise me".'];
+        if (state.colour === P.otherColourLabel && !val('oColourOther')) return ['oColourOther', 'Tell me which colour you would like.'];
+        if (state.finish === 'twotone' && !val('oColour2')) return ['oColour2', 'Pick the second colour.'];
+        var q = Number($('oQty').value);
+        if (!(q >= 1) || Math.floor(q) !== q) return ['oQty', 'How many? Use a whole number, 1 or more.'];
+        return null;
+      } },
+    { id: 'extras', name: 'Extras', active: function(){ return !state.item || plan().extras.length > 0; }, check: function(){ return checkFields(plan().extras); } },
+    { id: 'contact', name: 'Contact', check: function(){
+        if (!val('oName')) return ['oName', 'Add your name.'];
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('oEmail'))) return ['oEmail', 'Add an email address so I can send your receipt.'];
+        return null;
+      } },
+    { id: 'perks', name: OFFER_ON ? 'Ornament' : 'Referral', check: function(){
+        var n = ornament();
+        if (n && (n.length > P.ornamentMaxLength || !ORN_OK.test(n))) return ['oOrn', 'Ornament names can use letters and spaces only, up to ' + P.ornamentMaxLength + ' characters.'];
+        return null;
+      } },
+    { id: 'review', name: 'Review' }
+  ];
+  function activeSteps(){ return STEPS.filter(function(s){ return !s.active || s.active(); }); }
+  function stepIndex(steps, id){ for (var i = 0; i < steps.length; i++) if (steps[i].id === id) return i; return -1; }
+  function section(id){ return document.querySelector('.step[data-step="' + id + '"]'); }
+
+  // Shows a step. Won't skip past an earlier step that still needs an answer.
+  function show(id, focus){
+    var steps = activeSteps(), idx = stepIndex(steps, id);
+    if (idx < 0) idx = 0;
+    for (var i = 0; i < idx; i++){
+      if (steps[i].check && steps[i].check()){ idx = i; break; }
+    }
+    var step = steps[idx];
+    currentStep = step.id;
+    document.querySelectorAll('.step').forEach(function(s){ s.hidden = s.getAttribute('data-step') !== step.id; });
+    if (step.id === 'review'){ fromReview = false; renderReview(); }
+    $('stepCount').textContent = 'Step ' + (idx + 1) + ' of ' + steps.length;
+    $('stepName').textContent = step.name;
+    $('barFill').style.width = Math.round((idx + 1) / steps.length * 100) + '%';
+    $('bar').setAttribute('aria-valuemax', steps.length);
+    $('bar').setAttribute('aria-valuenow', idx + 1);
+    $('bar').setAttribute('aria-valuetext', 'Step ' + (idx + 1) + ' of ' + steps.length + ': ' + step.name);
+    $('backBtn').hidden = idx === 0;
+    clearError();
+    refresh();
+    saveDraft();
+    if (focus){
+      window.scrollTo(0, 0);
+      var first = section(step.id).querySelector('input[type=text],input[type=url],input[type=email],textarea');
+      var fine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+      if (first && fine && !first.value) first.focus();
+      else $('h-' + step.id).focus({ preventScroll: true });
+    }
+    return step.id;
+  }
+
+  // Each step gets a #hash, so the phone's Back gesture goes back one step instead of leaving.
+  function goTo(id){
+    if (location.hash === '#' + id) show(id, true);
+    else location.hash = id;
+  }
+  window.addEventListener('hashchange', function(){
+    var want = location.hash.slice(1), got = show(want, true);
+    if (got !== want) history.replaceState(null, '', '#' + got);
+  });
+
+  function next(){
+    var steps = activeSteps(), idx = stepIndex(steps, currentStep), s = steps[idx];
+    var problem = s.check && s.check();
+    if (problem) return showError(problem[0], problem[1]);
+    goTo(fromReview ? 'review' : steps[Math.min(idx + 1, steps.length - 1)].id);
+  }
+  $('backBtn').addEventListener('click', function(){ history.back(); });
+
+  function showError(fieldId, msg){
+    var err = $('stepErr'), el = $(fieldId);
+    err.textContent = msg;
+    err.classList.add('show');
+    if (el){
+      if (/INPUT|TEXTAREA|SELECT/.test(el.tagName)){ el.setAttribute('aria-invalid', 'true'); el.focus(); }
+      else { var r = el.querySelector('input'); if (r) r.focus(); }
+    }
+  }
+  function clearError(){
+    $('stepErr').classList.remove('show');
+    document.querySelectorAll('[aria-invalid]').forEach(function(el){ el.removeAttribute('aria-invalid'); });
+  }
+
+  // ---- the order, as the checkout function expects it ----
   function colour(){
-    var c = $('oColour').value;
-    return c === P.otherColourLabel ? (val('oColourOther') ? val('oColourOther') + ' (special)' : '') : c;
+    var c = state.colour === P.otherColourLabel ? (val('oColourOther') ? val('oColourOther') + ' (special)' : '') : state.colour;
+    if (c && state.finish === 'twotone' && val('oColour2')) c += ' + ' + val('oColour2');
+    return c;
   }
-
   function order(){
     var item = P.items[state.item];
     return {
@@ -413,37 +722,77 @@
     };
   }
 
-  var current = null;
-  function update(){
-    var o = order(), view = $('priceView'), btn = $('submitBtn');
-    $('formErr').classList.remove('show');
-    if (!o.item){
-      current = null;
-      btn.textContent = 'Choose your options';
-      return;
-    }
+  // Keeps cards, conditional fields, the running price and the Next label in step with the answers.
+  function refresh(){
+    ['item','size','material','finish','colour'].forEach(function(key){
+      document.querySelectorAll('input[name="' + key + '"]').forEach(function(r){
+        r.checked = r.value === state[key];
+        var card = r.closest('.card, .chip');
+        if (card) card.classList.toggle('is-on', r.checked);
+      });
+    });
+    $('colourOtherBlock').hidden = state.colour !== P.otherColourLabel;
+    $('colour2Block').hidden = state.finish !== 'twotone';
+    $('h-colour').textContent = state.finish === 'twotone' ? 'Pick two colours, and how many' : 'Pick a colour, and how many';
+
+    var o = order(), run = $('running');
+    current = state.item ? P.calculate(o) : null;
+    if (!current) run.innerHTML = '';
+    else if (current.quote) run.innerHTML = 'Price<b>Free quote</b>';
+    else run.innerHTML = 'Price<b>' + money(current.total) + '</b>';
+
+    var btn = $('nextBtn');
+    if (btn.disabled) return;
+    if (currentStep === 'review') btn.textContent = current && !current.quote ? 'Pay ' + money(current.total) : 'Request a quote';
+    else if (fromReview) btn.textContent = 'Back to review';
+    else if (currentStep === 'extras' && plan().extras.every(function(id){ return !val(FIELD_INPUT[id]); })) btn.textContent = 'Skip';
+    else if (currentStep === 'perks' && !val('oRef') && !ornament()) btn.textContent = 'Skip';
+    else btn.textContent = 'Next';
+  }
+
+  // ---- review screen ----
+  function renderReview(){
+    var o = order(), item = P.items[o.item], rows = [];
+    function row(label, value, step){ if (value) rows.push([label, value, step]); }
+    row('What', item.label, 'item');
+    if (item.usesSize && P.sizes[o.size]) row('Size', P.sizes[o.size].label + ' (' + P.sizes[o.size].hint + ')', 'details');
+    row(o.item === 'model' ? 'Model link' : 'Link', o.link, stepOf('fLink'));
+    row('Text', o.text ? '"' + o.text + '"' : '', stepOf('fText'));
+    row(item.quote ? 'Description' : 'Notes', o.notes, stepOf('fNotes'));
+    row('Material', P.materials[o.material].label, 'material');
+    row('Finish', P.finishes[o.finish].label, 'finish');
+    row('Colour', o.colour, 'colour');
+    row('How many', String(o.quantity), 'colour');
+    row('Name', o.name, 'contact');
+    row('Email', o.email, 'contact');
+    row('Phone', o.phone, 'contact');
+    row('Ornament name', o.ornament ? '"' + o.ornament + '"' : '', 'perks');
+    row('Referred by', o.referral, 'perks');
+    $('reviewList').innerHTML = rows.map(function(r){
+      return '<div class="rv-row"><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd>' +
+        '<a href="#' + r[2] + '" data-change>Change<span class="sr-only"> ' + esc(r[0].toLowerCase()) + '</span></a></div>';
+    }).join('');
+
     current = P.calculate(o);
+    var view = $('priceView');
     if (current.quote){
-      view.innerHTML = '<h2>This one needs a quote</h2>' +
-        '<div class="quote-note">Nothing is charged. I\'ll look at the details and reply with a firm price, usually the same day.' +
-        '<ul>' + current.reasons.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join('') + '</ul></div>';
-      btn.textContent = 'Request a quote';
+      $('reviewSub').textContent = "This one needs a quick look before I can price it. Send it and I'll reply with a firm price, usually the same day. Nothing is charged.";
+      view.innerHTML = '<span class="mono">Your price</span><div class="total" style="font-size:1.6rem">Free quote</div>' +
+        '<div class="quote-note">Why it needs a quote:<ul>' + current.reasons.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join('') + '</ul></div>';
       $('submitFine').textContent = 'Opens your email app with everything filled in.';
     } else {
-      var rows = '<li><span>' + money(current.unit) + ' each × ' + current.quantity + '</span><span>' + money(current.subtotal) + '</span></li>';
-      if (current.topUp) rows += '<li><span>Small-job minimum (jobs start at ' + money(P.minimumJob) + ')</span><span>+' + money(current.topUp) + '</span></li>';
-      rows += '<li class="sum"><span>Total</span><span>' + money(current.total) + '</span></li>';
-      view.innerHTML = '<div class="total">' + money(current.total) + '<small>CAD</small></div>' +
+      $('reviewSub').textContent = 'Everything look right? Tap Change to fix anything.';
+      var rowsHtml = '<li><span>' + money(current.unit) + ' each × ' + current.quantity + '</span><span>' + money(current.subtotal) + '</span></li>';
+      if (current.topUp) rowsHtml += '<li><span>Small-job minimum (jobs start at ' + money(P.minimumJob) + ')</span><span>+' + money(current.topUp) + '</span></li>';
+      rowsHtml += '<li class="sum"><span>Total</span><span>' + money(current.total) + '</span></li>';
+      view.innerHTML = '<span class="mono">Your price</span><div class="total">' + money(current.total) + '<small>CAD</small></div>' +
         '<p class="hint" style="margin:0">' + esc(current.parts.join(' · ')) + '</p>' +
-        '<ul class="breakdown">' + rows + '</ul>';
-      btn.textContent = 'Pay ' + money(current.total) + ' securely';
+        '<ul class="breakdown">' + rowsHtml + '</ul>';
       $('submitFine').textContent = 'Secure card payment through Stripe. Porch pickup in Greentree Village, Burnaby.';
     }
   }
-
-  ['oQty','oText','oLink','oColour','oColourOther'].forEach(function(id){
-    $(id).addEventListener('input', update);
-    $(id).addEventListener('change', update);
+  $('reviewList').addEventListener('click', function(e){
+    if (e.target.closest('[data-change]')) fromReview = true;
   });
 
   // ---- plain-text summary (used for quote emails and the thanks page) ----
@@ -471,62 +820,68 @@
   function sendByEmail(subject, body){
     $('quoteSummary').textContent = body;
     $('quoteSuccess').classList.add('show');
-    $('quoteSuccess').scrollIntoView({behavior:'smooth', block:'nearest'});
+    $('quoteSuccess').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     if (CONTACT_EMAIL && CONTACT_EMAIL.indexOf('example.com') === -1){
       window.location.href = 'mailto:' + CONTACT_EMAIL +
         '?subject=' + encodeURIComponent(subject) +
         '&body=' + encodeURIComponent(body);
     }
   }
+  function fail(msg){ var err = $('stepErr'); err.textContent = msg; err.classList.add('show'); }
 
-  function fail(msg){
-    var err = $('formErr');
-    err.textContent = msg;
-    err.classList.add('show');
-  }
-
-  // ---- draft: kept for this tab so "back to your order" after cancelling restores it ----
-  var FIELDS = ['oLink','oQty','oColour','oColourOther','oText','oNotes','oName','oEmail','oPhone','oRef','oOrn'];
+  // ---- draft: saved on every change, so Back, a refresh, or cancelling at Stripe keeps the answers ----
+  var FIELDS = ['oLink','oQty','oColourOther','oColour2','oText','oNotes','oName','oEmail','oPhone','oRef','oOrn'];
   function saveDraft(){
-    var d = { state: state, fields: {} };
+    var d = { state: state, fields: {}, step: currentStep };
     FIELDS.forEach(function(id){ d.fields[id] = $(id).value; });
     try { sessionStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch (e) {}
   }
-  (function restore(){
+  function loadDraft(){
     var d = null;
     try { d = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || 'null'); } catch (e) {}
-    if (!d) return;
-    ['item','size','material','finish'].forEach(function(k){ if (d.state && d.state[k] !== undefined) state[k] = d.state[k]; });
+    if (!d) return '';
+    Object.keys(state).forEach(function(k){ if (d.state && typeof d.state[k] === 'string') state[k] = d.state[k]; });
     FIELDS.forEach(function(id){ if (d.fields && typeof d.fields[id] === 'string') $(id).value = d.fields[id]; });
-    $('colourOtherBlock').hidden = $('oColour').value !== P.otherColourLabel;
-  })();
+    return typeof d.step === 'string' ? d.step : '';
+  }
 
-  sync();
-  update();
+  var form = $('flow');
+  form.addEventListener('input', function(e){ if (e.target.id) { clearError(); refresh(); saveDraft(); } });
+  form.addEventListener('change', function(){ refresh(); saveDraft(); });
 
-  // ---- submit: pay online, or send a quote request ----
-  $('orderForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    var o = order(), item = P.items[o.item];
-    $('payFallback').classList.remove('show');
-    if (!item) return fail('Start by picking what you are ordering.');
-    if (item.usesSize && !o.size) return fail('Pick a size, or "Not sure" for a quote.');
-    if (!o.colour) return fail('Tell me which colour you would like.');
-    if (item.needsLink && !o.link) { $('oLink').focus(); return fail('Add the model link so I print the right thing.'); }
-    if (o.link && !/^https?:\/\//i.test(o.link)) { $('oLink').focus(); return fail('The model link should start with https://'); }
-    if (item.text === 'required' && !o.text) { $('oText').focus(); return fail('Add the text to print.'); }
-    if (!o.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(o.email)) return fail('Add your name and an email address.');
-    if (o.ornament && (o.ornament.length > P.ornamentMaxLength || !ORN_OK.test(o.ornament))){
-      $('oOrn').focus();
-      return fail('Ornament names can use letters and spaces only, up to ' + P.ornamentMaxLength + ' characters.');
+  // Enter = Next. On a choice card, Enter moves on too; in the notes box, Ctrl/Cmd+Enter does.
+  form.addEventListener('keydown', function(e){
+    if (e.key !== 'Enter' || e.isComposing) return;
+    var t = e.target;
+    if (t.type === 'radio' || (t.tagName === 'TEXTAREA' && (e.metaKey || e.ctrlKey))){
+      e.preventDefault();
+      if (currentStep !== 'review') next();
     }
+  });
+
+  $('qtyMinus').addEventListener('click', function(){ var q = parseInt($('oQty').value, 10) || 1; $('oQty').value = Math.max(1, q - 1); refresh(); saveDraft(); });
+  $('qtyPlus').addEventListener('click', function(){ var q = parseInt($('oQty').value, 10) || 0; $('oQty').value = Math.min(999, q + 1); refresh(); saveDraft(); });
+
+  // ---- submit: Next on every step; on the review screen, pay or send the quote ----
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (currentStep !== 'review') return next();
+    if (e.submitter && e.submitter.id !== 'nextBtn') return;
+    var steps = activeSteps();
+    for (var i = 0; i < steps.length; i++){
+      if (steps[i].check && steps[i].check()){ fromReview = true; return goTo(steps[i].id); }
+    }
+    var o = order();
+    $('payFallback').classList.remove('show');
+    clearError();
+    current = P.calculate(o);
 
     if (current.quote){
       sendByEmail('Quote request (order page)', summary(o, 'GREENTREE PRINTS — QUOTE REQUEST'));
       return;
     }
 
-    var btn = $('submitBtn');
+    var btn = $('nextBtn');
     btn.disabled = true;
     btn.textContent = 'Opening secure checkout…';
     saveDraft();
@@ -542,22 +897,23 @@
         return;
       }
       btn.disabled = false;
-      update();
+      refresh();
       if (data.error === 'not_configured' || xhr.status === 404){
         $('payFallback').classList.add('show');
+        $('payFallback').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       } else if (data.error === 'needs_quote'){
-        fail('This order needs a quote — please refresh the page and try again.');
+        fail('This order needs a quote. Please refresh the page and try again.');
       } else if (data.error === 'invalid'){
-        fail('Something in the form needs another look: ' + (data.fields || []).join(', ') + '.');
+        fail('Something needs another look: ' + (data.fields || []).join(', ') + '.');
       } else {
-        fail('Checkout could not start. Nothing was charged — please try again, or email the order instead.');
+        fail('Checkout could not start. Nothing was charged. Please try again, or email the order instead.');
         $('payFallback').classList.add('show');
       }
     };
     xhr.onerror = function(){
       btn.disabled = false;
-      update();
-      fail('Could not reach checkout. Nothing was charged — check your connection and try again.');
+      refresh();
+      fail('Could not reach checkout. Nothing was charged. Check your connection and try again.');
     };
     xhr.send(JSON.stringify(o));
   });
@@ -565,7 +921,6 @@
   $('emailInstead').addEventListener('click', function(){
     sendByEmail('Print order (pay by link)', summary(order(), 'GREENTREE PRINTS — ORDER (PLEASE SEND A PAYMENT LINK)'));
   });
-
   $('copyQuote').addEventListener('click', function(){
     var btn = this;
     navigator.clipboard.writeText($('quoteSummary').textContent).then(function(){
@@ -578,10 +933,26 @@
   // with the pay button still disabled ("Opening secure checkout…"). Reset it.
   window.addEventListener('pageshow', function(e){
     if (e.persisted){
-      $('submitBtn').disabled = false;
-      update();
+      $('nextBtn').disabled = false;
+      refresh();
     }
   });
+
+  // ---- start: restore any draft, rebuild the step history up to where they were ----
+  (function start(){
+    var saved = loadDraft();
+    layout();
+    form.hidden = false;
+    $('progress').hidden = false;
+    var target = location.hash.slice(1) || saved || 'item';
+    var steps = activeSteps(), idx = stepIndex(steps, target);
+    if (idx < 0) idx = 0;
+    // Seed one history entry per earlier step, so Back walks through them in order.
+    history.replaceState(null, '', '#' + steps[0].id);
+    for (var i = 1; i <= idx; i++) history.pushState(null, '', '#' + steps[i].id);
+    var got = show(steps[idx].id, false);
+    if (got !== steps[idx].id) history.replaceState(null, '', '#' + got);
+  })();
 </script>
 </body>
 </html>
