@@ -112,8 +112,16 @@ its own `#hash`, so the phone's Back gesture goes back one step, and answers are
 `sessionStorage` on every change (Back, refresh, or cancelling at Stripe keeps them).
 
 The option cards' wording (`blurb`, `more`, `why`) lives in `order/pricing.js` next to each
-price. Swatches are CSS drawings until a photo exists: put the image in `order/photos/` and set
-that option's `photo` field, e.g. `photo: '/order/photos/petg.jpg'`.
+price. Every card leads with a picture (`photo`, a 4:3 WebP in `order/img/`). The current
+pictures are computer renders, marked `standIn: true`, and the page says so under the cards.
+To use a real photo, save it over the WebP (or point `photo` at a new file) and delete
+`standIn`. `pricing.js` lists the photos worth taking.
+
+While the holiday offer runs, the gingerbread ornament appears as a thumbnail in each offer
+banner (hover or tap for a bigger preview), beside each ornament-name box, and on the review
+screen. The page writes the visitor's name on the hat as they type: the picture has a blank
+hat band, and `ornament` in `pricing.js` says where the name goes. The homepage repeats those
+numbers inline.
 
 | File | What it is |
 |------|-----------|

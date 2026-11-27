@@ -66,30 +66,44 @@
   .step h2{font-size:clamp(1.55rem,5vw,2.15rem);font-weight:800;margin:4px 0 8px;outline:none}
   .step .sub{color:#3A5245;margin-bottom:20px;max-width:36rem}
   .kicker{display:block;color:#965C34;margin-bottom:6px}
-  .offer{margin:0 0 18px;background:#FDF3E1;border:1.5px solid var(--gold);border-radius:12px;padding:12px 14px;font-weight:700;font-size:.95rem}
+  .offer{margin:0 0 18px;background:#FDF3E1;border:1.5px solid var(--gold);border-radius:12px;padding:12px 14px;font-size:.93rem;line-height:1.45;display:flex;gap:14px;align-items:center}
+  .offer[hidden]{display:none}
+  .offer b{display:block;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.02rem;margin-bottom:2px}
+  .offer-tip{display:block;font-size:.82rem;color:#7A4A12;margin-top:4px}
+  .tip-touch{display:none}
+  @media (hover:none){.tip-mouse{display:none}.tip-touch{display:inline}}
   .illus-note{font-size:.82rem;color:var(--muted);margin-top:12px;display:flex;gap:8px;align-items:center}
   .illus-note::before{content:'';width:14px;height:14px;border-radius:4px;border:1.5px dashed var(--muted);flex:0 0 auto}
 
-  /* option cards (radio + label, with a separate "What's this?" toggle) */
-  .cards{display:grid;gap:10px}
-  @media(min-width:640px){.cards.two{grid-template-columns:1fr 1fr}}
-  .card{background:#fff;border:1.5px solid var(--line);border-radius:14px;transition:border-color .12s ease, box-shadow .12s ease}
+  /* option cards: picture first, words underneath (Typeform-style picture choice).
+     Each is a radio + label, with a separate "What's this?" toggle. */
+  .cards{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr))}
+  @media(min-width:640px){.cards{gap:14px}}
+  .card{background:#fff;border:1.5px solid var(--line);border-radius:14px;transition:border-color .12s ease, box-shadow .12s ease, transform .12s ease;display:flex;flex-direction:column}
   .card:hover{border-color:rgba(34,57,46,.35)}
+  @media (hover:hover){.card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(34,57,46,.10)}}
   .card.is-on{border-color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
   .card:focus-within{outline:3px solid rgba(76,175,109,.55);outline-offset:2px}
-  .card-main{display:flex;gap:14px;align-items:flex-start;padding:14px 14px 14px;cursor:pointer;position:relative;min-height:64px}
+  .card-main{display:flex;flex-direction:column;cursor:pointer;position:relative;flex:1 1 auto}
   .card-main input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
-  .card-vis{flex:0 0 56px;width:56px;height:56px;display:block}
-  .card-vis img{width:56px;height:56px;object-fit:cover;border-radius:12px;display:block}
-  .card-body{flex:1 1 auto;min-width:0;padding-right:26px}
-  .card-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
-  .card-top b{font-weight:700;font-size:1.02rem}
+  .card-vis{display:flex;align-items:center;justify-content:center;position:relative;aspect-ratio:4/3;border-radius:12.5px 12.5px 0 0;border-bottom:1px solid var(--line);
+    background:radial-gradient(ellipse 80% 70% at 50% 40%, #FFFFFF 0%, #F6F5EC 60%, #ECEBDD 100%)}
+  .card-vis img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
+  .card.is-on .card-vis{background:radial-gradient(ellipse 80% 70% at 50% 40%, #FFFFFF 0%, #F0F6EE 60%, #E1EDDF 100%)}
+  .pic-q{position:absolute;right:16%;top:50%;transform:translateY(-50%);font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(2.2rem,9vw,3.4rem);color:var(--spruce);opacity:.85}
+  .card-body{display:block;padding:10px 12px 12px;min-width:0}
+  .card-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}
+  .card-top b{font-weight:700;font-size:1rem;line-height:1.3}
   .tag{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.04em;background:var(--paper);border:1px solid var(--line);padding:1px 8px;border-radius:999px;white-space:nowrap;color:var(--spruce)}
-  .badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;background:#FDF3E1;color:#7A4A12;border:1px solid var(--gold);padding:1px 7px;border-radius:6px;margin-top:4px}
-  .card-blurb{display:block;color:#3A5245;font-size:.93rem;line-height:1.45;margin-top:4px}
-  .tick{position:absolute;top:14px;right:14px;width:22px;height:22px;border-radius:50%;border:2px solid var(--line);background:#fff}
+  .badge{position:absolute;left:9px;bottom:8px;display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;background:#FDF3E1;color:#7A4A12;border:1px solid var(--gold);padding:1px 7px;border-radius:6px}
+  .card-blurb{display:block;color:#3A5245;font-size:.88rem;line-height:1.42;margin-top:4px}
+  .key{position:absolute;top:9px;left:9px;min-width:22px;height:22px;padding:0 5px;border:1.5px solid var(--line);border-radius:6px;background:rgba(255,255,255,.92);
+    display:none;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:500;color:var(--spruce)}
+  @media (pointer:fine){.key{display:flex}}
+  .card.is-on .key{background:var(--ink);border-color:var(--ink);color:#fff}
+  .tick{position:absolute;top:9px;right:9px;width:22px;height:22px;border-radius:50%;border:2px solid var(--line);background:#fff}
   .card.is-on .tick{border-color:var(--ink);background:var(--ink);box-shadow:inset 0 0 0 4px #fff}
-  .more{border-top:1px dashed var(--line);padding:0 14px}
+  .more{border-top:1px dashed var(--line);padding:0 12px}
   .more summary{cursor:pointer;font-weight:700;font-size:.88rem;color:var(--spruce);min-height:44px;display:flex;align-items:center;gap:8px;list-style:none}
   .more summary::-webkit-details-marker{display:none}
   .more summary::before{content:'i';font-family:'IBM Plex Mono',monospace;font-size:.7rem;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--spruce);display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
@@ -214,10 +228,41 @@
   footer{border-top:1px solid var(--line);padding:30px 0 40px;color:#5A6F62;font-size:.9rem;margin-top:40px}
   .foot-grid{display:flex;flex-wrap:wrap;gap:14px 30px;justify-content:space-between;align-items:center}
 
+  /* free ornament: the picture with the visitor's name written on the hat */
+  .orn-art{position:relative;display:block;aspect-ratio:520/640}
+  .orn-art img,.orn-art svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .orn-name{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;fill:#1C1A19}
+  .orn{position:relative;flex:0 0 auto;display:block}
+  .orn-thumb{display:block;width:64px;padding:2px;border:1.5px solid var(--gold);border-radius:10px;background:#fff;cursor:zoom-in;transition:transform .12s ease}
+  .orn-thumb:hover{transform:scale(1.04)}
+  .orn-thumb:focus-visible{outline:3px solid rgba(76,175,109,.55);outline-offset:2px}
+  .orn-pop{position:absolute;z-index:60;top:calc(100% + 8px);left:0;width:260px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:10px 14px 14px;font-weight:400;font-size:.88rem;line-height:1.45;color:#3A5245}
+  .orn-pop[hidden]{display:none}
+  .orn-pop .orn-art{width:200px;margin:0 auto 8px}
+  .orn-pop b{font-family:'Bricolage Grotesque',sans-serif;font-size:1rem;color:var(--ink);display:block;margin-bottom:2px}
+  .orn-dim{display:none}
+  .orn-close{display:none;position:absolute;top:6px;right:6px;width:40px;height:40px;border:0;background:transparent;font-size:1.5rem;line-height:1;color:var(--ink);cursor:pointer;border-radius:50%}
+  .orn-close:focus-visible{outline:3px solid rgba(76,175,109,.55)}
+  @media (max-width:560px){
+    .orn-pop{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(320px,88vw);max-height:88vh;overflow:auto;padding-top:14px}
+    .orn-pop .orn-art{width:min(220px,58vw)}
+    .orn-close{display:block}
+    .orn-dim{display:block;position:fixed;inset:0;z-index:59;background:rgba(34,57,46,.38)}
+    .orn-dim[hidden]{display:none}
+  }
+  .orn-field{display:grid;grid-template-columns:132px 1fr;gap:14px;align-items:start}
+  .orn-field .orn-art{width:132px}
+  .orn-field .orn-cap{font-size:.8rem;color:var(--muted);text-align:center;margin-top:4px;line-height:1.3}
+  @media (max-width:420px){.orn-field{grid-template-columns:104px 1fr;gap:12px}.orn-field .orn-art{width:104px}}
+  .rv-orn dd{display:flex;gap:12px;align-items:center;font-weight:400}
+  .rv-orn .orn-art{width:52px;flex:0 0 auto}
+  .rv-orn dd b{display:block}
+
   @media (max-width:420px){
     .btn{padding:12px 16px}
-    .card-vis,.sw,.item-icon,.card-vis img{width:48px;height:48px;flex-basis:48px}
-    .card-main{gap:12px}
+    .card-body{padding:9px 10px 11px}
+    .card-blurb{font-size:.84rem}
+    .more{padding:0 10px}
   }
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important;transition:none !important}
@@ -258,8 +303,13 @@
         <span class="mono kicker">Order online · about 2 minutes</span>
         <h2 id="h-item" tabindex="-1">What would you like printed?</h2>
         <p class="sub">One or two questions at a time, and the price updates as you go. Anything that needs a closer look becomes a free quote, and nothing is charged.</p>
-        <p class="offer" data-offer hidden>Free personalised gingerbread ornament with every order before December 9th, a $18 value.</p>
+        <div class="offer" data-offer hidden>
+          <span class="orn" data-orn></span>
+          <span><b>Free gingerbread ornament with your name on it</b>With any order placed by <span data-orn-day>Wednesday, December 9</span>. About 9 × 11 cm, in full colour, and it comes with your order. An $18 value.
+          <span class="offer-tip"><span class="tip-mouse">Hover over the ornament for a closer look.</span><span class="tip-touch">Tap the ornament for a closer look.</span></span></span>
+        </div>
         <div class="cards" role="radiogroup" aria-labelledby="h-item" id="itemCards"></div>
+        <p class="illus-note" id="itemNote">Pictures are computer renders, not photos of real prints.</p>
       </section>
 
       <!-- 2. Details (contents depend on the item) -->
@@ -274,7 +324,7 @@
         <h2 id="h-material" tabindex="-1">What should it be made of?</h2>
         <p class="sub">Most things are fine in PLA. If you're not sure, leave it with me.</p>
         <div class="cards" role="radiogroup" aria-labelledby="h-material" id="materialCards"></div>
-        <p class="illus-note" id="materialNote">Swatches are drawings, not photos of real prints.</p>
+        <p class="illus-note" id="materialNote">Pictures are computer renders, not photos of real prints.</p>
       </section>
 
       <!-- 4. Finish -->
@@ -282,7 +332,7 @@
         <h2 id="h-finish" tabindex="-1">How should it look?</h2>
         <p class="sub">The finish is the surface: plain, shiny, or two colours.</p>
         <div class="cards" role="radiogroup" aria-labelledby="h-finish" id="finishCards"></div>
-        <p class="illus-note" id="finishNote">Swatches are drawings, not photos of real prints.</p>
+        <p class="illus-note" id="finishNote">Pictures are computer renders, not photos of real prints.</p>
       </section>
 
       <!-- 5. Colour + quantity -->
@@ -339,11 +389,14 @@
       <!-- 8. Perks: ornament (while the offer runs) + referral -->
       <section class="step" data-step="perks" aria-labelledby="h-perks" hidden>
         <h2 id="h-perks" tabindex="-1">Did a neighbour send you?</h2>
-        <p class="sub">Optional. Skip this if it doesn't apply.</p>
-        <div class="field" data-offer hidden>
-          <label class="f" for="oOrn">Name for your free gingerbread ornament <span class="opt">— optional</span></label>
-          <input type="text" id="oOrn" maxlength="12" autocomplete="off" aria-describedby="oOrnHint">
-          <p class="hint" id="oOrnHint">Your choice of name, and a child's name is perfect. I'll print it on the Santa hat exactly as you type it. Names up to 9 letters (like Valentina) fit at full size; longer names print a little smaller. The year on the ornament will be 2026.</p>
+        <p class="sub" id="perksSub">Optional. Skip this if it doesn't apply.</p>
+        <div class="field orn-field" data-offer hidden>
+          <div aria-hidden="true"><span class="orn-art" data-orn-art></span><p class="orn-cap" id="ornCap">Sample name. Type yours and watch it appear.</p></div>
+          <div>
+            <label class="f" for="oOrn">Name for your free gingerbread ornament <span class="opt">— optional</span></label>
+            <input type="text" id="oOrn" maxlength="12" autocomplete="off" aria-describedby="oOrnHint">
+            <p class="hint" id="oOrnHint">Your choice of name, and a child's name is perfect. I'll print it on the Santa hat exactly as you type it. Names up to 9 letters (like Valentina) fit at full size; longer names print a little smaller. The year on the ornament will be 2026.</p>
+          </div>
         </div>
         <div class="field">
           <label class="f" for="oRef">Who referred you? <span class="opt">— optional</span></label>
@@ -384,6 +437,7 @@
         <div class="field" id="fSize">
           <span class="f" id="sizeLabel">How big should it be?</span>
           <div class="cards two" role="radiogroup" aria-labelledby="sizeLabel" id="sizeCards"></div>
+          <p class="illus-note" id="sizeNote">Each picture shows the same planter next to a phone (about 15 cm tall), so you can see the scale. Computer renders, not photos.</p>
         </div>
         <div class="field" id="fText">
           <label class="f" for="oText"><span id="textLabel">Text to print</span> <span class="opt" id="textOpt"></span></label>
@@ -439,9 +493,69 @@
   if (OFFER_ON){
     document.querySelectorAll('[data-offer]').forEach(function(el){ el.hidden = false; });
     $('h-perks').textContent = 'A free ornament, and a referral discount';
+    $('perksSub').textContent = 'Your order comes with a free gingerbread ornament, about 9 × 11 cm, with a name of your choice on the Santa hat. ' +
+      'It\'s free with any order placed by ' + P.ornamentLastDay + '. Both questions are optional.';
   }
   var ORN_OK = /^[A-Za-zÀ-ÖØ-öø-ɏ ]+$/;
   function ornament(){ return OFFER_ON ? val('oOrn') : ''; }
+
+  // ---- ornament preview: the render, with the visitor's name written on the hat ----
+  // Every [data-orn-art] shows the ornament; every [data-orn] is a thumbnail that opens a
+  // bigger preview on hover (mouse) or tap (touch). All of them show the name typed in #oOrn.
+  var ORN = P.ornament;
+  function ornArt(){
+    return '<img src="' + esc(ORN.photo) + '" alt="" width="' + ORN.w + '" height="' + ORN.h + '" loading="lazy" decoding="async">' +
+      '<svg viewBox="0 0 ' + ORN.w + ' ' + ORN.h + '" aria-hidden="true"><text class="orn-name" x="' + ORN.nameX + '" y="' + ORN.nameY + '" ' +
+      'text-anchor="middle" dominant-baseline="central" transform="rotate(' + ORN.nameAngle + ' ' + ORN.nameX + ' ' + ORN.nameY + ')"></text></svg>';
+  }
+  function ornName(){ return ornament() || ORN.sample; }
+  function updateOrnaments(){
+    var n = ornName(), size = Math.min(ORN.nameSize, ORN.nameMaxWidth / (Math.max(n.length, 1) * 0.6));
+    document.querySelectorAll('.orn-name').forEach(function(t){
+      if (t.textContent !== n) t.textContent = n;
+      t.setAttribute('font-size', size.toFixed(1));
+    });
+    document.querySelectorAll('[data-orn-say]').forEach(function(el){ el.textContent = n; });
+    var cap = $('ornCap');
+    if (cap) cap.textContent = ornament() ? 'Your ornament. Picture is a render.' : 'Sample name. Type yours and watch it appear.';
+  }
+  var ornCount = 0;
+  function ornThumb(holder){
+    var id = 'ornPop' + (++ornCount);
+    holder.innerHTML = '<button type="button" class="orn-thumb" aria-expanded="false" aria-controls="' + id + '">' +
+      '<span class="orn-art">' + ornArt() + '</span><span class="sr-only">See the free gingerbread ornament</span></button>' +
+      '<span class="orn-pop" id="' + id + '" role="dialog" aria-label="Free gingerbread ornament" hidden>' +
+      '<button type="button" class="orn-close" aria-label="Close">×</button>' +
+      '<span class="orn-art">' + ornArt() + '</span>' +
+      '<b>Free with your order</b>A gingerbread ornament about 9 × 11 cm, printed in full colour with ' +
+      '"<span data-orn-say></span>" on the Santa hat. Free with any order placed by ' + esc(P.ornamentLastDay) +
+      ', and it comes with your order. Picture is a computer render.</span>' +
+      '<span class="orn-dim" hidden></span>';
+    var btn = holder.querySelector('.orn-thumb'), pop = holder.querySelector('.orn-pop'), dim = holder.querySelector('.orn-dim'), pinned = false, timer = null;
+    function set(open){
+      clearTimeout(timer);
+      pop.hidden = !open;
+      dim.hidden = !open;
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (!open) pinned = false;
+    }
+    btn.addEventListener('click', function(e){ e.stopPropagation(); pinned = !(pinned && !pop.hidden); set(pinned); });
+    holder.querySelector('.orn-close').addEventListener('click', function(e){ e.stopPropagation(); set(false); btn.focus(); });
+    var hover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (hover){
+      holder.addEventListener('mouseenter', function(){ if (!pinned) set(true); });
+      holder.addEventListener('mouseleave', function(){ if (!pinned) timer = setTimeout(function(){ set(false); }, 120); });
+    }
+    pop.addEventListener('click', function(e){ e.stopPropagation(); });
+    dim.addEventListener('click', function(e){ e.stopPropagation(); e.preventDefault(); set(false); btn.focus(); });
+    document.addEventListener('click', function(){ if (!pop.hidden) set(false); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !pop.hidden){ set(false); btn.focus(); } });
+  }
+  if (OFFER_ON){
+    document.querySelectorAll('[data-orn]').forEach(ornThumb);
+    document.querySelectorAll('[data-orn-art]').forEach(function(el){ el.innerHTML = ornArt(); });
+    document.querySelectorAll('[data-orn-day]').forEach(function(el){ el.textContent = P.ornamentLastDay; });
+  }
 
   // ---- what each colour looks like on screen ----
   var COLOUR_HEX = {
@@ -464,7 +578,8 @@
     return 'No extra charge';
   }
   function visualFor(group, k, o){
-    if (o.photo) return '<img src="' + esc(o.photo) + '" alt="">';
+    if (o.photo) return '<img src="' + esc(o.photo) + '" alt="" width="560" height="420" decoding="async"' + (group === 'items' ? '' : ' loading="lazy"') + '>' +
+      (group === 'sizes' && k === 'unsure' ? '<span class="pic-q" aria-hidden="true">?</span>' : '');
     if (group === 'items') return '<span class="item-icon">' + (ICONS[k] || '') + '</span>';
     if (group === 'sizes') return '<span class="sw sw-size sz-' + k + '"><i></i></span>';
     if (k === 'auto') return '<span class="sw sw-auto"></span>';
@@ -478,13 +593,15 @@
   }
   function buildCards(boxId, group, key){
     var table = P[group], box = $(boxId);
-    Object.keys(table).forEach(function(k){
+    Object.keys(table).forEach(function(k, i){
       var o = table[k], wrap = document.createElement('div');
       wrap.className = 'card';
+      // Picture first, words underneath. The letter is a keyboard shortcut, as on Typeform.
       var html = '<label class="card-main"><input type="radio" name="' + key + '" value="' + esc(k) + '">' +
-        '<span class="card-vis" aria-hidden="true">' + visualFor(group, k, o) + '</span>' +
+        '<span class="card-vis">' + visualFor(group, k, o) +
+        '<span class="key" aria-hidden="true">' + String.fromCharCode(65 + i) + '</span>' +
+        (o.recommended ? '<span class="badge">Recommended</span>' : '') + '</span>' +
         '<span class="card-body"><span class="card-top"><b>' + esc(o.label) + '</b><span class="tag">' + esc(tagFor(group, o)) + '</span></span>' +
-        (o.recommended ? '<span class="badge">Recommended</span>' : '') +
         '<span class="card-blurb">' + esc(o.blurb || o.hint || '') + (group === 'sizes' && o.hint && o.blurb ? ' <span style="color:var(--muted)">(' + esc(o.hint) + ')</span>' : '') + '</span>' +
         '</span><span class="tick" aria-hidden="true"></span></label>';
       if (o.more){
@@ -501,9 +618,9 @@
       if (changedItem) layout();
       refresh();
     });
-    // Only show "drawings, not photos" while some option still has no photo.
-    var note = $(group === 'materials' ? 'materialNote' : group === 'finishes' ? 'finishNote' : '');
-    if (note) note.hidden = Object.keys(table).every(function(k){ return table[k].photo; });
+    // "Renders, not photos" shows while any picture in the group is still a stand-in.
+    var note = $({ items: 'itemNote', sizes: 'sizeNote', materials: 'materialNote', finishes: 'finishNote' }[group]);
+    if (note) note.hidden = Object.keys(table).every(function(k){ return table[k].photo && !table[k].standIn; });
   }
   buildCards('itemCards', 'items', 'item');
   buildCards('sizeCards', 'sizes', 'size');
@@ -645,6 +762,8 @@
     currentStep = step.id;
     document.querySelectorAll('.step').forEach(function(s){ s.hidden = s.getAttribute('data-step') !== step.id; });
     if (step.id === 'review'){ fromReview = false; renderReview(); }
+    // Start loading the next step's pictures now, so they're there when it opens.
+    if (steps[idx + 1]) section(steps[idx + 1].id).querySelectorAll('img[loading=lazy]').forEach(function(img){ img.loading = 'eager'; });
     $('stepCount').textContent = 'Step ' + (idx + 1) + ' of ' + steps.length;
     $('stepName').textContent = step.name;
     $('barFill').style.width = Math.round((idx + 1) / steps.length * 100) + '%';
@@ -736,6 +855,7 @@
     $('colourOtherBlock').hidden = state.colour !== P.otherColourLabel;
     $('colour2Block').hidden = state.finish !== 'twotone';
     $('h-colour').textContent = state.finish === 'twotone' ? 'Pick two colours, and how many' : 'Pick a colour, and how many';
+    if (OFFER_ON) updateOrnaments();
 
     var o = order(), run = $('running');
     current = state.item ? P.calculate(o) : null;
@@ -768,12 +888,16 @@
     row('Name', o.name, 'contact');
     row('Email', o.email, 'contact');
     row('Phone', o.phone, 'contact');
-    row('Ornament name', o.ornament ? '"' + o.ornament + '"' : '', 'perks');
     row('Referred by', o.referral, 'perks');
     $('reviewList').innerHTML = rows.map(function(r){
       return '<div class="rv-row"><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd>' +
         '<a href="#' + r[2] + '" data-change>Change<span class="sr-only"> ' + esc(r[0].toLowerCase()) + '</span></a></div>';
-    }).join('');
+    }).join('') + (OFFER_ON ?
+      '<div class="rv-row rv-orn"><dt>Free gift</dt><dd><span class="orn-art" aria-hidden="true">' + ornArt() + '</span><span>' +
+      (o.ornament ? '<b>Gingerbread ornament, "' + esc(o.ornament) + '"</b>' : '<b>Gingerbread ornament</b>No name added yet. ') +
+      'Free. Comes with your order.</span></dd>' +
+      '<a href="#perks" data-change>' + (o.ornament ? 'Change' : 'Add a name') + '<span class="sr-only"> ornament name</span></a></div>' : '');
+    if (OFFER_ON) updateOrnaments();
 
     current = P.calculate(o);
     var view = $('priceView');
@@ -851,10 +975,19 @@
   form.addEventListener('input', function(e){ if (e.target.id) { clearError(); refresh(); saveDraft(); } });
   form.addEventListener('change', function(){ refresh(); saveDraft(); });
 
+  // A, B, C… picks a picture card, as on Typeform (not while typing in a box).
+  document.addEventListener('keydown', function(e){
+    var t = e.target, typing = /TEXTAREA|SELECT/.test(t.tagName) || (t.tagName === 'INPUT' && t.type !== 'radio');
+    if (typing || e.metaKey || e.ctrlKey || e.altKey || e.isComposing || !/^[a-z]$/i.test(e.key)) return;
+    var radios = section(currentStep).querySelectorAll('.cards input[type=radio]');
+    var r = radios[e.key.toUpperCase().charCodeAt(0) - 65];
+    if (r){ e.preventDefault(); r.focus(); r.click(); }
+  });
+
   // Enter = Next. On a choice card, Enter moves on too; in the notes box, Ctrl/Cmd+Enter does.
   form.addEventListener('keydown', function(e){
-    if (e.key !== 'Enter' || e.isComposing) return;
     var t = e.target;
+    if (e.key !== 'Enter' || e.isComposing) return;
     if (t.type === 'radio' || (t.tagName === 'TEXTAREA' && (e.metaKey || e.ctrlKey))){
       e.preventDefault();
       if (currentStep !== 'review') next();
